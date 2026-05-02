@@ -43,4 +43,23 @@ describe("title rewards", () => {
       [],
     );
   });
+
+  it("unlocks Meadow Road pathfinder title after Day 14", () => {
+    const now = new Date("2026-01-01T00:00:00.000Z");
+    const save = {
+      ...createNewSave(now, "normal"),
+      journey: {
+        day: 14,
+        chapter: 2,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    expect(unlockSessionTitles({ save, unlockedAt: now })).toEqual([
+      {
+        id: "meadowRoadPathfinder",
+        unlockedAt: "2026-01-01T00:00:00.000Z",
+      },
+    ]);
+  });
 });
