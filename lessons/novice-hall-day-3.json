@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-3",
+  "title": "Novice Hall: Finger Responsibility",
+  "day": 3,
+  "locale": "en",
+  "focus": ["finger responsibility", "home row ownership", "calm correction"],
+  "prompts": [
+    {
+      "id": "finger-responsibility-1",
+      "text": "aa ss dd ff jj kk ll ;;",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "finger-responsibility-2",
+      "text": "as df jk l;",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "finger-responsibility-3",
+      "text": "a; sl dk fj",
+      "targetKeys": ["a", ";", "s", "l", "d", "k", "f", "j"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "rightPinky",
+        "leftRing",
+        "rightRing",
+        "leftMiddle",
+        "rightMiddle",
+        "leftIndex",
+        "rightIndex"
+      ]
+    },
+    {
+      "id": "finger-responsibility-4",
+      "text": "ask sad fall flask",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing"
+      ]
+    }
+  ]
+}
