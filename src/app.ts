@@ -1,7 +1,11 @@
 import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
 import { createTranslator, localeDisplayName } from "./i18n/messages.js";
-import { DEFAULT_LESSON_PATH, loadLessonFromFile, selectPracticePrompt } from "./lessons/loader.js";
+import {
+  DEFAULT_LESSON_PATH,
+  loadLessonFromFile,
+  selectPracticePrompts,
+} from "./lessons/loader.js";
 import type { Lesson } from "./lessons/schema.js";
 import {
   createMenuTranslator,
@@ -10,11 +14,16 @@ import {
   renderLanguageOptions,
   renderTitleMenu,
 } from "./menu/title-menu.js";
-import { completePracticeSession } from "./practice/session.js";
+import { completePracticeRun, type PracticeAttempt } from "./practice/session.js";
 import { updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
-import { defaultScenes, renderPracticeResult } from "./scenes/scenes.js";
+import {
+  defaultScenes,
+  practiceIntroScene,
+  renderPracticeRunResult,
+  renderPracticeSegmentResult,
+} from "./scenes/scenes.js";
 
 export type RunAppOptions = {
   readonly mode: SaveMode;
@@ -26,6 +35,8 @@ export type RunAppOptions = {
   readonly now?: Date;
   readonly completedAt?: Date;
 };
+
+const DAILY_SESSION_PROMPT_COUNT = 3;
 
 export async function runApp(options: RunAppOptions): Promise<void> {
   const now = options.now ?? new Date();
@@ -44,40 +55,80 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   });
   const lesson =
     options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? DEFAULT_LESSON_PATH));
-  const practicePrompt = selectPracticePrompt(lesson);
+  const practicePrompts = selectPracticePrompts(lesson, DAILY_SESSION_PROMPT_COUNT);
   const translator = createTranslator(menuSave.settings.locale);
+  const attempts: PracticeAttempt[] = [];
+  let promptStartedAt = now;
 
-  const outputs = renderSceneSequence({
-    scenes: defaultScenes,
-    startAt: "story",
-    context: {
+  for (const [index, practicePrompt] of practicePrompts.entries()) {
+    const context = {
       save: menuSave,
       mode: options.mode,
       now,
       translator,
       lesson,
       practicePrompt,
-    },
-  });
-  const introOutput = formatSceneSequence(outputs);
-  options.textOutput.writeLine(introOutput);
-  options.textOutput.writeLine("");
-  const actual = await options.textInput.readLine("> ");
-  const completedAt = options.completedAt ?? new Date();
-  const result = completePracticeSession({
+    };
+    const outputs = renderSceneSequence({
+      scenes: index === 0 ? defaultScenes : [practiceIntroScene],
+      startAt: index === 0 ? "story" : "practiceIntro",
+      context,
+    });
+    const introOutput = formatSceneSequence(outputs);
+    options.textOutput.writeLine(introOutput);
+    options.textOutput.writeLine("");
+    const actual = await options.textInput.readLine("> ");
+    const completedAt = options.completedAt ?? new Date();
+    const attempt = {
+      prompt: practicePrompt,
+      actual,
+      startedAt: promptStartedAt,
+      completedAt,
+    };
+    const segmentResult = completePracticeRun({
+      save: menuSave,
+      mode: options.mode,
+      attempts: [attempt],
+    }).attempts[0];
+    if (segmentResult === undefined) {
+      throw new Error("Practice segment did not produce a result");
+    }
+
+    attempts.push(attempt);
+    promptStartedAt = completedAt;
+    options.textOutput.writeLine("");
+    options.textOutput.writeLine(
+      renderPracticeSegmentResult(
+        {
+          ...segmentResult,
+          mode: options.mode,
+          current: index + 1,
+          total: practicePrompts.length,
+        },
+        translator,
+      ).join("\n"),
+    );
+    options.textOutput.writeLine("");
+  }
+
+  const result = completePracticeRun({
     save: menuSave,
     mode: options.mode,
-    prompt: practicePrompt,
-    actual,
-    startedAt: now,
-    completedAt,
+    attempts,
   });
 
   await saveStore.write(result.updatedSave);
 
-  options.textOutput.writeLine("");
   options.textOutput.writeLine(
-    renderPracticeResult({ ...result, mode: options.mode }, translator).join("\n"),
+    renderPracticeRunResult(
+      {
+        promptCount: result.attempts.length,
+        score: result.score,
+        xpGained: result.xpGained,
+        mode: options.mode,
+      },
+      translator,
+    ).join("\n"),
   );
 }
 
