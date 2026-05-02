@@ -56,6 +56,18 @@ export const BUNDLED_LESSON_MANIFEST = [
     filename: "meadow-road-day-8.json",
     title: "Meadow Road: First Steps Beyond Home",
   },
+  {
+    day: 9,
+    id: "meadow-road-day-9",
+    filename: "meadow-road-day-9.json",
+    title: "Meadow Road: Ring Finger Reach",
+  },
+  {
+    day: 10,
+    id: "meadow-road-day-10",
+    filename: "meadow-road-day-10.json",
+    title: "Meadow Road: Index Reach",
+  },
 ] as const satisfies readonly BundledLessonManifestEntry[];
 
 export function getBundledLessonForDay(day: number): BundledLessonManifestEntry {
