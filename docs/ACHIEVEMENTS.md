@@ -102,3 +102,8 @@ Rewards should be small and motivating:
 
 Avoid rewards that make practice easier in a way that hides weakness. The game
 should help players face weaknesses, not bypass them.
+
+Implemented title rewards:
+
+- Novice Hall Graduate: clear the Day 7 Gatekeeper Trial.
+- Meadow Road Pathfinder: clear the Day 14 Waystone Trial.

@@ -93,7 +93,8 @@ system too early.
 
 - First reward screen with XP gain
 - Simple level-up display for skill tracks
-- First title reward after Gatekeeper Trial (`noviceHallGraduate`)
+- First title rewards after Gatekeeper Trial and Waystone Trial
+  (`noviceHallGraduate`, `meadowRoadPathfinder`)
 - First achievement unlock path for first session, perfect sessions,
   streak milestones, and long-session play
 - Daily streak progression from session completion dates
@@ -113,9 +114,11 @@ Goal: make lessons easy to write, review, and improve.
 - Versioned lesson schema
 - Beginner home-row lessons through the first Novice Hall week
 - First Meadow Road lessons through Day 14
+- First River Gate lessons through Day 21
 - Lesson-specific session prompt counts for boss-style lessons
 - Bundled lesson manifest for default progression
 - Weak-key review prompt generation from mistake history
+- Selectable weak-key review quest from the title menu
 - Programmer symbol lessons
 - Lesson validation command included in `npm run verify`
 - English-only typing prompts separated from localized UI strings
