@@ -215,6 +215,7 @@ describe("runApp", () => {
       terminalRuntime: {
         colorMode: "always",
         colorEnabled: true,
+        screenEnabled: false,
         theme: "classic",
         reducedMotion: false,
         size: {
@@ -230,6 +231,35 @@ describe("runApp", () => {
     expect(output.text()).toContain("\u001b[93mStory\u001b[0m");
   });
 
+  it("redraws major screens when terminal screen rendering is enabled", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      terminalRuntime: {
+        colorMode: "never",
+        colorEnabled: false,
+        screenEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("\u001b[2J\u001b[H");
+    expect(output.text()).toContain("Session Result");
+  });
+
   it("warns when the terminal is below the recommended size", async () => {
     const output = createMemoryOutput();
     await runApp({
@@ -242,6 +272,7 @@ describe("runApp", () => {
       terminalRuntime: {
         colorMode: "auto",
         colorEnabled: true,
+        screenEnabled: false,
         theme: "classic",
         reducedMotion: false,
         size: {
@@ -269,6 +300,7 @@ describe("runApp", () => {
       terminalRuntime: {
         colorMode: "auto",
         colorEnabled: true,
+        screenEnabled: false,
         theme: "classic",
         reducedMotion: false,
         size: {
