@@ -48,6 +48,23 @@ nearby top row while preserving the same calm accuracy-first posture.
 The Day 14 checkpoint should feel like a small field test rather than a full
 boss. It uses a four-prompt session to make the review feel more deliberate.
 
+## Days 15-21
+
+The third week begins the "River Gate" arc. It introduces bottom-row movement,
+right-hand punctuation, and mixed-row phrases while keeping the same daily
+session length.
+
+- Day 15: lower step with `c` and `m`.
+- Day 16: valley reach with `v` and `n`.
+- Day 17: bridge keys around `b`, `g`, and `h`.
+- Day 18: comma and period practice.
+- Day 19: bottom-row words in short phrases.
+- Day 20: mixed-row and punctuation review.
+- Day 21: Ferryman Trial checkpoint for bottom-row and punctuation control.
+
+The Day 21 checkpoint is the first weekly trial that includes punctuation. It
+should still reward calm accuracy over speed.
+
 ### Day 1: Novice Stance
 
 Player goal: learn that good typing starts from calm finger placement.

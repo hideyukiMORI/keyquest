@@ -15,6 +15,7 @@
 - [x] Add the first post-Novice-Hall Day 8 lesson.
 - [x] Add Meadow Road Day 9 and Day 10 lessons.
 - [x] Add Day 11 through Day 14 Meadow Road lessons.
+- [x] Add Day 15 through Day 21 lessons.
 - [x] Resolve the default lesson from the saved journey day.
 - [x] Advance journey day after completed sessions, capped at bundled lessons.
 
@@ -46,9 +47,11 @@
 - [x] Track daily streaks and unlock continuity achievements.
 - [x] Add a visible streak milestone message after session rewards.
 - [x] Add weak-key review quest generation from mistake history.
-- [ ] Wire weak-key review prompts into a selectable review quest.
-- [ ] Add Meadow Road clear message and first second-week title reward.
-- [ ] Add Day 15 through Day 21 lessons.
+- [x] Wire weak-key review prompts into a selectable review quest.
+- [x] Add Meadow Road clear message and first second-week title reward.
+- [ ] Add River Gate clear message and third-week title reward.
+- [ ] Add Day 22 through Day 28 lessons.
+- [ ] Add review quest result messaging that explains the targeted weak keys.
 
 ## Mid Term
 
