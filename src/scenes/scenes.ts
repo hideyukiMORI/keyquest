@@ -1,4 +1,5 @@
 import type {
+  PracticeJourneyProgressView,
   PracticeRewardsView,
   PracticeResultView,
   PracticeRunResultView,
@@ -194,6 +195,20 @@ export function renderPracticeRewards(
   });
 
   return [t("reward.heading"), ...rewardLines];
+}
+
+export function renderPracticeJourneyProgress(
+  progress: PracticeJourneyProgressView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const beforeDay = progress.beforeSave.journey.day;
+  const afterDay = progress.afterSave.journey.day;
+  if (afterDay <= beforeDay) {
+    return [];
+  }
+
+  const { t } = translator;
+  return [t("journey.heading"), t("journey.nextDay", { day: afterDay })];
 }
 
 function formatElapsedSeconds(elapsedSeconds: number): string {
