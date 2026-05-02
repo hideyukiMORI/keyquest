@@ -88,3 +88,18 @@ A quest can behave like a small run:
 - Rewards improve the next run.
 
 Runs should be short enough for the 10-minute daily promise.
+
+## Implemented Resource Slice
+
+The first resource implementation is intentionally small and deterministic:
+
+- HP represents mistake tolerance inside the just-finished daily quest.
+- MP is stored focus gained from perfect or highly accurate sessions.
+- Focus Crystals are earned from XP and can later power upgrades or magic.
+- Repair Shards are earned from mistakes and can later support weak-key recovery.
+- The initial inventory includes a training weapon and a basic focus magic ID so
+  future UI can render equipment without changing the save shape again.
+
+HP is saved as the post-quest result, but each quest resolves damage from
+`maxHp`; it should not become a punishment that carries forward forever. MP and
+materials are the early long-term resources.

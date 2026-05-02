@@ -145,6 +145,8 @@ Goal: shape daily practice into a 90-day fantasy journey.
   achievement set
 - Review mode for weak keys
 - HP, MP, weapons, magic, items, and curses mapped to typing behavior
+- First save-backed resource model for quest HP, focus MP, materials, inventory,
+  magic, weapons, and curses
 - Incremental upgrade curves that reward practice without hiding weaknesses
 
 ## Long Term: Depth and Retention
