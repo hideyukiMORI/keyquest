@@ -1,4 +1,5 @@
 import type { TextInput } from "./cli/text-input.js";
+import type { TextOutput } from "./cli/text-output.js";
 import { DEFAULT_LESSON_PATH, loadLessonFromFile, selectPracticePrompt } from "./lessons/loader.js";
 import type { Lesson } from "./lessons/schema.js";
 import { completePracticeSession } from "./practice/session.js";
@@ -11,13 +12,14 @@ export type RunAppOptions = {
   readonly mode: SaveMode;
   readonly saveDirectory: string | undefined;
   readonly textInput: TextInput;
+  readonly textOutput: TextOutput;
   readonly lesson: Lesson | undefined;
   readonly lessonPath: string | undefined;
   readonly now?: Date;
   readonly completedAt?: Date;
 };
 
-export async function runApp(options: RunAppOptions): Promise<string> {
+export async function runApp(options: RunAppOptions): Promise<void> {
   const now = options.now ?? new Date();
   const saveStore = createSaveStore({
     mode: options.mode,
@@ -39,6 +41,8 @@ export async function runApp(options: RunAppOptions): Promise<string> {
     },
   });
   const introOutput = formatSceneSequence(outputs);
+  options.textOutput.writeLine(introOutput);
+  options.textOutput.writeLine("");
   const actual = await options.textInput.readLine("> ");
   const completedAt = options.completedAt ?? new Date();
   const result = completePracticeSession({
@@ -52,7 +56,6 @@ export async function runApp(options: RunAppOptions): Promise<string> {
 
   await saveStore.write(result.updatedSave);
 
-  return [introOutput, renderPracticeResult({ ...result, mode: options.mode }).join("\n")].join(
-    "\n\n",
-  );
+  options.textOutput.writeLine("");
+  options.textOutput.writeLine(renderPracticeResult({ ...result, mode: options.mode }).join("\n"));
 }
