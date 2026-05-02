@@ -81,3 +81,4 @@
 - [x] Strengthen npm package tarball smoke test.
 - [x] Add README terminal transcript.
 - [x] Implement minimal Load Game current-slot action.
+- [x] Confirm New Game before replacing existing progress.

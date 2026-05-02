@@ -324,6 +324,16 @@ async function runTitleMenu(options: {
     }
 
     if (action === "newGame") {
+      if (save.progress.sessions.length > 0) {
+        const confirmation = await options.textInput.readLine(
+          translator.t("title.menu.newGameConfirm"),
+        );
+        if (confirmation.trim().toLowerCase() !== "yes") {
+          notice = translator.t("title.menu.newGameCancelled");
+          continue;
+        }
+      }
+
       const newSave = createNewSave(options.now, options.mode);
       await options.writeSave(newSave);
       return { save: newSave, action: "start" };
