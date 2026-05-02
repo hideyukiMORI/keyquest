@@ -11,19 +11,97 @@ Goal: make the repository ready for Issue-based development.
 
 ## Short Term: Playable Daily Loop
 
-Goal: make `keyquest` playable as a 10-minute daily terminal practice session.
+Goal: make `keyquest` playable as a focused daily terminal practice session
+without overbuilding the final real-time UI too early.
 
-- Interactive prompt loop
+### ST-1: First Playable Shell
+
+Status: mostly complete.
+
+- Title menu with start/options flow
+- Saved language setting and localized UI message catalog
 - Home-position and finger-usage onboarding
 - Lesson loading from structured data
-- Accuracy, WPM, and mistake summary
+- Accuracy, WPM, mistake, elapsed-time, and XP summary
 - Normal save file for session history and basic progress with tamper friction
 - Development save mode with readable JSON and visible `DEV MODE` markers
-- Terminal size warning for layouts below 80x24
-- Color mode support with no-color fallback
-- Five initial color themes
-- First reward screen with XP and simple items
 - Keyboard-only flow that works on Linux, macOS, and Windows terminals
+
+Exit criteria:
+
+- A player can launch the game, choose a UI language, complete one prompt, and
+  see saved progress.
+- `npm run verify` passes on `main`.
+
+### ST-2: Daily Session Shape
+
+Goal: turn the one-prompt loop into a small but coherent daily practice run.
+
+- Session plan for the first 10-minute daily loop
+- Multiple prompts per session
+- Segment-level summary between prompts
+- Session-level result screen
+- Per-character mistake records for weak-key review
+- Clear distinction between `Start`, future `Continue`, future `New Game`, and
+  future `Load Game`
+
+Exit criteria:
+
+- A player can complete a short multi-prompt session without restarting the app.
+- The save file records enough data to explain accuracy, WPM, streak, XP, and
+  weak keys.
+
+### ST-3: Terminal UI Runtime Foundation
+
+Goal: prepare for real-time typing screens while keeping the current text flow
+stable.
+
+- Terminal size detection with an 80x24 warning path
+- Color mode support with no-color fallback
+- Five initial color themes using semantic color names
+- Reduced-motion setting and policy
+- Screen rendering boundary that keeps ANSI control away from core game logic
+- Input boundary that can support both line input and raw key input
+
+Exit criteria:
+
+- Plain text, no-color, and small-terminal flows stay usable.
+- Core scoring, save, lesson, and progression code do not depend on raw terminal
+  APIs.
+
+### ST-4: Real-Time Practice Spike
+
+Goal: prove the real-time typing experience in the smallest useful slice before
+rewriting the main practice flow.
+
+- One-prompt raw-mode typing prototype
+- Per-keystroke correct/wrong state
+- Backspace handling
+- Ctrl+C and escape-safe terminal cleanup
+- Deterministic tests for real-time typing state transitions
+- Manual smoke test instructions for Linux, macOS, and Windows terminals
+
+Exit criteria:
+
+- The prototype can render typed progress without corrupting the terminal.
+- The state machine can be tested without an actual TTY.
+
+### ST-5: First Fun Reward Loop
+
+Goal: make the end of a session feel rewarding without locking in the full RPG
+system too early.
+
+- First reward screen with XP gain
+- Simple level-up display for skill tracks
+- First item or title reward
+- First achievement unlock path
+- Save data for rewards that can evolve into equipment, magic, and items
+
+Exit criteria:
+
+- A player has a clear reason to play again tomorrow.
+- Rewards are data-driven enough to extend without rewriting the session result
+  screen.
 
 ## Short Term: Lesson Design System
 

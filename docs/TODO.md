@@ -2,18 +2,26 @@
 
 ## Now
 
-- [ ] Define [#7](https://github.com/hideyukiMORI/keyquest/issues/7): local save-file shape for session history, XP, streaks, and settings.
-- [ ] Extend the first playable loop into a timed 10-minute daily session.
+- [ ] Define the short multi-prompt session model: session length, prompt count,
+      breakpoints, and result timing.
+- [ ] Add a session runner that can process multiple prompts before the final
+      result screen.
+- [ ] Record per-character mistakes in session results for future weak-key
+      review.
+- [ ] Clarify title menu semantics for current `Start` and future `Continue`,
+      `New Game`, and `Load Game`.
 - [ ] Keep `main` green with `npm run verify`.
 
 ## Next
 
-- [ ] Separate English typing prompts from localized UI message keys.
-- [ ] Add terminal raw-mode input handling.
+- [ ] Design the terminal UI runtime boundary for screen rendering, color, size,
+      and motion.
 - [ ] Add terminal capability detection for size and color support.
-- [ ] Record per-character mistakes for weak-key review.
-- [ ] Build [#8](https://github.com/hideyukiMORI/keyquest/issues/8): localization message catalog foundation.
-- [ ] Add initial locale catalogs for English and Japanese.
+- [ ] Add `--color`, `--no-color`, and reduced-motion option handling.
+- [ ] Add five semantic color themes: classic, forest, arcane, ember, and mono.
+- [ ] Build a one-prompt raw-mode typing spike behind a testable state machine.
+- [ ] Add safe terminal cleanup for Ctrl+C and interrupted raw-mode sessions.
+- [ ] Add a first reward screen with skill XP and a simple level-up message.
 - [ ] Draft the first 7-day training cycle.
 
 ## Mid Term
