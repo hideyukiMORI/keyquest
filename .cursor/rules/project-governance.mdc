@@ -1,0 +1,13 @@
+---
+description: KeyQuest project governance and workflow
+alwaysApply: true
+---
+
+# KeyQuest Governance
+
+- Work Issue-first. Link meaningful changes to GitHub Issues.
+- Keep `docs/MILESTONES.md` and `docs/TODO.md` aligned with active work.
+- Keep `main` releasable; run `npm run verify` before pushing.
+- Prefer small PRs with clear acceptance criteria and test plans.
+- Preserve terminal portability across Linux, macOS, and Windows.
+- Favor practice effectiveness over decorative game mechanics.
