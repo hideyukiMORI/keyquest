@@ -87,3 +87,8 @@
 - [x] Allow options changes during practice.
 - [x] Add a Journey progress screen with current day, arc, weekly trial, and ending progress.
 - [x] Extend the typed quest arc map with planned arcs through Day 90.
+- [x] Add a Resources record screen from the title menu.
+- [x] Add an Achievements record screen from the title menu.
+- [x] Add a Titles record screen from the title menu.
+- [x] Show post-game goal details from the Journey screen.
+- [x] Integrate progress record screens into title navigation.

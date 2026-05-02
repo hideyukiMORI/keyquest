@@ -6,9 +6,15 @@ import {
   type LocaleId,
   type Translator,
 } from "../i18n/messages.js";
+import { ACHIEVEMENTS } from "../achievements/engine.js";
 import { JOURNEY_ENDING_DAY, getJourneyEndingState } from "../quest/ending.js";
 import { getDisplayQuestArcForDay } from "../quest/map.js";
-import type { KeyQuestSave } from "../save/model.js";
+import { TITLE_REWARDS } from "../rewards/titles.js";
+import {
+  createInitialQuestResources,
+  type EquipmentUpgradeRecord,
+  type KeyQuestSave,
+} from "../save/model.js";
 import type { InteractiveMenuItem } from "./interactive-menu.js";
 
 export type TitleMenuAction =
@@ -18,7 +24,10 @@ export type TitleMenuAction =
   | "newGame"
   | "loadGame"
   | "help"
-  | "journey";
+  | "journey"
+  | "resources"
+  | "achievements"
+  | "titles";
 
 export function getTitleMenuItems(
   save: KeyQuestSave,
@@ -37,6 +46,9 @@ export function getTitleMenuItems(
     { value: "loadGame", label: translator.t("title.menu.loadGame") },
     { value: "help", label: translator.t("title.menu.help") },
     { value: "journey", label: translator.t("title.menu.journey") },
+    { value: "resources", label: translator.t("title.menu.resources") },
+    { value: "achievements", label: translator.t("title.menu.achievements") },
+    { value: "titles", label: translator.t("title.menu.titles") },
   ];
 }
 
@@ -88,6 +100,18 @@ export function parseTitleMenuAction(input: string): TitleMenuAction {
     return "journey";
   }
 
+  if (normalized === "8" || normalized === "resources" || normalized === "resource") {
+    return "resources";
+  }
+
+  if (normalized === "9" || normalized === "achievements" || normalized === "achievement") {
+    return "achievements";
+  }
+
+  if (normalized === "10" || normalized === "titles" || normalized === "title") {
+    return "titles";
+  }
+
   return "start";
 }
 
@@ -119,6 +143,16 @@ export function renderJourneyProgress(
       : endingState.status === "endingReady"
         ? translator.t("journeyProgress.endingReady")
         : translator.t("journeyProgress.postGame");
+  const postGameLines =
+    endingState.status === "postGame"
+      ? endingState.goals.map((goal) =>
+          translator.t("postGame.goalProgress", {
+            goal: translator.t(`postGame.goal.${goal.id}`),
+            current: goal.current,
+            target: goal.target,
+          }),
+        )
+      : [];
 
   return [
     translator.t("journeyProgress.heading"),
@@ -134,9 +168,89 @@ export function renderJourneyProgress(
       day: arc.trial.day,
     }),
     endingLine,
+    ...postGameLines,
     "",
     translator.t("journeyProgress.back"),
   ];
+}
+
+export function renderResourceRecords(
+  save: KeyQuestSave,
+  translator: Translator,
+): readonly string[] {
+  const resources = save.progress.resources ?? createInitialQuestResources();
+  const upgradeLines = resources.equipmentUpgrades.map((upgrade) =>
+    translator.t("records.resources.equipment", {
+      name: formatEquipmentUpgradeName(upgrade, translator),
+      level: upgrade.level,
+    }),
+  );
+
+  return [
+    translator.t("records.resources.heading"),
+    "",
+    translator.t("status.resources", {
+      hp: resources.hp,
+      maxHp: resources.maxHp,
+      mp: resources.mp,
+      maxMp: resources.maxMp,
+    }),
+    translator.t("records.resources.materials", {
+      focusCrystal: resources.materials.focusCrystal,
+      repairShard: resources.materials.repairShard,
+    }),
+    translator.t("records.resources.weapons", {
+      weapons:
+        resources.weapons.length === 0
+          ? translator.t("records.none")
+          : resources.weapons.join(", "),
+    }),
+    translator.t("records.resources.magic", {
+      magic:
+        resources.magic.length === 0 ? translator.t("records.none") : resources.magic.join(", "),
+    }),
+    ...upgradeLines,
+    "",
+    translator.t("records.back"),
+  ];
+}
+
+export function renderAchievementRecords(
+  save: KeyQuestSave,
+  translator: Translator,
+): readonly string[] {
+  const unlockedIds = new Set(
+    (save.progress.achievements ?? []).map((achievement) => achievement.id),
+  );
+  const lines = Object.values(ACHIEVEMENTS).map((achievement) =>
+    translator.t(
+      unlockedIds.has(achievement.id)
+        ? "records.achievement.unlocked"
+        : "records.achievement.locked",
+      {
+        title: translator.t(`achievement.${achievement.id}`),
+      },
+    ),
+  );
+
+  return [
+    translator.t("records.achievements.heading"),
+    "",
+    ...lines,
+    "",
+    translator.t("records.back"),
+  ];
+}
+
+export function renderTitleRecords(save: KeyQuestSave, translator: Translator): readonly string[] {
+  const unlockedIds = new Set((save.progress.titles ?? []).map((title) => title.id));
+  const lines = Object.values(TITLE_REWARDS).map((title) =>
+    translator.t(unlockedIds.has(title.id) ? "records.title.unlocked" : "records.title.locked", {
+      title: translator.t(`titleReward.${title.id}`),
+    }),
+  );
+
+  return [translator.t("records.titles.heading"), "", ...lines, "", translator.t("records.back")];
 }
 
 export function renderLanguageOptions(
@@ -188,4 +302,11 @@ export function parseLocaleChoice(input: string, currentLocale: LocaleId): Local
 
 export function createMenuTranslator(save: KeyQuestSave): Translator {
   return createTranslator(save.settings.locale);
+}
+
+function formatEquipmentUpgradeName(
+  upgrade: EquipmentUpgradeRecord,
+  translator: Translator,
+): string {
+  return translator.t(`equipment.${upgrade.id}`);
 }

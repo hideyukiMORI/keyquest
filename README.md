@@ -32,6 +32,8 @@ Inside the title menu, choose `Help` for a short explanation of the daily loop,
 weak-key review, progression rewards, and language options. In an interactive
 terminal, menus support `j`/`k` or arrow keys, with Enter or Space to confirm.
 During real-time practice, press `Ctrl+O` to open options without ending the run.
+The title menu also exposes Journey, Resources, Achievements, and Titles record
+screens so progress is visible outside a practice session.
 
 ## Terminal Preview
 
@@ -46,6 +48,10 @@ Title
 4. New Game
 5. Load Game
 6. Help
+7. Journey
+8. Resources
+9. Achievements
+10. Titles
 
 Story
 Day 1: Novice Hall: Home Position

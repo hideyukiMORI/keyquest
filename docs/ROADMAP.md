@@ -55,6 +55,7 @@ Goal: make the game satisfying beyond the first month.
 - Boss quests with fair pressure.
 - TTY-friendly menu navigation and mid-session options.
 - Post-ending practice and optional new-game-plus.
+- Title-menu records for resources, achievements, titles, and post-game goals.
 - Importable or shareable lesson packs.
 - More polished localization and accessibility options.
 
