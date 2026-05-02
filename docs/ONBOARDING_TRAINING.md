@@ -32,6 +32,22 @@ The first week is the "Novice Hall" arc.
 The first boss should reward patience. Passing with high accuracy should matter
 more than typing quickly.
 
+## Days 8-14
+
+The second week begins the "Meadow Road" arc. It expands from home row into the
+nearby top row while preserving the same calm accuracy-first posture.
+
+- Day 8: first steps beyond home row with `r`, `u`, `e`, and `i`.
+- Day 9: ring-finger reach with `w` and `o`.
+- Day 10: index-finger reach with `t` and `y`.
+- Day 11: outer pinky reach with `q` and `p`.
+- Day 12: top-row travel across short lateral patterns.
+- Day 13: short English word flow using home row and top row.
+- Day 14: Waystone Trial checkpoint for top-row control.
+
+The Day 14 checkpoint should feel like a small field test rather than a full
+boss. It uses a four-prompt session to make the review feel more deliberate.
+
 ### Day 1: Novice Stance
 
 Player goal: learn that good typing starts from calm finger placement.
@@ -87,7 +103,7 @@ keys.
 
 Player goal: clean up weak keys discovered during the first five days.
 
-- Key focus: dynamically selected weak home-row keys once review logic exists.
+- Key focus: dynamically selected weak keys from saved mistake history.
 - Prompt style: slow perfect drills, repeated misses, and short recovery prompts.
 - Review intent: turn per-character mistake records into targeted practice.
 - RPG framing: the instructor repairs cracks in the hero's stance.
