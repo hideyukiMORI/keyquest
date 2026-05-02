@@ -359,7 +359,15 @@ export function renderPracticeEndingProgress(
 
   const { t } = translator;
   if (afterState.status === "endingReady") {
-    return beforeState.status === "endingReady" ? [] : [t("ending.heading"), t("ending.ready")];
+    return beforeState.status === "endingReady"
+      ? []
+      : [
+          t("ending.heading"),
+          t("ending.ready"),
+          t("ending.lineOne"),
+          t("ending.lineTwo"),
+          t("ending.lineThree"),
+        ];
   }
 
   const goalLines = afterState.goals.map((goal) =>

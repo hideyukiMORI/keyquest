@@ -107,7 +107,12 @@ const EN_MESSAGES = {
   "journey.lanternKeepClear":
     "Beacon Trial cleared. The Lantern Keep shines over your number-row reach.",
   "ending.heading": "Ending",
-  "ending.ready": "Day 90 complete. The final gate is open when the ending scene is ready.",
+  "ending.ready": "Day 90 complete. The final gate opens.",
+  "ending.lineOne": "The dark keep falls silent as your steady hands finish the last spell.",
+  "ending.lineTwo":
+    "The old instructor smiles: the blade was never steel, but practice kept daily.",
+  "ending.lineThree":
+    "KeyQuest is cleared. New roads remain for sharper accuracy and calmer rhythm.",
   "postGame.heading": "Post-Game Goals",
   "postGame.goalProgress": "{goal}: {current}/{target}",
   "postGame.goal.sevenDayStreak": "Keep a 7-day streak",
@@ -220,7 +225,10 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.lanternKeepClear":
       "Beacon Trial クリア。Lantern Keep の灯があなたの数字段の到達を照らしています。",
     "ending.heading": "エンディング",
-    "ending.ready": "Day 90 完了。エンディングシーンの準備が整えば最後の門が開きます。",
+    "ending.ready": "Day 90 完了。最後の門が開きます。",
+    "ending.lineOne": "闇の砦は静まり、あなたの落ち着いた指が最後の呪文を結びました。",
+    "ending.lineTwo": "老教官は微笑みます。剣とは鋼ではなく、毎日守り抜いた鍛錬そのものでした。",
+    "ending.lineThree": "KeyQuest クリア。けれど、より鋭い正確性と穏やかなリズムへの道は続きます。",
     "postGame.heading": "クリア後の目標",
     "postGame.goalProgress": "{goal}: {current}/{target}",
     "postGame.goal.sevenDayStreak": "7日連続を維持する",
@@ -324,7 +332,10 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.riverGateClear": "Ferryman Trial 已通过。River Gate 为你稳定的双手让路。",
     "journey.lanternKeepClear": "Beacon Trial 已通过。Lantern Keep 照亮了你的数字行触达。",
     "ending.heading": "结局",
-    "ending.ready": "Day 90 完成。结局场景准备好后，最后的门将会开启。",
+    "ending.ready": "Day 90 完成。最后的门开启了。",
+    "ending.lineOne": "黑暗要塞归于寂静，你稳定的双手完成了最后的咒文。",
+    "ending.lineTwo": "老教官露出微笑：真正的剑从不是钢铁，而是每日坚持的练习。",
+    "ending.lineThree": "KeyQuest 已通关。通往更高准确率与更平稳节奏的道路仍在继续。",
     "postGame.heading": "通关后目标",
     "postGame.goalProgress": "{goal}: {current}/{target}",
     "postGame.goal.sevenDayStreak": "保持 7 天连续练习",
@@ -430,7 +441,10 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.riverGateClear": "Ferryman Trial 클리어. River Gate가 차분한 손끝에 길을 내줍니다.",
     "journey.lanternKeepClear": "Beacon Trial 클리어. Lantern Keep의 빛이 숫자 행 도달을 비춥니다.",
     "ending.heading": "엔딩",
-    "ending.ready": "Day 90 완료. 엔딩 장면이 준비되면 마지막 문이 열립니다.",
+    "ending.ready": "Day 90 완료. 마지막 문이 열립니다.",
+    "ending.lineOne": "어둠의 성채가 고요해지고, 차분한 손끝이 마지막 주문을 완성합니다.",
+    "ending.lineTwo": "늙은 교관이 미소 짓습니다. 검은 강철이 아니라 매일 지켜낸 훈련이었습니다.",
+    "ending.lineThree": "KeyQuest 클리어. 더 날카로운 정확도와 차분한 리듬의 길은 계속됩니다.",
     "postGame.heading": "클리어 후 목표",
     "postGame.goalProgress": "{goal}: {current}/{target}",
     "postGame.goal.sevenDayStreak": "7일 연속 기록 유지",
@@ -539,7 +553,13 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.lanternKeepClear":
       "Beacon Trial superada. Lantern Keep ilumina tu alcance en la fila numérica.",
     "ending.heading": "Final",
-    "ending.ready": "Day 90 completado. La puerta final se abrirá cuando la escena esté lista.",
+    "ending.ready": "Day 90 completado. La puerta final se abre.",
+    "ending.lineOne":
+      "La fortaleza oscura queda en silencio cuando tus manos firmes terminan el último hechizo.",
+    "ending.lineTwo":
+      "El viejo instructor sonríe: la espada nunca fue de acero, sino práctica sostenida cada día.",
+    "ending.lineThree":
+      "KeyQuest está completado. Aún quedan caminos hacia más precisión y un ritmo más sereno.",
     "postGame.heading": "Objetivos post-game",
     "postGame.goalProgress": "{goal}: {current}/{target}",
     "postGame.goal.sevenDayStreak": "Mantén una racha de 7 días",
@@ -648,8 +668,13 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.lanternKeepClear":
       "Beacon Trial concluída. Lantern Keep ilumina seu alcance na fileira numérica.",
     "ending.heading": "Final",
-    "ending.ready":
-      "Day 90 concluído. O portão final abrirá quando a cena de final estiver pronta.",
+    "ending.ready": "Day 90 concluído. O portão final se abre.",
+    "ending.lineOne":
+      "A fortaleza sombria fica em silêncio quando suas mãos firmes terminam o último feitiço.",
+    "ending.lineTwo":
+      "O velho instrutor sorri: a lâmina nunca foi aço, mas a prática mantida todos os dias.",
+    "ending.lineThree":
+      "KeyQuest foi concluído. Ainda há caminhos para mais precisão e um ritmo mais calmo.",
     "postGame.heading": "Objetivos pós-jogo",
     "postGame.goalProgress": "{goal}: {current}/{target}",
     "postGame.goal.sevenDayStreak": "Mantenha uma sequência de 7 dias",
