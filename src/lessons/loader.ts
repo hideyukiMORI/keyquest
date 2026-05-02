@@ -20,6 +20,14 @@ export function selectPracticePrompt(lesson: Lesson): PracticePrompt {
   return toPracticePrompt(firstPrompt);
 }
 
+export function selectPracticePrompts(lesson: Lesson, count: number): readonly PracticePrompt[] {
+  if (lesson.prompts.length === 0) {
+    throw new Error(`Lesson has no prompts: ${lesson.id}`);
+  }
+
+  return lesson.prompts.slice(0, Math.max(1, count)).map(toPracticePrompt);
+}
+
 export function toPracticePrompt(prompt: LessonPrompt): PracticePrompt {
   return {
     id: prompt.id,

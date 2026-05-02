@@ -1,4 +1,10 @@
-import type { PracticeResultView, Scene, SceneContext, SceneOutput } from "./types.js";
+import type {
+  PracticeResultView,
+  PracticeRunResultView,
+  Scene,
+  SceneContext,
+  SceneOutput,
+} from "./types.js";
 
 export const titleScene: Scene = {
   id: "title",
@@ -98,6 +104,44 @@ export function renderPracticeResult(
     t("result.heading"),
     t("result.expected", { text: result.prompt.text }),
     t("result.typed", { text: result.actual }),
+    t("result.accuracy", { accuracy }),
+    t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
+    t("result.mistakes", { mistakes: result.score.mistakes }),
+    t("result.xpGained", { xp: result.xpGained }),
+    ...devLine,
+  ];
+}
+
+export function renderPracticeSegmentResult(
+  result: PracticeResultView & {
+    readonly current: number;
+    readonly total: number;
+  },
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const accuracy = Math.round(result.score.accuracy * 100);
+  const { t } = translator;
+
+  return [
+    t("session.segmentHeading", { current: result.current, total: result.total }),
+    t("result.accuracy", { accuracy }),
+    t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
+    t("result.mistakes", { mistakes: result.score.mistakes }),
+    t("result.xpGained", { xp: result.xpGained }),
+  ];
+}
+
+export function renderPracticeRunResult(
+  result: PracticeRunResultView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const accuracy = Math.round(result.score.accuracy * 100);
+  const { t } = translator;
+  const devLine = result.mode === "development" ? [t("result.devClear")] : [];
+
+  return [
+    t("session.finalHeading"),
+    t("session.promptCount", { count: result.promptCount }),
     t("result.accuracy", { accuracy }),
     t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
     t("result.mistakes", { mistakes: result.score.mistakes }),

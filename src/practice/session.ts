@@ -18,6 +18,27 @@ export type PracticeSessionResult = {
   readonly updatedSave: KeyQuestSave;
 };
 
+export type PracticeAttempt = {
+  readonly prompt: PracticePrompt;
+  readonly actual: string;
+  readonly startedAt: Date;
+  readonly completedAt: Date;
+};
+
+export type PracticeAttemptResult = {
+  readonly prompt: PracticePrompt;
+  readonly actual: string;
+  readonly score: Score;
+  readonly xpGained: number;
+};
+
+export type PracticeRunResult = {
+  readonly attempts: readonly PracticeAttemptResult[];
+  readonly score: Score;
+  readonly xpGained: number;
+  readonly updatedSave: KeyQuestSave;
+};
+
 export function completePracticeSession(options: {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
@@ -53,8 +74,65 @@ export function completePracticeSession(options: {
       save: options.save,
       mode: options.mode,
       session,
-      prompt: options.prompt,
+      prompts: [options.prompt],
       completedAt: options.completedAt,
+    }),
+  };
+}
+
+export function completePracticeRun(options: {
+  readonly save: KeyQuestSave;
+  readonly mode: SaveMode;
+  readonly attempts: readonly PracticeAttempt[];
+}): PracticeRunResult {
+  if (options.attempts.length === 0) {
+    throw new Error("Practice run requires at least one attempt");
+  }
+
+  const attemptResults = options.attempts.map((attempt) => {
+    const score = scoreTypingResult({
+      expected: attempt.prompt.text,
+      actual: attempt.actual,
+      startedAt: attempt.startedAt,
+      completedAt: attempt.completedAt,
+    });
+
+    return {
+      prompt: attempt.prompt,
+      actual: attempt.actual,
+      score,
+      xpGained: calculatePracticeXp(score),
+    };
+  });
+  const score = aggregateScores(attemptResults.map((result) => result.score));
+  const xpGained = attemptResults.reduce((total, result) => total + result.xpGained, 0);
+  const firstAttempt = options.attempts[0];
+  const lastAttempt = options.attempts[options.attempts.length - 1];
+  if (firstAttempt === undefined || lastAttempt === undefined) {
+    throw new Error("Practice run requires at least one attempt");
+  }
+
+  const session: SessionRecord = {
+    id: createSessionId(lastAttempt.completedAt),
+    mode: options.mode,
+    startedAt: firstAttempt.startedAt.toISOString(),
+    completedAt: lastAttempt.completedAt.toISOString(),
+    promptCount: options.attempts.length,
+    accuracy: score.accuracy,
+    wordsPerMinute: score.wordsPerMinute,
+    xpGained,
+  };
+
+  return {
+    attempts: attemptResults,
+    score,
+    xpGained,
+    updatedSave: applyPracticeResult({
+      save: options.save,
+      mode: options.mode,
+      session,
+      prompts: options.attempts.map((attempt) => attempt.prompt),
+      completedAt: lastAttempt.completedAt,
     }),
   };
 }
@@ -71,9 +149,11 @@ function applyPracticeResult(options: {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
   readonly session: SessionRecord;
-  readonly prompt: PracticePrompt;
+  readonly prompts: readonly PracticePrompt[];
   readonly completedAt: Date;
 }): KeyQuestSave {
+  const trainedSkillIds = uniqueSkillIds(options.prompts.flatMap((prompt) => prompt.skillIds));
+
   return {
     ...options.save,
     profile: {
@@ -91,7 +171,7 @@ function applyPracticeResult(options: {
       sessions: [...options.save.progress.sessions, options.session],
       skills: updateSkillTracks(
         options.save.progress.skills,
-        options.prompt.skillIds,
+        trainedSkillIds,
         options.session.xpGained,
       ),
     },
@@ -103,6 +183,28 @@ function applyPracticeResult(options: {
           : options.save.development.devSessions,
     },
   };
+}
+
+function aggregateScores(scores: readonly Score[]): Score {
+  const totalCharacters = scores.reduce((total, score) => total + score.totalCharacters, 0);
+  const correctCharacters = scores.reduce((total, score) => total + score.correctCharacters, 0);
+  const mistakes = scores.reduce((total, score) => total + score.mistakes, 0);
+  const elapsedSeconds = scores.reduce((total, score) => total + score.elapsedSeconds, 0);
+  const accuracy = totalCharacters === 0 ? 1 : correctCharacters / totalCharacters;
+  const wordsPerMinute = elapsedSeconds === 0 ? 0 : (correctCharacters / 5 / elapsedSeconds) * 60;
+
+  return {
+    totalCharacters,
+    correctCharacters,
+    mistakes,
+    accuracy,
+    wordsPerMinute,
+    elapsedSeconds,
+  };
+}
+
+function uniqueSkillIds(skillIds: readonly SkillTrack["id"][]): readonly SkillTrack["id"][] {
+  return [...new Set(skillIds)];
 }
 
 function updateSkillTracks(

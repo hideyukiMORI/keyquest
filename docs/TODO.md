@@ -2,9 +2,9 @@
 
 ## Now
 
-- [ ] Define the short multi-prompt session model: session length, prompt count,
+- [x] Define the short multi-prompt session model: session length, prompt count,
       breakpoints, and result timing.
-- [ ] Add a session runner that can process multiple prompts before the final
+- [x] Add a session runner that can process multiple prompts before the final
       result screen.
 - [ ] Record per-character mistakes in session results for future weak-key
       review.

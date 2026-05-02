@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { loadLessonFromFile, selectPracticePrompt } from "./loader.js";
+import { loadLessonFromFile, selectPracticePrompt, selectPracticePrompts } from "./loader.js";
 
 const tempDirectories: string[] = [];
 
@@ -46,6 +46,7 @@ describe("lesson loader", () => {
       skillIds: ["homePosition", "fingerResponsibility"],
       fingerHints: ["leftIndex", "rightIndex"],
     });
+    expect(selectPracticePrompts(lesson, 3)).toHaveLength(1);
   });
 });
 

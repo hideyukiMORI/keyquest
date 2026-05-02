@@ -33,3 +33,10 @@ export type PracticeResultView = {
   readonly xpGained: number;
   readonly mode: SaveMode;
 };
+
+export type PracticeRunResultView = {
+  readonly promptCount: number;
+  readonly score: Score;
+  readonly xpGained: number;
+  readonly mode: SaveMode;
+};
