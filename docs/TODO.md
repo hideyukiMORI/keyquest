@@ -73,3 +73,7 @@
 - [x] Add importable lesson packs.
 - [x] Prepare npm publishing.
 - [x] Add release notes and changelog automation.
+
+## Release Readiness
+
+- [x] Add CLI help and version output.

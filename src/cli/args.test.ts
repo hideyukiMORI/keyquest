@@ -3,6 +3,17 @@ import { describe, expect, it } from "vitest";
 import { parseCliArgs } from "./args.js";
 
 describe("parseCliArgs", () => {
+  it("defaults to running the game", () => {
+    expect(parseCliArgs([]).action).toBe("run");
+  });
+
+  it("parses non-interactive help and version actions", () => {
+    expect(parseCliArgs(["--help"]).action).toBe("help");
+    expect(parseCliArgs(["-h"]).action).toBe("help");
+    expect(parseCliArgs(["--version"]).action).toBe("version");
+    expect(parseCliArgs(["-v"]).action).toBe("version");
+  });
+
   it("parses development mode aliases", () => {
     expect(parseCliArgs(["--dev"]).devMode).toBe(true);
     expect(parseCliArgs(["-dev"]).devMode).toBe(true);

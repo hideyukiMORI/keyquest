@@ -20,6 +20,8 @@ Useful CLI flags:
 
 ```bash
 keyquest --dev
+keyquest --help
+keyquest --version
 keyquest --lesson ./lessons/novice-hall-day-1.json
 keyquest --lesson-pack ./packs/home-row-extra/keyquest-pack.json
 keyquest --no-color
