@@ -106,6 +106,13 @@ const EN_MESSAGES = {
   "journey.riverGateClear": "Ferryman Trial cleared. The River Gate yields to your steady hands.",
   "journey.lanternKeepClear":
     "Beacon Trial cleared. The Lantern Keep shines over your number-row reach.",
+  "ending.heading": "Ending",
+  "ending.ready": "Day 90 complete. The final gate is open when the ending scene is ready.",
+  "postGame.heading": "Post-Game Goals",
+  "postGame.goalProgress": "{goal}: {current}/{target}",
+  "postGame.goal.sevenDayStreak": "Keep a 7-day streak",
+  "postGame.goal.perfectTen": "Complete 10 perfect sessions",
+  "postGame.goal.focusCrystalCache": "Gather 25 Focus Crystals",
 } as const;
 
 const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, string>>>>> = {
@@ -212,6 +219,13 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
       "Ferryman Trial クリア。River Gate はあなたの落ち着いた指に道を譲りました。",
     "journey.lanternKeepClear":
       "Beacon Trial クリア。Lantern Keep の灯があなたの数字段の到達を照らしています。",
+    "ending.heading": "エンディング",
+    "ending.ready": "Day 90 完了。エンディングシーンの準備が整えば最後の門が開きます。",
+    "postGame.heading": "クリア後の目標",
+    "postGame.goalProgress": "{goal}: {current}/{target}",
+    "postGame.goal.sevenDayStreak": "7日連続を維持する",
+    "postGame.goal.perfectTen": "ノーミスセッションを10回完了する",
+    "postGame.goal.focusCrystalCache": "Focus Crystal を25個集める",
   },
   "zh-CN": {
     ...EN_MESSAGES,
@@ -309,6 +323,13 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.meadowRoadClear": "Waystone Trial 已通过。Meadow Road 通向更辽阔的土地。",
     "journey.riverGateClear": "Ferryman Trial 已通过。River Gate 为你稳定的双手让路。",
     "journey.lanternKeepClear": "Beacon Trial 已通过。Lantern Keep 照亮了你的数字行触达。",
+    "ending.heading": "结局",
+    "ending.ready": "Day 90 完成。结局场景准备好后，最后的门将会开启。",
+    "postGame.heading": "通关后目标",
+    "postGame.goalProgress": "{goal}: {current}/{target}",
+    "postGame.goal.sevenDayStreak": "保持 7 天连续练习",
+    "postGame.goal.perfectTen": "完成 10 次无错误练习",
+    "postGame.goal.focusCrystalCache": "收集 25 个 Focus Crystal",
   },
   ko: {
     ...EN_MESSAGES,
@@ -408,6 +429,13 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.meadowRoadClear": "Waystone Trial 클리어. Meadow Road가 더 넓은 땅으로 이어집니다.",
     "journey.riverGateClear": "Ferryman Trial 클리어. River Gate가 차분한 손끝에 길을 내줍니다.",
     "journey.lanternKeepClear": "Beacon Trial 클리어. Lantern Keep의 빛이 숫자 행 도달을 비춥니다.",
+    "ending.heading": "엔딩",
+    "ending.ready": "Day 90 완료. 엔딩 장면이 준비되면 마지막 문이 열립니다.",
+    "postGame.heading": "클리어 후 목표",
+    "postGame.goalProgress": "{goal}: {current}/{target}",
+    "postGame.goal.sevenDayStreak": "7일 연속 기록 유지",
+    "postGame.goal.perfectTen": "무실수 세션 10회 완료",
+    "postGame.goal.focusCrystalCache": "Focus Crystal 25개 모으기",
   },
   es: {
     ...EN_MESSAGES,
@@ -510,6 +538,13 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.riverGateClear": "Ferryman Trial superada. River Gate cede ante tus manos firmes.",
     "journey.lanternKeepClear":
       "Beacon Trial superada. Lantern Keep ilumina tu alcance en la fila numérica.",
+    "ending.heading": "Final",
+    "ending.ready": "Day 90 completado. La puerta final se abrirá cuando la escena esté lista.",
+    "postGame.heading": "Objetivos post-game",
+    "postGame.goalProgress": "{goal}: {current}/{target}",
+    "postGame.goal.sevenDayStreak": "Mantén una racha de 7 días",
+    "postGame.goal.perfectTen": "Completa 10 sesiones perfectas",
+    "postGame.goal.focusCrystalCache": "Reúne 25 Focus Crystals",
   },
   "pt-BR": {
     ...EN_MESSAGES,
@@ -612,6 +647,14 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "journey.riverGateClear": "Ferryman Trial concluída. River Gate cede às suas mãos firmes.",
     "journey.lanternKeepClear":
       "Beacon Trial concluída. Lantern Keep ilumina seu alcance na fileira numérica.",
+    "ending.heading": "Final",
+    "ending.ready":
+      "Day 90 concluído. O portão final abrirá quando a cena de final estiver pronta.",
+    "postGame.heading": "Objetivos pós-jogo",
+    "postGame.goalProgress": "{goal}: {current}/{target}",
+    "postGame.goal.sevenDayStreak": "Mantenha uma sequência de 7 dias",
+    "postGame.goal.perfectTen": "Complete 10 sessões perfeitas",
+    "postGame.goal.focusCrystalCache": "Junte 25 Focus Crystals",
   },
 };
 

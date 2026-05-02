@@ -68,7 +68,8 @@
 
 - [x] Add roguelite quest modifiers.
 - [x] Add incremental equipment upgrades and crafting materials.
-- [ ] Add 90-day ending and post-game practice goals.
+- [x] Add 90-day ending state and post-game practice goal model.
+- [ ] Add final Day 90 ending scene content.
 - [ ] Add importable lesson packs.
 - [ ] Prepare npm publishing.
 - [ ] Add release notes and changelog automation.

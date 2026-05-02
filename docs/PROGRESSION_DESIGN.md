@@ -101,6 +101,18 @@ The active modifier rotates by journey day:
 Modifiers change rewards, not the measured typing score. WPM, accuracy, and
 mistakes must remain honest training feedback.
 
+## Implemented Ending Slice
+
+The first ending implementation defines a stable Day 90 boundary:
+
+- Before Day 90, the journey reports remaining days.
+- On Day 90, the ending becomes ready for a future final scene.
+- After Day 90, post-game goals track a 7-day streak, 10 perfect sessions, and
+  25 Focus Crystals.
+
+This keeps the 90-day promise explicit while allowing the lesson curriculum and
+final story scene to be filled in later.
+
 ## Implemented Resource Slice
 
 The first resource implementation is intentionally small and deterministic:

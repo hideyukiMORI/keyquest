@@ -4,6 +4,7 @@ import { createTranslator } from "../i18n/messages.js";
 import { createInitialQuestResources, createNewSave } from "../save/model.js";
 import {
   renderPracticeAchievements,
+  renderPracticeEndingProgress,
   renderPracticeJourneyProgress,
   renderPracticeReviewResult,
   renderPracticeRewards,
@@ -287,5 +288,73 @@ describe("scene rendering", () => {
         createTranslator("en"),
       ),
     ).toEqual(["Journey", "Gatekeeper Trial cleared. The Novice Hall opens the road ahead."]);
+  });
+
+  it("renders the ending ready message when the journey reaches Day 90", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 89,
+        chapter: 12,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+    const afterSave = {
+      ...beforeSave,
+      journey: {
+        ...beforeSave.journey,
+        day: 90,
+      },
+    };
+
+    expect(
+      renderPracticeEndingProgress(
+        {
+          beforeSave,
+          afterSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual([
+      "Ending",
+      "Day 90 complete. The final gate is open when the ending scene is ready.",
+    ]);
+  });
+
+  it("renders post-game goal progress", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 90,
+        chapter: 12,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+    const afterSave = {
+      ...beforeSave,
+      journey: {
+        ...beforeSave.journey,
+        day: 91,
+      },
+      progress: {
+        ...beforeSave.progress,
+        streakDays: 3,
+      },
+    };
+
+    expect(
+      renderPracticeEndingProgress(
+        {
+          beforeSave,
+          afterSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual([
+      "Post-Game Goals",
+      "Keep a 7-day streak: 3/7",
+      "Complete 10 perfect sessions: 0/10",
+      "Gather 25 Focus Crystals: 0/25",
+    ]);
   });
 });
