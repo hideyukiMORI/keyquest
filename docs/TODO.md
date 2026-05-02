@@ -49,9 +49,11 @@
 - [x] Add weak-key review quest generation from mistake history.
 - [x] Wire weak-key review prompts into a selectable review quest.
 - [x] Add Meadow Road clear message and first second-week title reward.
+- [x] Add non-scrolling terminal screen rendering for major screens.
 - [ ] Add River Gate clear message and third-week title reward.
 - [ ] Add Day 22 through Day 28 lessons.
 - [ ] Add review quest result messaging that explains the targeted weak keys.
+- [ ] Add raw-mode real-time typing screen on top of the screen renderer.
 
 ## Mid Term
 
