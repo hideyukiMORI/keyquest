@@ -39,21 +39,7 @@
       ]
     },
     {
-      "id": "gatekeeper-trial-3",
-      "text": "ask sad lad fall",
-      "targetKeys": ["a", "s", "k", "d", "l", "f"],
-      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
-      "fingerHints": [
-        "leftPinky",
-        "leftRing",
-        "rightMiddle",
-        "leftMiddle",
-        "rightRing",
-        "leftIndex"
-      ]
-    },
-    {
-      "id": "gatekeeper-trial-4",
+      "id": "gatekeeper-trial-boss",
       "text": "ask lass fall salad flask",
       "targetKeys": ["a", "s", "k", "l", "f", "d"],
       "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
