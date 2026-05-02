@@ -133,6 +133,35 @@ describe("runApp", () => {
     expect(output.text()).toContain("Earned title: Meadow Road Pathfinder");
   });
 
+  it("shows River Gate clear and third-week title after Day 21", async () => {
+    const directory = await createTempDirectory();
+    const now = new Date("2026-01-01T00:00:00.000Z");
+    await createSaveStore({ mode: "development", directory }).write({
+      ...createNewSave(now, "development"),
+      journey: {
+        day: 21,
+        chapter: 3,
+        storyFlag: "noviceHallStarted",
+      },
+    });
+    const output = createMemoryOutput();
+
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now,
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Ferryman Trial cleared");
+    expect(output.text()).toContain("Earned title: River Gate Ferryman");
+    expect(output.text()).not.toContain("Next lesson:");
+  });
+
   it("uses lesson session prompt count overrides", async () => {
     const output = createMemoryOutput();
     await runApp({

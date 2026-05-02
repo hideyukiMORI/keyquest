@@ -1,4 +1,8 @@
-import { MEADOW_ROAD_FINAL_DAY, NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
+import {
+  MEADOW_ROAD_FINAL_DAY,
+  NOVICE_HALL_FINAL_DAY,
+  RIVER_GATE_FINAL_DAY,
+} from "../lessons/manifest.js";
 import type { KeyQuestSave, TitleRewardId, TitleRewardRecord } from "../save/model.js";
 
 export type TitleRewardDefinition = {
@@ -15,6 +19,10 @@ export const TITLE_REWARDS: Readonly<Record<TitleRewardId, TitleRewardDefinition
     id: "meadowRoadPathfinder",
     title: "Meadow Road Pathfinder",
   },
+  riverGateFerryman: {
+    id: "riverGateFerryman",
+    title: "River Gate Ferryman",
+  },
 };
 
 export function unlockSessionTitles(options: {
@@ -24,6 +32,7 @@ export function unlockSessionTitles(options: {
   const candidates: TitleRewardId[] = [
     options.save.journey.day === NOVICE_HALL_FINAL_DAY ? "noviceHallGraduate" : undefined,
     options.save.journey.day === MEADOW_ROAD_FINAL_DAY ? "meadowRoadPathfinder" : undefined,
+    options.save.journey.day === RIVER_GATE_FINAL_DAY ? "riverGateFerryman" : undefined,
   ].filter((id): id is TitleRewardId => id !== undefined);
   const existingTitleIds = new Set((options.save.progress.titles ?? []).map((title) => title.id));
 
