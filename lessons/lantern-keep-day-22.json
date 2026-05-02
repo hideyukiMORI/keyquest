@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "lantern-keep-day-22",
+  "title": "Lantern Keep: Left Number Row",
+  "day": 22,
+  "locale": "en",
+  "focus": ["left number row", "upper reach", "accuracy"],
+  "prompts": [
+    {
+      "id": "lantern-left-number-1",
+      "text": "1 2 3 4",
+      "targetKeys": ["1", "2", "3", "4"],
+      "skillIds": ["fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftPinky", "leftRing", "leftMiddle", "leftIndex"]
+    },
+    {
+      "id": "lantern-left-number-2",
+      "text": "11 22 33 44",
+      "targetKeys": ["1", "2", "3", "4"],
+      "skillIds": ["fingerResponsibility", "rhythm"],
+      "fingerHints": ["leftPinky", "leftRing", "leftMiddle", "leftIndex"]
+    },
+    {
+      "id": "lantern-left-number-3",
+      "text": "room 12 gate 34",
+      "targetKeys": ["r", "o", "m", "1", "2", "g", "a", "t", "e", "3", "4"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "rightRing",
+        "rightIndex",
+        "leftPinky",
+        "leftRing",
+        "leftIndex",
+        "leftPinky",
+        "leftIndex",
+        "leftMiddle",
+        "leftMiddle",
+        "leftIndex"
+      ]
+    }
+  ]
+}

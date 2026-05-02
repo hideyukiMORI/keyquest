@@ -26,6 +26,13 @@ describe("bundled lesson validation command", () => {
       "19: river-gate-day-19",
       "20: river-gate-day-20",
       "21: river-gate-day-21",
+      "22: lantern-keep-day-22",
+      "23: lantern-keep-day-23",
+      "24: lantern-keep-day-24",
+      "25: lantern-keep-day-25",
+      "26: lantern-keep-day-26",
+      "27: lantern-keep-day-27",
+      "28: lantern-keep-day-28",
     ]);
   });
 });

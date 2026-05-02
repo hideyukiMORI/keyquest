@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "lantern-keep-day-26",
+  "title": "Lantern Keep: Map Marks",
+  "day": 26,
+  "locale": "en",
+  "focus": ["map labels", "mixed rows", "number accuracy"],
+  "prompts": [
+    {
+      "id": "lantern-map-marks-1",
+      "text": "map 1 room 2 hall 3",
+      "targetKeys": ["m", "a", "p", "1", "r", "o", "2", "h", "l", "3"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "rightIndex",
+        "leftPinky",
+        "rightPinky",
+        "leftPinky",
+        "leftIndex",
+        "rightRing",
+        "leftRing",
+        "rightIndex",
+        "rightRing",
+        "leftMiddle"
+      ]
+    },
+    {
+      "id": "lantern-map-marks-2",
+      "text": "turn 6 then open 7",
+      "targetKeys": ["t", "u", "r", "n", "6", "h", "e", "o", "p", "7"],
+      "skillIds": ["fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "rightIndex",
+        "leftIndex",
+        "rightIndex",
+        "rightIndex",
+        "rightIndex",
+        "leftMiddle",
+        "rightRing",
+        "rightPinky",
+        "rightIndex"
+      ]
+    },
+    {
+      "id": "lantern-map-marks-3",
+      "text": "lamp 8 shows door 9",
+      "targetKeys": ["l", "a", "m", "p", "8", "s", "h", "o", "w", "d", "r", "9"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "rightRing",
+        "leftPinky",
+        "rightIndex",
+        "rightPinky",
+        "rightMiddle",
+        "leftRing",
+        "rightIndex",
+        "rightRing",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightRing"
+      ]
+    }
+  ]
+}

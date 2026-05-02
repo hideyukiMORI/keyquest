@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "id": "lantern-keep-day-28",
+  "title": "Lantern Keep: Beacon Trial",
+  "day": 28,
+  "locale": "en",
+  "focus": ["weekly checkpoint", "number row control", "mixed instruction accuracy"],
+  "sessionPromptCount": 4,
+  "prompts": [
+    {
+      "id": "lantern-trial-1",
+      "text": "1234 567 890",
+      "targetKeys": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+      "skillIds": ["fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex",
+        "rightIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "lantern-trial-2",
+      "text": "gate 12 room 34 path 56",
+      "targetKeys": ["g", "a", "t", "e", "1", "2", "r", "o", "m", "3", "4", "p", "h", "5", "6"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "leftPinky",
+        "leftIndex",
+        "leftMiddle",
+        "leftPinky",
+        "leftRing",
+        "leftIndex",
+        "rightRing",
+        "rightIndex",
+        "leftMiddle",
+        "leftIndex",
+        "rightPinky",
+        "rightIndex",
+        "leftIndex",
+        "rightIndex"
+      ]
+    },
+    {
+      "id": "lantern-trial-3",
+      "text": "mark 78 then open 90",
+      "targetKeys": ["m", "a", "r", "k", "7", "8", "t", "h", "e", "n", "o", "p", "9", "0"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "rightIndex",
+        "leftPinky",
+        "leftIndex",
+        "rightMiddle",
+        "rightIndex",
+        "rightMiddle",
+        "leftIndex",
+        "rightIndex",
+        "leftMiddle",
+        "rightIndex",
+        "rightRing",
+        "rightPinky",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "lantern-trial-beacon",
+      "text": "the beacon opens at level 28.",
+      "targetKeys": ["t", "h", "e", "b", "a", "c", "o", "n", "p", "s", "l", "v", "2", "8", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "rightIndex",
+        "leftMiddle",
+        "leftIndex",
+        "leftPinky",
+        "leftMiddle",
+        "rightRing",
+        "rightIndex",
+        "rightPinky",
+        "leftRing",
+        "rightRing",
+        "leftIndex",
+        "leftRing",
+        "rightMiddle",
+        "rightRing"
+      ]
+    }
+  ]
+}

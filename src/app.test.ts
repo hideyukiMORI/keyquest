@@ -84,8 +84,8 @@ describe("runApp", () => {
     await createSaveStore({ mode: "development", directory }).write({
       ...createNewSave(now, "development"),
       journey: {
-        day: 21,
-        chapter: 2,
+        day: 28,
+        chapter: 4,
         storyFlag: "noviceHallStarted",
       },
     });
@@ -105,6 +105,7 @@ describe("runApp", () => {
     expect(output.text()).not.toContain("Next lesson:");
     expect(output.text()).not.toContain("Gatekeeper Trial cleared");
     expect(output.text()).not.toContain("Waystone Trial cleared");
+    expect(output.text()).not.toContain("Ferryman Trial cleared");
   });
 
   it("shows Meadow Road clear and second-week title after Day 14", async () => {
@@ -161,7 +162,7 @@ describe("runApp", () => {
 
     expect(output.text()).toContain("Ferryman Trial cleared");
     expect(output.text()).toContain("Earned title: River Gate Ferryman");
-    expect(output.text()).not.toContain("Next lesson:");
+    expect(output.text()).toContain("Next lesson: Day 22 is ready for next time.");
   });
 
   it("uses lesson session prompt count overrides", async () => {
