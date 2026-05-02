@@ -1,6 +1,7 @@
 import { parseTerminalColorMode, type TerminalColorMode } from "../terminal/runtime.js";
 
 export type CliOptions = {
+  readonly action: "run" | "help" | "version";
   readonly devMode: boolean;
   readonly saveDirectory: string | undefined;
   readonly lessonPath: string | undefined;
@@ -10,6 +11,7 @@ export type CliOptions = {
 };
 
 export function parseCliArgs(args: readonly string[]): CliOptions {
+  let action: CliOptions["action"] = "run";
   let devMode = false;
   let saveDirectory: string | undefined;
   let lessonPath: string | undefined;
@@ -25,6 +27,16 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
 
     if (arg === "--dev" || arg === "-dev") {
       devMode = true;
+      continue;
+    }
+
+    if (arg === "--help" || arg === "-h") {
+      action = "help";
+      continue;
+    }
+
+    if (arg === "--version" || arg === "-v") {
+      action = "version";
       continue;
     }
 
@@ -105,5 +117,13 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
     throw new Error(`Unknown option: ${arg}`);
   }
 
-  return { devMode, saveDirectory, lessonPath, lessonPackPath, colorMode, reducedMotion };
+  return {
+    action,
+    devMode,
+    saveDirectory,
+    lessonPath,
+    lessonPackPath,
+    colorMode,
+    reducedMotion,
+  };
 }

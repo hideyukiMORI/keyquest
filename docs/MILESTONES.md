@@ -171,6 +171,7 @@ Goal: make KeyQuest rewarding beyond the first month and after the ending.
 Goal: publish a useful open-source CLI.
 
 - `npx keyquest` smoke test
+- CLI help and version output
 - README with screenshots or terminal recording
 - npm package metadata
 - npm package smoke script and publishing checklist
