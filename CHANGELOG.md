@@ -7,6 +7,8 @@ drafts from git history.
 
 ## Unreleased
 
+- Added interactive menu navigation with `j`/`k`, arrow keys, Enter, and Space in TTY screen mode.
+- Added an in-practice options shortcut so players can change language during a run.
 - Fixed New Game so it preserves option settings such as the selected language.
 - Added New Game confirmation before replacing an existing saved journey.
 - Added a minimal Load Game action for the current saved journey.

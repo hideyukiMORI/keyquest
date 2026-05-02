@@ -11,6 +11,19 @@ import {
   type TypingState,
 } from "./typing-state.js";
 
+export class PracticeOptionsRequestedError extends Error {
+  constructor() {
+    super("Practice options requested");
+    this.name = "PracticeOptionsRequestedError";
+  }
+}
+
+export function isPracticeOptionsRequestedError(
+  error: unknown,
+): error is PracticeOptionsRequestedError {
+  return error instanceof PracticeOptionsRequestedError;
+}
+
 export async function runRealtimeTypingPrompt(options: {
   readonly prompt: PracticePrompt;
   readonly input: RealtimeTypingInput;
@@ -23,6 +36,10 @@ export async function runRealtimeTypingPrompt(options: {
 
     while (state.status === "active") {
       const rawKey = await options.input.readKey();
+      if (rawKey === "\u000f") {
+        throw new PracticeOptionsRequestedError();
+      }
+
       const typingInput = toTypingInputFromKey(rawKey);
       if (typingInput === undefined) {
         continue;

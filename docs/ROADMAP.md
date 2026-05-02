@@ -51,6 +51,7 @@ Goal: make the game satisfying beyond the first month.
 - Roguelite quest modifiers.
 - Incremental upgrade curves and crafting materials.
 - Boss quests with fair pressure.
+- TTY-friendly menu navigation and mid-session options.
 - Post-ending practice and optional new-game-plus.
 - Importable or shareable lesson packs.
 - More polished localization and accessibility options.

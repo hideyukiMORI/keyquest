@@ -29,7 +29,9 @@ keyquest --reduced-motion
 ```
 
 Inside the title menu, choose `Help` for a short explanation of the daily loop,
-weak-key review, progression rewards, and language options.
+weak-key review, progression rewards, and language options. In an interactive
+terminal, menus support `j`/`k` or arrow keys, with Enter or Space to confirm.
+During real-time practice, press `Ctrl+O` to open options without ending the run.
 
 ## Terminal Preview
 
@@ -42,7 +44,7 @@ Title
 2. Review Weak Keys
 3. Options
 4. New Game
-5. Load Game (planned)
+5. Load Game
 6. Help
 
 Story

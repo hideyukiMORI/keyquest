@@ -10,6 +10,9 @@ import { getLessonPackLessonPath, loadLessonPackManifest } from "./lessons/pack.
 import type { Lesson } from "./lessons/schema.js";
 import {
   createMenuTranslator,
+  getLanguageMenuItems,
+  getTitleMenuItems,
+  type LanguageMenuAction,
   type TitleMenuAction,
   parseLocaleChoice,
   parseTitleMenuAction,
@@ -17,6 +20,7 @@ import {
   renderLanguageOptions,
   renderTitleMenu,
 } from "./menu/title-menu.js";
+import { renderSelectableItems, runInteractiveMenu } from "./menu/interactive-menu.js";
 import {
   completePracticeRun,
   type PracticeAttempt,
@@ -45,7 +49,10 @@ import type { TerminalRuntime } from "./terminal/runtime.js";
 import { createScreenRenderer, type ScreenRenderer } from "./terminal/screen.js";
 import type { RealtimeTypingInput } from "./realtime/input.js";
 import { isRawModeUnavailableError } from "./realtime/raw-mode.js";
-import { runRealtimeTypingPrompt } from "./realtime/typing-screen.js";
+import {
+  isPracticeOptionsRequestedError,
+  runRealtimeTypingPrompt,
+} from "./realtime/typing-screen.js";
 
 export type RunAppOptions = {
   readonly mode: SaveMode;
@@ -62,6 +69,15 @@ export type RunAppOptions = {
 };
 
 const DAILY_SESSION_PROMPT_COUNT = 3;
+
+type PracticeInputResult =
+  | {
+      readonly kind: "attempt";
+      readonly actual: string;
+    }
+  | {
+      readonly kind: "options";
+    };
 
 export async function runApp(options: RunAppOptions): Promise<void> {
   const now = options.now ?? new Date();
@@ -88,31 +104,37 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     textInput: options.textInput,
     screen,
     writeSave: saveStore.write,
+    terminalRuntime: options.terminalRuntime,
+    realtimeInput: options.realtimeInput,
   });
-  const menuSave = menuSelection.save;
+  let activeSave = menuSelection.save;
   const reviewQuest =
-    menuSelection.action === "review" ? createWeakKeyReviewQuest({ save: menuSave }) : undefined;
+    menuSelection.action === "review" ? createWeakKeyReviewQuest({ save: activeSave }) : undefined;
   const resolvedLessonPath = await resolveLessonPath({
-    day: menuSave.journey.day,
+    day: activeSave.journey.day,
     lessonPath: options.lessonPath,
     lessonPackPath: options.lessonPackPath,
   });
   const lesson =
     reviewQuest === undefined
       ? (options.lesson ?? (await loadLessonFromFile(resolvedLessonPath)))
-      : createReviewLesson(menuSave.journey.day, reviewQuest.title, reviewQuest.prompt);
+      : createReviewLesson(activeSave.journey.day, reviewQuest.title, reviewQuest.prompt);
   const practicePrompts =
     reviewQuest === undefined
       ? selectPracticePrompts(lesson, lesson.sessionPromptCount ?? DAILY_SESSION_PROMPT_COUNT)
       : [reviewQuest.prompt];
   const advancesJourney = reviewQuest?.advancesJourney ?? true;
-  const translator = createTranslator(menuSave.settings.locale);
+  let translator = createTranslator(activeSave.settings.locale);
   const attempts: PracticeAttempt[] = [];
   let promptStartedAt = now;
 
-  for (const [index, practicePrompt] of practicePrompts.entries()) {
+  for (let index = 0; index < practicePrompts.length; ) {
+    const practicePrompt = practicePrompts[index];
+    if (practicePrompt === undefined) {
+      throw new Error(`Practice prompt ${index} is unavailable`);
+    }
     const context: SceneContext = {
-      save: menuSave,
+      save: activeSave,
       mode: options.mode,
       now,
       translator,
@@ -127,7 +149,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     });
     const introOutput = formatSceneSequence(outputs);
     screen.render(introOutput);
-    const actual = await readPracticeInput({
+    const inputResult = await readPracticeInput({
       practicePrompt,
       textInput: options.textInput,
       realtimeInput: options.realtimeInput,
@@ -135,15 +157,29 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       translator,
       terminalRuntime: options.terminalRuntime,
     });
+    if (inputResult.kind === "options") {
+      const selectedLocale = await runLanguageOptions({
+        save: activeSave,
+        textInput: options.textInput,
+        screen,
+        terminalRuntime: options.terminalRuntime,
+        realtimeInput: options.realtimeInput,
+      });
+      activeSave = updateLocale(activeSave, selectedLocale, now);
+      await saveStore.write(activeSave);
+      translator = createTranslator(activeSave.settings.locale);
+      continue;
+    }
+
     const completedAt = options.completedAt ?? new Date();
     const attempt = {
       prompt: practicePrompt,
-      actual,
+      actual: inputResult.actual,
       startedAt: promptStartedAt,
       completedAt,
     };
     const segmentResult = completePracticeRun({
-      save: menuSave,
+      save: activeSave,
       mode: options.mode,
       attempts: [attempt],
       advancesJourney: false,
@@ -165,10 +201,11 @@ export async function runApp(options: RunAppOptions): Promise<void> {
         translator,
       ),
     );
+    index += 1;
   }
 
   const result = completePracticeRun({
-    save: menuSave,
+    save: activeSave,
     mode: options.mode,
     attempts,
     advancesJourney,
@@ -198,7 +235,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
         ]),
     renderPracticeRewards(
       {
-        beforeSave: menuSave,
+        beforeSave: activeSave,
         afterSave: result.updatedSave,
       },
       translator,
@@ -206,7 +243,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   ];
   const streakProgressLines = renderPracticeStreakProgress(
     {
-      beforeSave: menuSave,
+      beforeSave: activeSave,
       afterSave: result.updatedSave,
     },
     translator,
@@ -216,7 +253,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   }
   const achievementLines = renderPracticeAchievements(
     {
-      beforeSave: menuSave,
+      beforeSave: activeSave,
       afterSave: result.updatedSave,
     },
     translator,
@@ -226,7 +263,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   }
   const titleRewardLines = renderPracticeTitleRewards(
     {
-      beforeSave: menuSave,
+      beforeSave: activeSave,
       afterSave: result.updatedSave,
     },
     translator,
@@ -236,7 +273,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   }
   const journeyProgressLines = renderPracticeJourneyProgress(
     {
-      beforeSave: menuSave,
+      beforeSave: activeSave,
       afterSave: result.updatedSave,
     },
     translator,
@@ -246,7 +283,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   }
   const endingProgressLines = renderPracticeEndingProgress(
     {
-      beforeSave: menuSave,
+      beforeSave: activeSave,
       afterSave: result.updatedSave,
     },
     translator,
@@ -264,14 +301,78 @@ async function readPracticeInput(options: {
   readonly screen: ScreenRenderer;
   readonly translator: ReturnType<typeof createTranslator>;
   readonly terminalRuntime: TerminalRuntime | undefined;
-}): Promise<string> {
+}): Promise<PracticeInputResult> {
   if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
     try {
-      return await runRealtimeTypingPrompt({
-        prompt: options.practicePrompt,
+      return {
+        kind: "attempt",
+        actual: await runRealtimeTypingPrompt({
+          prompt: options.practicePrompt,
+          input: options.realtimeInput,
+          screen: options.screen,
+          translator: options.translator,
+        }),
+      };
+    } catch (error) {
+      if (isPracticeOptionsRequestedError(error)) {
+        return { kind: "options" };
+      }
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  const actual = await options.textInput.readLine("> ");
+  if (actual.trim().toLowerCase() === "options" || actual.trim().toLowerCase() === ":options") {
+    return { kind: "options" };
+  }
+
+  return {
+    kind: "attempt",
+    actual,
+  };
+}
+
+async function readTitleMenuAction(options: {
+  readonly save: KeyQuestSave;
+  readonly mode: SaveMode;
+  readonly notice: string | undefined;
+  readonly textInput: TextInput;
+  readonly screen: ScreenRenderer;
+  readonly translator: ReturnType<typeof createTranslator>;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+}): Promise<TitleMenuAction> {
+  const items = getTitleMenuItems(options.save, options.translator);
+  const renderMenu = (selectedIndex: number | undefined): readonly string[] => {
+    const menuLines =
+      selectedIndex === undefined
+        ? renderTitleMenu(options.save, options.translator)
+        : [
+            options.translator.t("app.title"),
+            options.translator.t("app.subtitle"),
+            "",
+            options.translator.t("title.menu.heading"),
+            ...renderSelectableItems({ items, selectedIndex }),
+            "",
+            options.translator.t("menu.controls"),
+          ];
+
+    return [
+      ...menuLines,
+      ...(options.mode === "development" ? [options.translator.t("dev.banner")] : []),
+      ...(options.notice === undefined ? [] : ["", options.notice]),
+    ];
+  };
+
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    try {
+      return await runInteractiveMenu({
         input: options.realtimeInput,
         screen: options.screen,
-        translator: options.translator,
+        items,
+        render: renderMenu,
       });
     } catch (error) {
       if (!isRawModeUnavailableError(error)) {
@@ -280,7 +381,60 @@ async function readPracticeInput(options: {
     }
   }
 
-  return options.textInput.readLine("> ");
+  options.screen.render(renderMenu(undefined));
+  return parseTitleMenuAction(
+    await options.textInput.readLine(options.translator.t("title.menu.prompt")),
+  );
+}
+
+async function readLanguageMenuAction(options: {
+  readonly save: KeyQuestSave;
+  readonly textInput: TextInput;
+  readonly screen: ScreenRenderer;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+}): Promise<LanguageMenuAction> {
+  const translator = createMenuTranslator(options.save);
+  const items = getLanguageMenuItems(translator);
+  const selectedLocaleIndex = items.findIndex(
+    (item) => item.value === options.save.settings.locale,
+  );
+  const renderMenu = (selectedIndex: number | undefined): readonly string[] => {
+    if (selectedIndex === undefined) {
+      return renderLanguageOptions(options.save.settings.locale, translator);
+    }
+
+    return [
+      translator.t("options.heading"),
+      `${translator.t("options.language")}: ${localeDisplayName(options.save.settings.locale)}`,
+      "",
+      ...renderSelectableItems({ items, selectedIndex }),
+      "",
+      translator.t("menu.controls"),
+    ];
+  };
+
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    try {
+      return await runInteractiveMenu({
+        input: options.realtimeInput,
+        screen: options.screen,
+        items,
+        initialIndex: selectedLocaleIndex < 0 ? 0 : selectedLocaleIndex,
+        render: renderMenu,
+      });
+    } catch (error) {
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  options.screen.render(renderMenu(undefined));
+  return parseLocaleChoice(
+    await options.textInput.readLine(translator.t("options.prompt")),
+    options.save.settings.locale,
+  );
 }
 
 async function runTitleMenu(options: {
@@ -290,6 +444,8 @@ async function runTitleMenu(options: {
   readonly textInput: TextInput;
   readonly screen: ScreenRenderer;
   readonly writeSave: (save: KeyQuestSave) => Promise<void>;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
 }): Promise<{
   readonly save: KeyQuestSave;
   readonly action: Extract<TitleMenuAction, "start" | "review">;
@@ -299,17 +455,17 @@ async function runTitleMenu(options: {
 
   for (;;) {
     const translator = createMenuTranslator(save);
-    const titleLines = [
-      ...renderTitleMenu(save, translator),
-      ...(options.mode === "development" ? [translator.t("dev.banner")] : []),
-      ...(notice === undefined ? [] : ["", notice]),
-    ];
+    const action = await readTitleMenuAction({
+      save,
+      mode: options.mode,
+      notice,
+      textInput: options.textInput,
+      screen: options.screen,
+      translator,
+      terminalRuntime: options.terminalRuntime,
+      realtimeInput: options.realtimeInput,
+    });
     notice = undefined;
-    options.screen.render(titleLines);
-
-    const action = parseTitleMenuAction(
-      await options.textInput.readLine(translator.t("title.menu.prompt")),
-    );
     if (action === "start") {
       return { save, action };
     }
@@ -361,10 +517,29 @@ async function runTitleMenu(options: {
       save,
       textInput: options.textInput,
       screen: options.screen,
+      terminalRuntime: options.terminalRuntime,
+      realtimeInput: options.realtimeInput,
     });
     save = updateLocale(save, selectedLocale, options.now);
     await options.writeSave(save);
   }
+}
+
+async function runLanguageOptions(options: {
+  readonly save: KeyQuestSave;
+  readonly textInput: TextInput;
+  readonly screen: ScreenRenderer;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+}): Promise<KeyQuestSave["settings"]["locale"]> {
+  const selectedAction = await readLanguageMenuAction(options);
+  const selectedLocale = selectedAction === "back" ? options.save.settings.locale : selectedAction;
+  const nextTranslator = createTranslator(selectedLocale);
+  options.screen.render([
+    nextTranslator.t("options.saved", { language: localeDisplayName(selectedLocale) }),
+  ]);
+
+  return selectedLocale;
 }
 
 function createReviewLesson(day: number, title: string, practicePrompt: PracticePrompt): Lesson {
@@ -389,25 +564,6 @@ function createReviewLesson(day: number, title: string, practicePrompt: Practice
 
 function joinScreenSections(sections: readonly (readonly string[])[]): readonly string[] {
   return sections.flatMap((section, index) => (index === 0 ? section : ["", ...section]));
-}
-
-async function runLanguageOptions(options: {
-  readonly save: KeyQuestSave;
-  readonly textInput: TextInput;
-  readonly screen: ScreenRenderer;
-}): Promise<KeyQuestSave["settings"]["locale"]> {
-  const translator = createMenuTranslator(options.save);
-  options.screen.render(renderLanguageOptions(options.save.settings.locale, translator));
-  const selectedLocale = parseLocaleChoice(
-    await options.textInput.readLine(translator.t("options.prompt")),
-    options.save.settings.locale,
-  );
-  const nextTranslator = createTranslator(selectedLocale);
-  options.screen.render([
-    nextTranslator.t("options.saved", { language: localeDisplayName(selectedLocale) }),
-  ]);
-
-  return selectedLocale;
 }
 
 async function resolveLessonPath(options: {
