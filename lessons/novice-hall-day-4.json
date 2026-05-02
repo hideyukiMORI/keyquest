@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-4",
+  "title": "Novice Hall: Rhythm Hall",
+  "day": 4,
+  "locale": "en",
+  "focus": ["home row rhythm", "spacing", "steady cadence"],
+  "prompts": [
+    {
+      "id": "rhythm-hall-1",
+      "text": "asdf asdf jkl; jkl;",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "rhythm-hall-2",
+      "text": "fdsa fdsa ;lkj ;lkj",
+      "targetKeys": ["f", "d", "s", "a", ";", "l", "k", "j"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "leftMiddle",
+        "leftRing",
+        "leftPinky",
+        "rightPinky",
+        "rightRing",
+        "rightMiddle",
+        "rightIndex"
+      ]
+    },
+    {
+      "id": "rhythm-hall-3",
+      "text": "asdf fdsa jkl; ;lkj",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "rhythm-hall-4",
+      "text": "ask fall sad flask",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing"
+      ]
+    }
+  ]
+}
