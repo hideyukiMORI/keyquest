@@ -20,7 +20,7 @@ import {
   type PracticeAttempt,
   type PracticePrompt,
 } from "./practice/session.js";
-import { createWeakKeyReviewPrompt } from "./practice/weak-key-review.js";
+import { createWeakKeyReviewQuest } from "./quest/review-quest.js";
 import { createNewSave, updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
@@ -86,22 +86,18 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     writeSave: saveStore.write,
   });
   const menuSave = menuSelection.save;
-  const reviewPrompt =
-    menuSelection.action === "review" ? createWeakKeyReviewPrompt(menuSave) : undefined;
+  const reviewQuest =
+    menuSelection.action === "review" ? createWeakKeyReviewQuest({ save: menuSave }) : undefined;
   const defaultLessonPath = getDefaultLessonPathForDay(menuSave.journey.day);
   const lesson =
-    reviewPrompt === undefined
+    reviewQuest === undefined
       ? (options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? defaultLessonPath)))
-      : createReviewLesson(
-          menuSave.journey.day,
-          createTranslator(menuSave.settings.locale).t("review.lessonTitle"),
-          reviewPrompt,
-        );
+      : createReviewLesson(menuSave.journey.day, reviewQuest.title, reviewQuest.prompt);
   const practicePrompts =
-    reviewPrompt === undefined
+    reviewQuest === undefined
       ? selectPracticePrompts(lesson, lesson.sessionPromptCount ?? DAILY_SESSION_PROMPT_COUNT)
-      : [reviewPrompt];
-  const advancesJourney = menuSelection.action !== "review";
+      : [reviewQuest.prompt];
+  const advancesJourney = reviewQuest?.advancesJourney ?? true;
   const translator = createTranslator(menuSave.settings.locale);
   const attempts: PracticeAttempt[] = [];
   let promptStartedAt = now;
@@ -182,12 +178,12 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       },
       translator,
     ),
-    ...(reviewPrompt === undefined
+    ...(reviewQuest === undefined
       ? []
       : [
           renderPracticeReviewResult(
             {
-              targetKeys: reviewPrompt.targetKeys,
+              targetKeys: reviewQuest.targetKeys,
             },
             translator,
           ),
@@ -301,7 +297,7 @@ async function runTitleMenu(options: {
     }
 
     if (action === "review") {
-      if (createWeakKeyReviewPrompt(save) === undefined) {
+      if (createWeakKeyReviewQuest({ save }) === undefined) {
         notice = translator.t("review.noMistakes");
         continue;
       }

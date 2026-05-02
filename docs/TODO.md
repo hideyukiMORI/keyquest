@@ -61,7 +61,7 @@
 - [x] Design [#9](https://github.com/hideyukiMORI/keyquest/issues/9): achievement engine and first achievement set.
 - [x] Add HP, MP, XP, item, magic, weapon, and curse models.
 - [x] Add weekly boss quest rules.
-- [ ] Add weak-key review quests.
+- [x] Add weak-key review quests.
 - [ ] Add Chinese, Korean, Spanish, and Portuguese UI catalogs.
 
 ## Long Term
