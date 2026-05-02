@@ -7,6 +7,7 @@ drafts from git history.
 
 ## Unreleased
 
+- Fixed New Game so it preserves option settings such as the selected language.
 - Added New Game confirmation before replacing an existing saved journey.
 - Added a minimal Load Game action for the current saved journey.
 - Added a README terminal transcript preview for the public CLI flow.

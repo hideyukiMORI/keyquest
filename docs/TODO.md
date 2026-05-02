@@ -82,3 +82,4 @@
 - [x] Add README terminal transcript.
 - [x] Implement minimal Load Game current-slot action.
 - [x] Confirm New Game before replacing existing progress.
+- [x] Preserve options when starting New Game.
