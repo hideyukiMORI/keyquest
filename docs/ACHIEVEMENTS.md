@@ -27,6 +27,10 @@ Achievement unlocks are stored in save progress and rendered after the reward
 screen. Future achievements should reuse this path rather than adding separate
 session-end UI.
 
+Streak achievements also have a small visible milestone message after the reward
+screen. This keeps continuity feeling special even when the achievement list is
+not the player's main focus.
+
 ### Continuity
 
 - First Quest: complete the first session.

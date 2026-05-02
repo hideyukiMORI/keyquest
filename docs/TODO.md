@@ -14,6 +14,7 @@
 - [x] Add Novice Hall lessons for Day 2 through Day 7.
 - [x] Add the first post-Novice-Hall Day 8 lesson.
 - [x] Add Meadow Road Day 9 and Day 10 lessons.
+- [x] Add Day 11 through Day 14 Meadow Road lessons.
 - [x] Resolve the default lesson from the saved journey day.
 - [x] Advance journey day after completed sessions, capped at bundled lessons.
 
@@ -43,9 +44,11 @@
 - [x] Add first title reward or item reward after Gatekeeper Trial.
 - [x] Add a lesson manifest validation command for CI and release checks.
 - [x] Track daily streaks and unlock continuity achievements.
-- [ ] Add a visible streak milestone message after session rewards.
-- [ ] Add weak-key review quest generation from mistake history.
-- [ ] Add Day 11 through Day 14 Meadow Road lessons.
+- [x] Add a visible streak milestone message after session rewards.
+- [x] Add weak-key review quest generation from mistake history.
+- [ ] Wire weak-key review prompts into a selectable review quest.
+- [ ] Add Meadow Road clear message and first second-week title reward.
+- [ ] Add Day 15 through Day 21 lessons.
 
 ## Mid Term
 
