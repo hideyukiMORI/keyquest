@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-7",
+  "title": "Novice Hall: Gatekeeper Trial",
+  "day": 7,
+  "locale": "en",
+  "focus": ["home row trial", "accuracy check", "calm recovery"],
+  "prompts": [
+    {
+      "id": "gatekeeper-trial-1",
+      "text": "f j as df jk l;",
+      "targetKeys": ["f", "j", "a", "s", "d", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "rightIndex",
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "gatekeeper-trial-2",
+      "text": "asdf fdsa jkl; ;lkj",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "gatekeeper-trial-3",
+      "text": "ask sad lad fall",
+      "targetKeys": ["a", "s", "k", "d", "l", "f"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "rightMiddle",
+        "leftMiddle",
+        "rightRing",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "gatekeeper-trial-4",
+      "text": "ask lass fall salad flask",
+      "targetKeys": ["a", "s", "k", "l", "f", "d"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "rightMiddle",
+        "rightRing",
+        "leftIndex",
+        "leftMiddle"
+      ]
+    }
+  ]
+}
