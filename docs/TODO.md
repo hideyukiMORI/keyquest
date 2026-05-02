@@ -62,7 +62,7 @@
 - [x] Add HP, MP, XP, item, magic, weapon, and curse models.
 - [x] Add weekly boss quest rules.
 - [x] Add weak-key review quests.
-- [ ] Add Chinese, Korean, Spanish, and Portuguese UI catalogs.
+- [x] Add Chinese, Korean, Spanish, and Portuguese UI catalogs.
 
 ## Long Term
 
