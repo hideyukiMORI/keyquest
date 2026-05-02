@@ -28,6 +28,7 @@ import {
   defaultScenes,
   practiceIntroScene,
   renderPracticeAchievements,
+  renderPracticeEndingProgress,
   renderPracticeJourneyProgress,
   renderPracticeReviewResult,
   renderPracticeRunResult,
@@ -235,6 +236,16 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   );
   if (journeyProgressLines.length > 0) {
     finalScreenSections.push(journeyProgressLines);
+  }
+  const endingProgressLines = renderPracticeEndingProgress(
+    {
+      beforeSave: menuSave,
+      afterSave: result.updatedSave,
+    },
+    translator,
+  );
+  if (endingProgressLines.length > 0) {
+    finalScreenSections.push(endingProgressLines);
   }
   screen.render(joinScreenSections(finalScreenSections));
 }

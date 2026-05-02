@@ -1,5 +1,6 @@
 import type {
   PracticeAchievementsView,
+  PracticeEndingProgressView,
   PracticeJourneyProgressView,
   PracticeReviewResultView,
   PracticeRewardsView,
@@ -18,6 +19,7 @@ import {
   RIVER_GATE_FINAL_DAY,
 } from "../lessons/manifest.js";
 import { EQUIPMENT_UPGRADES, getEquipmentUpgradeLevel } from "../quest/equipment.js";
+import { getJourneyEndingState } from "../quest/ending.js";
 import { getQuestArcForDay } from "../quest/map.js";
 import { getQuestModifierForDay } from "../quest/modifiers.js";
 import { createInitialQuestResources } from "../save/model.js";
@@ -343,6 +345,32 @@ export function renderPracticeJourneyProgress(
   }
 
   return [t("journey.heading"), ...progressLines];
+}
+
+export function renderPracticeEndingProgress(
+  progress: PracticeEndingProgressView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const beforeState = getJourneyEndingState(progress.beforeSave);
+  const afterState = getJourneyEndingState(progress.afterSave);
+  if (afterState.status === "inProgress") {
+    return [];
+  }
+
+  const { t } = translator;
+  if (afterState.status === "endingReady") {
+    return beforeState.status === "endingReady" ? [] : [t("ending.heading"), t("ending.ready")];
+  }
+
+  const goalLines = afterState.goals.map((goal) =>
+    t("postGame.goalProgress", {
+      goal: t(`postGame.goal.${goal.id}`),
+      current: goal.current,
+      target: goal.target,
+    }),
+  );
+
+  return [t("postGame.heading"), ...goalLines];
 }
 
 function formatElapsedSeconds(elapsedSeconds: number): string {

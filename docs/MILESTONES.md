@@ -160,7 +160,7 @@ Goal: make KeyQuest rewarding beyond the first month and after the ending.
 
 - Deterministic daily roguelite quest modifiers
 - First deterministic crafting-material equipment upgrade slice
-- Post-ending practice goals
+- First 90-day ending state and post-game goal model
 - Optional new-game-plus style progression
 - Importable lesson packs
 - Accessibility and localization polish
