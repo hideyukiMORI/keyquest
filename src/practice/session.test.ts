@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createNewSave } from "../save/model.js";
 import {
   advanceJourneyDay,
+  calculateNextStreakDays,
   calculatePracticeXp,
   collectCharacterMistakes,
   completePracticeRun,
@@ -206,6 +207,38 @@ describe("advanceJourneyDay", () => {
     expect(advanceJourneyDay(8)).toBe(9);
     expect(advanceJourneyDay(9)).toBe(10);
     expect(advanceJourneyDay(10)).toBe(10);
+  });
+});
+
+describe("calculateNextStreakDays", () => {
+  it("starts, increments, preserves, and resets streaks by UTC date", () => {
+    const firstSave = createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal");
+    expect(calculateNextStreakDays(firstSave, new Date("2026-01-01T00:00:10.000Z"))).toBe(1);
+
+    const saveWithSession = {
+      ...firstSave,
+      progress: {
+        ...firstSave.progress,
+        streakDays: 2,
+        sessions: [
+          {
+            id: "session-1",
+            mode: "normal" as const,
+            startedAt: "2026-01-02T00:00:00.000Z",
+            completedAt: "2026-01-02T00:10:00.000Z",
+            promptCount: 1,
+            accuracy: 1,
+            wordsPerMinute: 30,
+            xpGained: 10,
+            mistakes: [],
+          },
+        ],
+      },
+    };
+
+    expect(calculateNextStreakDays(saveWithSession, new Date("2026-01-02T01:00:00.000Z"))).toBe(2);
+    expect(calculateNextStreakDays(saveWithSession, new Date("2026-01-03T00:00:00.000Z"))).toBe(3);
+    expect(calculateNextStreakDays(saveWithSession, new Date("2026-01-05T00:00:00.000Z"))).toBe(1);
   });
 });
 

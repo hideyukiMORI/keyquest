@@ -195,10 +195,12 @@ function applyPracticeResult(options: {
   readonly completedAt: Date;
 }): KeyQuestSave {
   const trainedSkillIds = uniqueSkillIds(options.prompts.flatMap((prompt) => prompt.skillIds));
+  const nextStreakDays = calculateNextStreakDays(options.save, options.completedAt);
   const achievementUnlocks = unlockSessionAchievements({
     save: options.save,
     session: options.session,
     unlockedAt: options.completedAt,
+    nextStreakDays,
   });
   const previousAchievements = options.save.progress.achievements ?? [];
   const titleUnlocks = unlockSessionTitles({
@@ -221,7 +223,7 @@ function applyPracticeResult(options: {
     progress: {
       ...options.save.progress,
       totalXp: options.save.progress.totalXp + options.session.xpGained,
-      streakDays: Math.max(1, options.save.progress.streakDays),
+      streakDays: nextStreakDays,
       sessions: [...options.save.progress.sessions, options.session],
       achievements: [...previousAchievements, ...achievementUnlocks],
       titles: [...previousTitles, ...titleUnlocks],
@@ -261,6 +263,37 @@ function aggregateScores(scores: readonly Score[]): Score {
 
 export function advanceJourneyDay(currentDay: number): number {
   return Math.min(currentDay + 1, getLatestBundledLessonDay());
+}
+
+export function calculateNextStreakDays(save: KeyQuestSave, completedAt: Date): number {
+  const previousSession = save.progress.sessions.at(-1);
+  if (previousSession === undefined) {
+    return 1;
+  }
+
+  const previousDate = toUtcDateKey(new Date(previousSession.completedAt));
+  const currentDate = toUtcDateKey(completedAt);
+  if (currentDate === previousDate) {
+    return Math.max(1, save.progress.streakDays);
+  }
+
+  if (daysBetweenUtcDates(previousDate, currentDate) === 1) {
+    return Math.max(1, save.progress.streakDays) + 1;
+  }
+
+  return 1;
+}
+
+function toUtcDateKey(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function daysBetweenUtcDates(fromDate: string, toDate: string): number {
+  const from = Date.parse(`${fromDate}T00:00:00.000Z`);
+  const to = Date.parse(`${toDate}T00:00:00.000Z`);
+  const millisecondsPerDay = 24 * 60 * 60 * 1000;
+
+  return Math.round((to - from) / millisecondsPerDay);
 }
 
 function uniqueSkillIds(skillIds: readonly SkillTrack["id"][]): readonly SkillTrack["id"][] {
