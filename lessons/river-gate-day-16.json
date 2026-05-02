@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-16",
+  "title": "River Gate: Valley Reach",
+  "day": 16,
+  "locale": "en",
+  "focus": ["bottom row reach", "v and n", "index control"],
+  "prompts": [
+    {
+      "id": "river-gate-valley-1",
+      "text": "fv jn fv jn",
+      "targetKeys": ["f", "v", "j", "n"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftIndex", "leftIndex", "rightIndex", "rightIndex"]
+    },
+    {
+      "id": "river-gate-valley-2",
+      "text": "even nine even nine",
+      "targetKeys": ["e", "v", "n", "i"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftMiddle", "leftIndex", "rightIndex", "rightMiddle"]
+    },
+    {
+      "id": "river-gate-valley-3",
+      "text": "move never vanish",
+      "targetKeys": ["m", "o", "v", "e", "n", "r", "a", "i", "s", "h"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "rightIndex",
+        "rightRing",
+        "leftIndex",
+        "leftMiddle",
+        "rightIndex",
+        "leftIndex",
+        "leftPinky",
+        "rightMiddle",
+        "leftRing",
+        "rightIndex"
+      ]
+    }
+  ]
+}

@@ -93,6 +93,48 @@ export const BUNDLED_LESSON_MANIFEST = [
     filename: "meadow-road-day-14.json",
     title: "Meadow Road: Waystone Trial",
   },
+  {
+    day: 15,
+    id: "river-gate-day-15",
+    filename: "river-gate-day-15.json",
+    title: "River Gate: Lower Step",
+  },
+  {
+    day: 16,
+    id: "river-gate-day-16",
+    filename: "river-gate-day-16.json",
+    title: "River Gate: Valley Reach",
+  },
+  {
+    day: 17,
+    id: "river-gate-day-17",
+    filename: "river-gate-day-17.json",
+    title: "River Gate: Bridge Keys",
+  },
+  {
+    day: 18,
+    id: "river-gate-day-18",
+    filename: "river-gate-day-18.json",
+    title: "River Gate: Comma And Period",
+  },
+  {
+    day: 19,
+    id: "river-gate-day-19",
+    filename: "river-gate-day-19.json",
+    title: "River Gate: Bottom Row Words",
+  },
+  {
+    day: 20,
+    id: "river-gate-day-20",
+    filename: "river-gate-day-20.json",
+    title: "River Gate: Current Review",
+  },
+  {
+    day: 21,
+    id: "river-gate-day-21",
+    filename: "river-gate-day-21.json",
+    title: "River Gate: Ferryman Trial",
+  },
 ] as const satisfies readonly BundledLessonManifestEntry[];
 
 export function getBundledLessonForDay(day: number): BundledLessonManifestEntry {

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-18",
+  "title": "River Gate: Comma And Period",
+  "day": 18,
+  "locale": "en",
+  "focus": ["comma", "period", "right-hand punctuation"],
+  "prompts": [
+    {
+      "id": "river-gate-punct-1",
+      "text": "k, l. k, l.",
+      "targetKeys": ["k", ",", "l", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["rightMiddle", "rightMiddle", "rightRing", "rightRing"]
+    },
+    {
+      "id": "river-gate-punct-2",
+      "text": "calm, steady.",
+      "targetKeys": ["c", "a", "l", "m", ",", "s", "t", "e", "d", "y", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftMiddle",
+        "leftPinky",
+        "rightRing",
+        "rightIndex",
+        "rightMiddle",
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "leftMiddle",
+        "rightIndex",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "river-gate-punct-3",
+      "text": "move, rest. move, rest.",
+      "targetKeys": ["m", "o", "v", "e", ",", "r", "s", "t", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "rightIndex",
+        "rightRing",
+        "leftIndex",
+        "leftMiddle",
+        "rightMiddle",
+        "leftIndex",
+        "leftRing",
+        "leftIndex",
+        "rightRing"
+      ]
+    }
+  ]
+}

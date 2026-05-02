@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-17",
+  "title": "River Gate: Bridge Keys",
+  "day": 17,
+  "locale": "en",
+  "focus": ["index bridge", "b and g h", "center control"],
+  "prompts": [
+    {
+      "id": "river-gate-bridge-1",
+      "text": "fg jh fb jn",
+      "targetKeys": ["f", "g", "j", "h", "b", "n"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "leftIndex",
+        "rightIndex",
+        "rightIndex",
+        "leftIndex",
+        "rightIndex"
+      ]
+    },
+    {
+      "id": "river-gate-bridge-2",
+      "text": "bring bright bring bright",
+      "targetKeys": ["b", "r", "i", "n", "g", "h", "t"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "leftIndex",
+        "rightMiddle",
+        "rightIndex",
+        "leftIndex",
+        "rightIndex",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "river-gate-bridge-3",
+      "text": "begin the bridge",
+      "targetKeys": ["b", "e", "g", "i", "n", "t", "h", "r", "d"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "leftMiddle",
+        "leftIndex",
+        "rightMiddle",
+        "rightIndex",
+        "leftIndex",
+        "rightIndex",
+        "leftIndex",
+        "leftMiddle"
+      ]
+    }
+  ]
+}
