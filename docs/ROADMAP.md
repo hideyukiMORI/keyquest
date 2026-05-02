@@ -14,6 +14,7 @@ Goal: make the core loop playable and measurable.
 - Terminal size handling, no-color mode, and initial color themes.
 - Minimal modern CLI presentation with subtle loading, progress, and reward motion.
 - Basic localization infrastructure.
+- Real-time practice spike after the line-based daily loop has clear boundaries.
 
 Exit criteria:
 
@@ -21,6 +22,8 @@ Exit criteria:
 - The game records progress locally.
 - The result screen makes improvement understandable.
 - Small or no-color terminals fail gracefully.
+- The real-time typing path has a tested state model before it becomes the main
+  practice screen.
 
 ## Mid Term: 90-Day Training Structure
 
