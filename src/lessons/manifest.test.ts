@@ -9,8 +9,10 @@ import {
 
 describe("bundled lesson manifest", () => {
   it("lists bundled lessons in day order", () => {
-    expect(BUNDLED_LESSON_MANIFEST.map((lesson) => lesson.day)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(getLatestBundledLessonDay()).toBe(8);
+    expect(BUNDLED_LESSON_MANIFEST.map((lesson) => lesson.day)).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    ]);
+    expect(getLatestBundledLessonDay()).toBe(10);
   });
 
   it("resolves lessons by day and rejects unavailable days", () => {
@@ -26,8 +28,14 @@ describe("bundled lesson manifest", () => {
       filename: "meadow-road-day-8.json",
       title: "Meadow Road: First Steps Beyond Home",
     });
+    expect(getBundledLessonForDay(10)).toEqual({
+      day: 10,
+      id: "meadow-road-day-10",
+      filename: "meadow-road-day-10.json",
+      title: "Meadow Road: Index Reach",
+    });
     expect(() => getBundledLessonForDay(0)).toThrow("positive integer");
-    expect(() => getBundledLessonForDay(9)).toThrow("No bundled lesson");
+    expect(() => getBundledLessonForDay(11)).toThrow("No bundled lesson");
   });
 
   it("matches bundled lesson files to manifest metadata", async () => {

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-10",
+  "title": "Meadow Road: Index Reach",
+  "day": 10,
+  "locale": "en",
+  "focus": ["index reach", "t and y", "controlled stretch"],
+  "prompts": [
+    {
+      "id": "meadow-road-index-1",
+      "text": "ft jy ft jy",
+      "targetKeys": ["f", "t", "j", "y"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftIndex", "leftIndex", "rightIndex", "rightIndex"]
+    },
+    {
+      "id": "meadow-road-index-2",
+      "text": "try yet try yet",
+      "targetKeys": ["t", "r", "y", "e"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftIndex", "leftIndex", "rightIndex", "leftMiddle"]
+    },
+    {
+      "id": "meadow-road-index-3",
+      "text": "dry try yard",
+      "targetKeys": ["d", "r", "y", "t", "a"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftMiddle", "leftIndex", "rightIndex", "leftIndex", "leftPinky"]
+    },
+    {
+      "id": "meadow-road-index-4",
+      "text": "stay ready steady",
+      "targetKeys": ["s", "t", "a", "y", "r", "e", "d"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftRing",
+        "leftIndex",
+        "leftPinky",
+        "rightIndex",
+        "leftIndex",
+        "leftMiddle",
+        "leftMiddle"
+      ]
+    }
+  ]
+}

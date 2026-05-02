@@ -13,6 +13,8 @@ describe("bundled lesson validation command", () => {
       "6: novice-hall-day-6",
       "7: novice-hall-day-7",
       "8: meadow-road-day-8",
+      "9: meadow-road-day-9",
+      "10: meadow-road-day-10",
     ]);
   });
 });

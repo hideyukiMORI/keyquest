@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-9",
+  "title": "Meadow Road: Ring Finger Reach",
+  "day": 9,
+  "locale": "en",
+  "focus": ["ring finger reach", "w and o", "return to home"],
+  "prompts": [
+    {
+      "id": "meadow-road-ring-1",
+      "text": "sw lo sw lo",
+      "targetKeys": ["s", "w", "l", "o"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftRing", "leftRing", "rightRing", "rightRing"]
+    },
+    {
+      "id": "meadow-road-ring-2",
+      "text": "we old we old",
+      "targetKeys": ["w", "e", "o", "l", "d"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftRing", "leftMiddle", "rightRing", "rightRing", "leftMiddle"]
+    },
+    {
+      "id": "meadow-road-ring-3",
+      "text": "slow low owl",
+      "targetKeys": ["s", "l", "o", "w"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftRing", "rightRing", "rightRing", "leftRing"]
+    },
+    {
+      "id": "meadow-road-ring-4",
+      "text": "old owl slow",
+      "targetKeys": ["o", "l", "d", "w", "s"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["rightRing", "rightRing", "leftMiddle", "leftRing", "leftRing"]
+    }
+  ]
+}
