@@ -27,6 +27,12 @@ Run the development CLI:
 npm run dev
 ```
 
+Run with readable development-mode save data:
+
+```bash
+npm run dev -- --dev
+```
+
 Run the full local verification suite:
 
 ```bash

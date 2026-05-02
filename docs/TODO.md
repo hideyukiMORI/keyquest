@@ -2,6 +2,7 @@
 
 ## Now
 
+- [ ] Complete [#17](https://github.com/hideyukiMORI/keyquest/issues/17): scene shell and save foundation.
 - [ ] Build [#2](https://github.com/hideyukiMORI/keyquest/issues/2): first interactive typing loop.
 - [ ] Define [#7](https://github.com/hideyukiMORI/keyquest/issues/7): local save-file shape for session history, XP, streaks, and settings.
 - [ ] Design [#11](https://github.com/hideyukiMORI/keyquest/issues/11): first home-position and finger-usage lesson sequence.
