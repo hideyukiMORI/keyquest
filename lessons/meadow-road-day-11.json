@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-11",
+  "title": "Meadow Road: Outer Watch",
+  "day": 11,
+  "locale": "en",
+  "focus": ["outer reach", "q and p", "return to home"],
+  "prompts": [
+    {
+      "id": "meadow-road-outer-1",
+      "text": "aq ;p aq ;p",
+      "targetKeys": ["a", "q", ";", "p"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftPinky", "leftPinky", "rightPinky", "rightPinky"]
+    },
+    {
+      "id": "meadow-road-outer-2",
+      "text": "quick quiet",
+      "targetKeys": ["q", "u", "i", "c", "k", "e", "t"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "leftMiddle",
+        "rightMiddle",
+        "leftMiddle",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "meadow-road-outer-3",
+      "text": "pop pipe pup",
+      "targetKeys": ["p", "o", "i", "e", "u"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["rightPinky", "rightRing", "rightMiddle", "leftMiddle", "rightIndex"]
+    },
+    {
+      "id": "meadow-road-outer-4",
+      "text": "quip quick pop",
+      "targetKeys": ["q", "u", "i", "p", "c", "k", "o"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "rightPinky",
+        "leftMiddle",
+        "rightMiddle",
+        "rightRing"
+      ]
+    }
+  ]
+}

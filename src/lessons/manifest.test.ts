@@ -10,9 +10,9 @@ import {
 describe("bundled lesson manifest", () => {
   it("lists bundled lessons in day order", () => {
     expect(BUNDLED_LESSON_MANIFEST.map((lesson) => lesson.day)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
     ]);
-    expect(getLatestBundledLessonDay()).toBe(10);
+    expect(getLatestBundledLessonDay()).toBe(14);
   });
 
   it("resolves lessons by day and rejects unavailable days", () => {
@@ -34,8 +34,14 @@ describe("bundled lesson manifest", () => {
       filename: "meadow-road-day-10.json",
       title: "Meadow Road: Index Reach",
     });
+    expect(getBundledLessonForDay(14)).toEqual({
+      day: 14,
+      id: "meadow-road-day-14",
+      filename: "meadow-road-day-14.json",
+      title: "Meadow Road: Waystone Trial",
+    });
     expect(() => getBundledLessonForDay(0)).toThrow("positive integer");
-    expect(() => getBundledLessonForDay(11)).toThrow("No bundled lesson");
+    expect(() => getBundledLessonForDay(15)).toThrow("No bundled lesson");
   });
 
   it("matches bundled lesson files to manifest metadata", async () => {
@@ -61,6 +67,22 @@ describe("bundled lesson manifest", () => {
       "gatekeeper-trial-2",
       "gatekeeper-trial-3",
       "gatekeeper-trial-boss",
+    ]);
+  });
+
+  it("selects the Meadow Road checkpoint prompt in the current Day 14 session", async () => {
+    const lesson = await loadLessonFromFile(getDefaultLessonPathForDay(14));
+    const sessionPromptCount = lesson.sessionPromptCount;
+    if (sessionPromptCount === undefined) {
+      throw new Error("Day 14 must define a session prompt count");
+    }
+
+    expect(lesson.sessionPromptCount).toBe(4);
+    expect(selectPracticePrompts(lesson, sessionPromptCount).map((prompt) => prompt.id)).toEqual([
+      "meadow-road-trial-1",
+      "meadow-road-trial-2",
+      "meadow-road-trial-3",
+      "meadow-road-trial-waystone",
     ]);
   });
 });

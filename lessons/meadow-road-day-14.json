@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-14",
+  "title": "Meadow Road: Waystone Trial",
+  "day": 14,
+  "locale": "en",
+  "focus": ["weekly checkpoint", "top row control", "accuracy under pressure"],
+  "sessionPromptCount": 4,
+  "prompts": [
+    {
+      "id": "meadow-road-trial-1",
+      "text": "qwer uiop asdf jkl;",
+      "targetKeys": [
+        "q",
+        "w",
+        "e",
+        "r",
+        "u",
+        "i",
+        "o",
+        "p",
+        "a",
+        "s",
+        "d",
+        "f",
+        "j",
+        "k",
+        "l",
+        ";"
+      ],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky",
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "meadow-road-trial-2",
+      "text": "quiet type pure work",
+      "targetKeys": ["q", "u", "i", "e", "t", "y", "p", "r", "w", "o", "k"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightPinky",
+        "leftIndex",
+        "leftRing",
+        "rightRing",
+        "rightMiddle"
+      ]
+    },
+    {
+      "id": "meadow-road-trial-3",
+      "text": "steady quiet rider",
+      "targetKeys": ["s", "t", "e", "a", "d", "y", "q", "u", "i", "r"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "leftPinky",
+        "leftMiddle",
+        "rightIndex",
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "meadow-road-trial-waystone",
+      "text": "your quiet steady hands type true",
+      "targetKeys": ["y", "o", "u", "r", "q", "i", "e", "t", "s", "a", "d", "h", "n", "p"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
+      "fingerHints": [
+        "rightIndex",
+        "rightRing",
+        "rightIndex",
+        "leftIndex",
+        "leftPinky",
+        "rightMiddle",
+        "leftMiddle",
+        "leftIndex",
+        "leftRing",
+        "leftPinky",
+        "leftMiddle",
+        "rightIndex",
+        "rightIndex",
+        "rightPinky"
+      ]
+    }
+  ]
+}

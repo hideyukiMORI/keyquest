@@ -81,7 +81,7 @@ describe("runApp", () => {
     await createSaveStore({ mode: "development", directory }).write({
       ...createNewSave(now, "development"),
       journey: {
-        day: 10,
+        day: 14,
         chapter: 2,
         storyFlag: "noviceHallStarted",
       },

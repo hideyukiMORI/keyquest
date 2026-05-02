@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-13",
+  "title": "Meadow Road: First Flow",
+  "day": 13,
+  "locale": "en",
+  "focus": ["short word flow", "top row words", "calm rhythm"],
+  "prompts": [
+    {
+      "id": "meadow-road-flow-1",
+      "text": "quiet rider",
+      "targetKeys": ["q", "u", "i", "e", "t", "r", "d"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex",
+        "leftMiddle"
+      ]
+    },
+    {
+      "id": "meadow-road-flow-2",
+      "text": "type your story",
+      "targetKeys": ["t", "y", "p", "e", "o", "u", "r", "s"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "rightIndex",
+        "rightPinky",
+        "leftMiddle",
+        "rightRing",
+        "rightIndex",
+        "leftIndex",
+        "leftRing"
+      ]
+    },
+    {
+      "id": "meadow-road-flow-3",
+      "text": "we try quiet work",
+      "targetKeys": ["w", "e", "t", "r", "y", "q", "u", "i", "o", "k"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex",
+        "rightIndex",
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightMiddle"
+      ]
+    },
+    {
+      "id": "meadow-road-flow-4",
+      "text": "steady hands type true",
+      "targetKeys": ["s", "t", "e", "a", "d", "y", "h", "n", "p", "r", "u"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "leftPinky",
+        "leftMiddle",
+        "rightIndex",
+        "rightIndex",
+        "rightIndex",
+        "rightPinky",
+        "leftIndex",
+        "rightIndex"
+      ]
+    }
+  ]
+}
