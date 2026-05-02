@@ -81,7 +81,7 @@ describe("runApp", () => {
     await createSaveStore({ mode: "development", directory }).write({
       ...createNewSave(now, "development"),
       journey: {
-        day: 14,
+        day: 21,
         chapter: 2,
         storyFlag: "noviceHallStarted",
       },
@@ -101,6 +101,7 @@ describe("runApp", () => {
 
     expect(output.text()).not.toContain("Next lesson:");
     expect(output.text()).not.toContain("Gatekeeper Trial cleared");
+    expect(output.text()).not.toContain("Waystone Trial cleared");
   });
 
   it("shows Meadow Road clear and second-week title after Day 14", async () => {

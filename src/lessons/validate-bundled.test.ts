@@ -19,6 +19,13 @@ describe("bundled lesson validation command", () => {
       "12: meadow-road-day-12",
       "13: meadow-road-day-13",
       "14: meadow-road-day-14",
+      "15: river-gate-day-15",
+      "16: river-gate-day-16",
+      "17: river-gate-day-17",
+      "18: river-gate-day-18",
+      "19: river-gate-day-19",
+      "20: river-gate-day-20",
+      "21: river-gate-day-21",
     ]);
   });
 });

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-20",
+  "title": "River Gate: Current Review",
+  "day": 20,
+  "locale": "en",
+  "focus": ["mixed-row review", "punctuation review", "steady cadence"],
+  "prompts": [
+    {
+      "id": "river-gate-review-1",
+      "text": "qwer asdf zxcv",
+      "targetKeys": ["q", "w", "e", "r", "a", "s", "d", "f", "z", "x", "c", "v"],
+      "skillIds": ["homePosition", "fingerResponsibility", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "river-gate-review-2",
+      "text": "uiop jkl; nm,.",
+      "targetKeys": ["u", "i", "o", "p", "j", "k", "l", ";", "n", "m", ",", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky",
+        "rightIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "river-gate-review-3",
+      "text": "bring calm, move steady.",
+      "targetKeys": [
+        "b",
+        "r",
+        "i",
+        "n",
+        "g",
+        "c",
+        "a",
+        "l",
+        "m",
+        ",",
+        "o",
+        "v",
+        "e",
+        "s",
+        "t",
+        "d",
+        "y",
+        "."
+      ],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "leftIndex",
+        "rightMiddle",
+        "rightIndex",
+        "leftIndex",
+        "leftMiddle",
+        "leftPinky",
+        "rightRing",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "leftIndex",
+        "leftMiddle",
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "rightIndex",
+        "rightRing"
+      ]
+    }
+  ]
+}

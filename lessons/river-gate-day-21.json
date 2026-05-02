@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-21",
+  "title": "River Gate: Ferryman Trial",
+  "day": 21,
+  "locale": "en",
+  "focus": ["weekly checkpoint", "bottom row control", "punctuation under pressure"],
+  "sessionPromptCount": 4,
+  "prompts": [
+    {
+      "id": "river-gate-trial-1",
+      "text": "asdf qwer zxcv",
+      "targetKeys": ["a", "s", "d", "f", "q", "w", "e", "r", "z", "x", "c", "v"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "river-gate-trial-2",
+      "text": "jkl; uiop nm,.",
+      "targetKeys": ["j", "k", "l", ";", "u", "i", "o", "p", "n", "m", ",", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "rhythm"],
+      "fingerHints": [
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky",
+        "rightIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "river-gate-trial-3",
+      "text": "never panic, move steady.",
+      "targetKeys": [
+        "n",
+        "e",
+        "v",
+        "r",
+        "p",
+        "a",
+        "i",
+        "c",
+        ",",
+        "m",
+        "o",
+        "s",
+        "t",
+        "d",
+        "y",
+        "."
+      ],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "rightIndex",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex",
+        "rightPinky",
+        "leftPinky",
+        "rightMiddle",
+        "leftMiddle",
+        "rightMiddle",
+        "rightIndex",
+        "rightRing",
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "rightIndex",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "river-gate-trial-ferryman",
+      "text": "brave hands cross the quiet river.",
+      "targetKeys": [
+        "b",
+        "r",
+        "a",
+        "v",
+        "e",
+        "h",
+        "n",
+        "d",
+        "s",
+        "c",
+        "o",
+        "t",
+        "q",
+        "u",
+        "i",
+        "."
+      ],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
+      "fingerHints": [
+        "leftIndex",
+        "leftIndex",
+        "leftPinky",
+        "leftIndex",
+        "leftMiddle",
+        "rightIndex",
+        "rightIndex",
+        "leftMiddle",
+        "leftRing",
+        "leftMiddle",
+        "rightRing",
+        "leftIndex",
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing"
+      ]
+    }
+  ]
+}

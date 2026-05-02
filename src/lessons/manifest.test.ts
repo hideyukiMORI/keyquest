@@ -10,9 +10,9 @@ import {
 describe("bundled lesson manifest", () => {
   it("lists bundled lessons in day order", () => {
     expect(BUNDLED_LESSON_MANIFEST.map((lesson) => lesson.day)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     ]);
-    expect(getLatestBundledLessonDay()).toBe(14);
+    expect(getLatestBundledLessonDay()).toBe(21);
   });
 
   it("resolves lessons by day and rejects unavailable days", () => {
@@ -40,8 +40,14 @@ describe("bundled lesson manifest", () => {
       filename: "meadow-road-day-14.json",
       title: "Meadow Road: Waystone Trial",
     });
+    expect(getBundledLessonForDay(21)).toEqual({
+      day: 21,
+      id: "river-gate-day-21",
+      filename: "river-gate-day-21.json",
+      title: "River Gate: Ferryman Trial",
+    });
     expect(() => getBundledLessonForDay(0)).toThrow("positive integer");
-    expect(() => getBundledLessonForDay(15)).toThrow("No bundled lesson");
+    expect(() => getBundledLessonForDay(22)).toThrow("No bundled lesson");
   });
 
   it("matches bundled lesson files to manifest metadata", async () => {
@@ -83,6 +89,22 @@ describe("bundled lesson manifest", () => {
       "meadow-road-trial-2",
       "meadow-road-trial-3",
       "meadow-road-trial-waystone",
+    ]);
+  });
+
+  it("selects the River Gate checkpoint prompt in the current Day 21 session", async () => {
+    const lesson = await loadLessonFromFile(getDefaultLessonPathForDay(21));
+    const sessionPromptCount = lesson.sessionPromptCount;
+    if (sessionPromptCount === undefined) {
+      throw new Error("Day 21 must define a session prompt count");
+    }
+
+    expect(lesson.sessionPromptCount).toBe(4);
+    expect(selectPracticePrompts(lesson, sessionPromptCount).map((prompt) => prompt.id)).toEqual([
+      "river-gate-trial-1",
+      "river-gate-trial-2",
+      "river-gate-trial-3",
+      "river-gate-trial-ferryman",
     ]);
   });
 });

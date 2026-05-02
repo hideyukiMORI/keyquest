@@ -67,8 +67,10 @@ describe("lesson loader", () => {
     expect(getDefaultLessonPathForDay(10)).toMatch(/lessons\/meadow-road-day-10\.json$/);
     expect(getDefaultLessonPathForDay(11)).toMatch(/lessons\/meadow-road-day-11\.json$/);
     expect(getDefaultLessonPathForDay(14)).toMatch(/lessons\/meadow-road-day-14\.json$/);
+    expect(getDefaultLessonPathForDay(15)).toMatch(/lessons\/river-gate-day-15\.json$/);
+    expect(getDefaultLessonPathForDay(21)).toMatch(/lessons\/river-gate-day-21\.json$/);
     expect(() => getDefaultLessonPathForDay(0)).toThrow("positive integer");
-    expect(() => getDefaultLessonPathForDay(15)).toThrow("No bundled lesson");
+    expect(() => getDefaultLessonPathForDay(22)).toThrow("No bundled lesson");
   });
 });
 

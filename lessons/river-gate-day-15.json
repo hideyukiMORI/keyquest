@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-15",
+  "title": "River Gate: Lower Step",
+  "day": 15,
+  "locale": "en",
+  "focus": ["bottom row introduction", "c and m", "return to home"],
+  "prompts": [
+    {
+      "id": "river-gate-lower-1",
+      "text": "dc km dc km",
+      "targetKeys": ["d", "c", "k", "m"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftMiddle", "leftMiddle", "rightMiddle", "rightIndex"]
+    },
+    {
+      "id": "river-gate-lower-2",
+      "text": "come calm come calm",
+      "targetKeys": ["c", "o", "m", "e", "a", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftMiddle",
+        "rightRing",
+        "rightIndex",
+        "leftMiddle",
+        "leftPinky",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "river-gate-lower-3",
+      "text": "make calm moves",
+      "targetKeys": ["m", "a", "k", "e", "c", "l", "o", "v", "s"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "rightIndex",
+        "leftPinky",
+        "rightMiddle",
+        "leftMiddle",
+        "leftMiddle",
+        "rightRing",
+        "rightRing",
+        "leftIndex",
+        "leftRing"
+      ]
+    }
+  ]
+}

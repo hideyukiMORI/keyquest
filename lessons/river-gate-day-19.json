@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "id": "river-gate-day-19",
+  "title": "River Gate: Bottom Row Words",
+  "day": 19,
+  "locale": "en",
+  "focus": ["bottom row words", "mixed rows", "accuracy"],
+  "prompts": [
+    {
+      "id": "river-gate-words-1",
+      "text": "brave move calm",
+      "targetKeys": ["b", "r", "a", "v", "e", "m", "o", "c", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "leftIndex",
+        "leftPinky",
+        "leftIndex",
+        "leftMiddle",
+        "rightIndex",
+        "rightRing",
+        "leftMiddle",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "river-gate-words-2",
+      "text": "never bring panic",
+      "targetKeys": ["n", "e", "v", "r", "b", "i", "g", "p", "a", "c"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "rightIndex",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex",
+        "leftIndex",
+        "rightMiddle",
+        "leftIndex",
+        "rightPinky",
+        "leftPinky",
+        "leftMiddle"
+      ]
+    },
+    {
+      "id": "river-gate-words-3",
+      "text": "steady river, brave hands.",
+      "targetKeys": ["s", "t", "e", "a", "d", "y", "r", "i", "v", ",", "b", "h", "n", "."],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "leftPinky",
+        "leftMiddle",
+        "rightIndex",
+        "leftIndex",
+        "rightMiddle",
+        "leftIndex",
+        "rightMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightIndex",
+        "rightRing"
+      ]
+    }
+  ]
+}

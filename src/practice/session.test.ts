@@ -237,7 +237,9 @@ describe("advanceJourneyDay", () => {
     expect(advanceJourneyDay(9)).toBe(10);
     expect(advanceJourneyDay(10)).toBe(11);
     expect(advanceJourneyDay(13)).toBe(14);
-    expect(advanceJourneyDay(14)).toBe(14);
+    expect(advanceJourneyDay(14)).toBe(15);
+    expect(advanceJourneyDay(20)).toBe(21);
+    expect(advanceJourneyDay(21)).toBe(21);
   });
 });
 
