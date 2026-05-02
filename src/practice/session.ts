@@ -222,6 +222,7 @@ function applyPracticeResult(options: {
     resources: options.save.progress.resources,
     score: options.score,
     xpGained: options.session.xpGained,
+    questDay: options.save.journey.day,
   });
   const equipmentUpgradeResult = resolveEquipmentUpgrades(questResourceResult.resources);
 

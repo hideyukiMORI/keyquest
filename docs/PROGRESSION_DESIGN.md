@@ -89,6 +89,18 @@ A quest can behave like a small run:
 
 Runs should be short enough for the 10-minute daily promise.
 
+## Implemented Modifier Slice
+
+The first roguelite modifier implementation is deterministic rather than random.
+The active modifier rotates by journey day:
+
+- Steady Torch rewards very high accuracy with an extra Focus Crystal.
+- Mist Veil rewards clean recovery from mistakes with an extra Repair Shard.
+- Shifting Bridge rewards perfect sessions with extra MP.
+
+Modifiers change rewards, not the measured typing score. WPM, accuracy, and
+mistakes must remain honest training feedback.
+
 ## Implemented Resource Slice
 
 The first resource implementation is intentionally small and deterministic:
