@@ -21,6 +21,7 @@ import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
 import {
   defaultScenes,
   practiceIntroScene,
+  renderPracticeAchievements,
   renderPracticeJourneyProgress,
   renderPracticeRunResult,
   renderPracticeRewards,
@@ -158,6 +159,17 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       translator,
     ).join("\n"),
   );
+  const achievementLines = renderPracticeAchievements(
+    {
+      beforeSave: menuSave,
+      afterSave: result.updatedSave,
+    },
+    translator,
+  );
+  if (achievementLines.length > 0) {
+    options.textOutput.writeLine("");
+    options.textOutput.writeLine(achievementLines.join("\n"));
+  }
   const journeyProgressLines = renderPracticeJourneyProgress(
     {
       beforeSave: menuSave,

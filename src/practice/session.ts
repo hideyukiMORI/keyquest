@@ -1,3 +1,4 @@
+import { unlockSessionAchievements } from "../achievements/engine.js";
 import { scoreTypingResult, type Score } from "../core/scoring.js";
 import { getLatestBundledLessonDay } from "../lessons/manifest.js";
 import type {
@@ -193,6 +194,12 @@ function applyPracticeResult(options: {
   readonly completedAt: Date;
 }): KeyQuestSave {
   const trainedSkillIds = uniqueSkillIds(options.prompts.flatMap((prompt) => prompt.skillIds));
+  const achievementUnlocks = unlockSessionAchievements({
+    save: options.save,
+    session: options.session,
+    unlockedAt: options.completedAt,
+  });
+  const previousAchievements = options.save.progress.achievements ?? [];
 
   return {
     ...options.save,
@@ -210,6 +217,7 @@ function applyPracticeResult(options: {
       totalXp: options.save.progress.totalXp + options.session.xpGained,
       streakDays: Math.max(1, options.save.progress.streakDays),
       sessions: [...options.save.progress.sessions, options.session],
+      achievements: [...previousAchievements, ...achievementUnlocks],
       skills: updateSkillTracks(
         options.save.progress.skills,
         trainedSkillIds,

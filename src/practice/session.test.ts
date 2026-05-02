@@ -102,6 +102,10 @@ describe("completePracticeRun", () => {
     expect(result.updatedSave.progress.sessions[0]?.promptCount).toBe(2);
     expect(result.updatedSave.progress.totalXp).toBe(result.xpGained);
     expect(result.updatedSave.progress.sessions[0]?.mistakes).toEqual([]);
+    expect(result.updatedSave.progress.achievements?.map((achievement) => achievement.id)).toEqual([
+      "firstSession",
+      "perfectSession",
+    ]);
   });
 
   it("aggregates mistake details across prompts", () => {

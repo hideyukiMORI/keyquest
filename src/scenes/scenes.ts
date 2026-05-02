@@ -1,4 +1,5 @@
 import type {
+  PracticeAchievementsView,
   PracticeJourneyProgressView,
   PracticeRewardsView,
   PracticeResultView,
@@ -196,6 +197,28 @@ export function renderPracticeRewards(
   });
 
   return [t("reward.heading"), ...rewardLines];
+}
+
+export function renderPracticeAchievements(
+  achievements: PracticeAchievementsView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const beforeAchievementIds = new Set(
+    (achievements.beforeSave.progress.achievements ?? []).map((achievement) => achievement.id),
+  );
+  const unlockedAchievementLines = (achievements.afterSave.progress.achievements ?? [])
+    .filter((achievement) => !beforeAchievementIds.has(achievement.id))
+    .map((achievement) =>
+      translator.t("achievement.unlocked", {
+        title: translator.t(`achievement.${achievement.id}`),
+      }),
+    );
+
+  if (unlockedAchievementLines.length === 0) {
+    return [];
+  }
+
+  return [translator.t("achievement.heading"), ...unlockedAchievementLines];
 }
 
 export function renderPracticeJourneyProgress(
