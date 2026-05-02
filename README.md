@@ -28,6 +28,9 @@ keyquest --no-color
 keyquest --reduced-motion
 ```
 
+Inside the title menu, choose `Help` for a short explanation of the daily loop,
+weak-key review, progression rewards, and language options.
+
 ## Vision
 
 KeyQuest is a terminal-first typing adventure game. It should make daily typing

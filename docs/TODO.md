@@ -77,3 +77,4 @@
 ## Release Readiness
 
 - [x] Add CLI help and version output.
+- [x] Add in-game help menu.

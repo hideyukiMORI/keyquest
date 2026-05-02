@@ -50,6 +50,24 @@ describe("runApp", () => {
     expect(output.text()).toContain("Next lesson: Day 2 is ready for next time.");
   });
 
+  it("returns to the title menu after showing in-game help", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["6", "", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("How to Play");
+    expect(output.text()).toContain("Press Enter to return to the title.");
+    expect(output.text()).toContain("Session Result");
+  });
+
   it("shows Gatekeeper clear and Day 8 advancement after Day 7", async () => {
     const directory = await createTempDirectory();
     const now = new Date("2026-01-01T00:00:00.000Z");
