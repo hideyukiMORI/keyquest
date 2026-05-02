@@ -1,13 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { createNewSave } from "../save/model.js";
+import { createInitialQuestResources, createNewSave } from "../save/model.js";
 import { createTranslator } from "../i18n/messages.js";
 import {
   parseLocaleChoice,
   parseTitleMenuAction,
+  renderAchievementRecords,
   renderInGameHelp,
   renderJourneyProgress,
   renderLanguageOptions,
+  renderResourceRecords,
+  renderTitleRecords,
   renderTitleMenu,
 } from "./title-menu.js";
 
@@ -23,6 +26,9 @@ describe("title menu", () => {
     expect(lines.join("\n")).not.toContain("Load Game (planned)");
     expect(lines.join("\n")).toContain("Help");
     expect(lines.join("\n")).toContain("Journey");
+    expect(lines.join("\n")).toContain("Resources");
+    expect(lines.join("\n")).toContain("Achievements");
+    expect(lines.join("\n")).toContain("Titles");
   });
 
   it("parses title actions", () => {
@@ -36,6 +42,9 @@ describe("title menu", () => {
     expect(parseTitleMenuAction("help")).toBe("help");
     expect(parseTitleMenuAction("7")).toBe("journey");
     expect(parseTitleMenuAction("journey")).toBe("journey");
+    expect(parseTitleMenuAction("8")).toBe("resources");
+    expect(parseTitleMenuAction("9")).toBe("achievements");
+    expect(parseTitleMenuAction("10")).toBe("titles");
   });
 
   it("renders in-game help", () => {
@@ -78,6 +87,68 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("Arc: Final Gate");
     expect(lines.join("\n")).toContain("Weekly Trial: Last Spell Trial on Day 90");
     expect(lines.join("\n")).toContain("The final gate is open");
+  });
+
+  it("renders post-game goals in journey progress", () => {
+    const save = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 91,
+        chapter: 14,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+    const lines = renderJourneyProgress(save, createTranslator("en"));
+
+    expect(lines.join("\n")).toContain("Post-game roads are open.");
+    expect(lines.join("\n")).toContain("Keep a 7-day streak: 0/7");
+  });
+
+  it("renders resource records", () => {
+    const save = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      progress: {
+        ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal").progress,
+        resources: {
+          ...createInitialQuestResources(),
+          materials: {
+            focusCrystal: 3,
+            repairShard: 2,
+          },
+        },
+      },
+    };
+    const lines = renderResourceRecords(save, createTranslator("en"));
+
+    expect(lines.join("\n")).toContain("Resources");
+    expect(lines.join("\n")).toContain("Focus Crystals 3");
+    expect(lines.join("\n")).toContain("Equipment: Training Blade Grip Lv.0");
+  });
+
+  it("renders achievement and title records", () => {
+    const save = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      progress: {
+        ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal").progress,
+        achievements: [{ id: "firstSession" as const, unlockedAt: "2026-01-01T00:00:00.000Z" }],
+        titles: [
+          {
+            id: "noviceHallGraduate" as const,
+            unlockedAt: "2026-01-01T00:00:00.000Z",
+          },
+        ],
+      },
+    };
+
+    expect(renderAchievementRecords(save, createTranslator("en")).join("\n")).toContain(
+      "[x] First Steps",
+    );
+    expect(renderAchievementRecords(save, createTranslator("en")).join("\n")).toContain(
+      "[ ] Flawless Focus",
+    );
+    expect(renderTitleRecords(save, createTranslator("en")).join("\n")).toContain(
+      "[x] Novice Hall Graduate",
+    );
   });
 
   it("renders and parses language choices", () => {

@@ -87,6 +87,25 @@ describe("runApp", () => {
     expect(output.text()).toContain("Session Result");
   });
 
+  it("returns to the title menu after showing record screens", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["8", "", "9", "", "10", "", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Resources");
+    expect(output.text()).toContain("Achievements");
+    expect(output.text()).toContain("Titles");
+    expect(output.text()).toContain("Session Result");
+  });
+
   it("shows a notice when loading before any journey is saved", async () => {
     const output = createMemoryOutput();
     await runApp({

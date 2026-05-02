@@ -175,6 +175,10 @@ Goal: publish a useful open-source CLI.
 - CLI help and version output
 - In-game help menu for first-time players
 - Journey progress screen from the title menu
+- Resources record screen from the title menu
+- Achievements record screen from the title menu
+- Titles record screen from the title menu
+- Post-game goal details in the Journey screen
 - Minimal current-slot Load Game action
 - New Game confirmation before replacing progress
 - Interactive `j`/`k` menu navigation in TTY mode

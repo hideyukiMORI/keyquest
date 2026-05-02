@@ -16,9 +16,12 @@ import {
   type TitleMenuAction,
   parseLocaleChoice,
   parseTitleMenuAction,
+  renderAchievementRecords,
   renderInGameHelp,
   renderJourneyProgress,
   renderLanguageOptions,
+  renderResourceRecords,
+  renderTitleRecords,
   renderTitleMenu,
 } from "./menu/title-menu.js";
 import { renderSelectableItems, runInteractiveMenu } from "./menu/interactive-menu.js";
@@ -517,6 +520,24 @@ async function runTitleMenu(options: {
     if (action === "journey") {
       options.screen.render(renderJourneyProgress(save, translator));
       await options.textInput.readLine(translator.t("journeyProgress.prompt"));
+      continue;
+    }
+
+    if (action === "resources") {
+      options.screen.render(renderResourceRecords(save, translator));
+      await options.textInput.readLine(translator.t("records.prompt"));
+      continue;
+    }
+
+    if (action === "achievements") {
+      options.screen.render(renderAchievementRecords(save, translator));
+      await options.textInput.readLine(translator.t("records.prompt"));
+      continue;
+    }
+
+    if (action === "titles") {
+      options.screen.render(renderTitleRecords(save, translator));
+      await options.textInput.readLine(translator.t("records.prompt"));
       continue;
     }
 

@@ -7,6 +7,8 @@ drafts from git history.
 
 ## Unreleased
 
+- Added title-menu record screens for resources, achievements, and titles.
+- Added post-game goal details to the Journey progress screen.
 - Extended the typed quest arc map with planned arcs through Day 90.
 - Added a Journey progress screen from the title menu with current day, arc, weekly trial, and ending progress.
 - Added interactive menu navigation with `j`/`k`, arrow keys, Enter, and Space in TTY screen mode.
