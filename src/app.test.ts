@@ -36,6 +36,7 @@ describe("runApp", () => {
     expect(output.text()).toContain("KeyQuest");
     expect(output.text()).toContain("Story");
     expect(output.text()).toContain("Status");
+    expect(output.text()).toContain("Modifier: Steady Torch");
     expect(output.text()).toContain("Practice");
     expect(output.text()).toContain("Segment 1/3");
     expect(output.text()).toContain("Session Result");

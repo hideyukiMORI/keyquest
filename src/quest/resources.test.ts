@@ -75,4 +75,24 @@ describe("quest resources", () => {
     expect(result.mpGained).toBe(1);
     expect(result.resources.mp).toBe(1);
   });
+
+  it("applies deterministic quest modifier rewards when a quest day is provided", () => {
+    const result = resolveQuestResources({
+      resources: createInitialQuestResources(),
+      questDay: 3,
+      score: {
+        totalCharacters: 40,
+        correctCharacters: 40,
+        mistakes: 0,
+        accuracy: 1,
+        wordsPerMinute: 30,
+        elapsedSeconds: 20,
+      },
+      xpGained: 40,
+    });
+
+    expect(result.modifierRewards?.modifier.id).toBe("shiftingBridge");
+    expect(result.mpGained).toBe(4);
+    expect(result.resources.mp).toBe(4);
+  });
 });

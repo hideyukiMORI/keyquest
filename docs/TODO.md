@@ -66,7 +66,7 @@
 
 ## Long Term
 
-- [ ] Add roguelite quest modifiers.
+- [x] Add roguelite quest modifiers.
 - [x] Add incremental equipment upgrades and crafting materials.
 - [ ] Add 90-day ending and post-game practice goals.
 - [ ] Add importable lesson packs.

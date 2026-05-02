@@ -19,6 +19,7 @@ import {
 } from "../lessons/manifest.js";
 import { EQUIPMENT_UPGRADES, getEquipmentUpgradeLevel } from "../quest/equipment.js";
 import { getQuestArcForDay } from "../quest/map.js";
+import { getQuestModifierForDay } from "../quest/modifiers.js";
 import { createInitialQuestResources } from "../save/model.js";
 import { styleText } from "../terminal/ansi.js";
 
@@ -69,6 +70,7 @@ export const statusScene: Scene = {
       .join(" / ");
     const resources = context.save.progress.resources ?? createInitialQuestResources();
     const arc = getQuestArcForDay(context.save.journey.day);
+    const modifier = getQuestModifierForDay(context.save.journey.day);
 
     return {
       id: "status",
@@ -78,6 +80,10 @@ export const statusScene: Scene = {
         t("status.xp", { xp: context.save.progress.totalXp }),
         t("status.streak", { days: context.save.progress.streakDays }),
         t("status.arc", { arc: arc.title }),
+        t("status.modifier", {
+          name: t(`modifier.${modifier.id}.name`),
+          description: t(`modifier.${modifier.id}.description`),
+        }),
         t("status.resources", {
           hp: resources.hp,
           maxHp: resources.maxHp,

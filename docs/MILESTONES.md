@@ -158,7 +158,7 @@ Goal: shape daily practice into a 90-day fantasy journey.
 
 Goal: make KeyQuest rewarding beyond the first month and after the ending.
 
-- Roguelite quest modifiers
+- Deterministic daily roguelite quest modifiers
 - First deterministic crafting-material equipment upgrade slice
 - Post-ending practice goals
 - Optional new-game-plus style progression
