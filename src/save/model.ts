@@ -26,6 +26,14 @@ export type SessionRecord = {
   readonly accuracy: number;
   readonly wordsPerMinute: number;
   readonly xpGained: number;
+  readonly mistakes: readonly CharacterMistakeRecord[];
+};
+
+export type CharacterMistakeRecord = {
+  readonly promptId: string;
+  readonly index: number;
+  readonly expected: string | null;
+  readonly actual: string | null;
 };
 
 export type KeyQuestSave = {
