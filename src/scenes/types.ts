@@ -48,6 +48,11 @@ export type PracticeRewardsView = {
   readonly afterSave: KeyQuestSave;
 };
 
+export type PracticeAchievementsView = {
+  readonly beforeSave: KeyQuestSave;
+  readonly afterSave: KeyQuestSave;
+};
+
 export type PracticeJourneyProgressView = {
   readonly beforeSave: KeyQuestSave;
   readonly afterSave: KeyQuestSave;

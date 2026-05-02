@@ -40,6 +40,9 @@ describe("runApp", () => {
     expect(output.text()).toContain("Time: 20.0s");
     expect(output.text()).toContain("XP gained");
     expect(output.text()).toContain("Rewards");
+    expect(output.text()).toContain("Achievements");
+    expect(output.text()).toContain("Unlocked: First Steps");
+    expect(output.text()).toContain("Unlocked: Flawless Focus");
     expect(output.text()).toContain("Next lesson: Day 2 is ready for next time.");
   });
 
