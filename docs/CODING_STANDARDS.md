@@ -13,8 +13,10 @@
 - The CLI must remain keyboard-first.
 - Favor readable terminal output over dense dashboards.
 - Keep cross-platform behavior in mind before using terminal-specific features.
+- Follow `docs/UI_SPEC.md` for terminal size, color mode, and theme behavior.
 - Raw-mode input, ANSI escape sequences, and file paths should be wrapped behind
   small modules.
+- Do not rely on color alone to communicate important state.
 
 ## Tests
 

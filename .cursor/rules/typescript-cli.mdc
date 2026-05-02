@@ -11,4 +11,5 @@ alwaysApply: false
 - Export explicit types for public module boundaries.
 - Use deterministic clocks or injected values in tests.
 - Wrap raw-mode input, ANSI output, and filesystem behavior behind small modules.
+- Follow `docs/UI_SPEC.md` for size detection, color modes, themes, and no-color fallback.
 - Add focused Vitest coverage for scoring, parsing, validation, and progression.

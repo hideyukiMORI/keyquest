@@ -19,6 +19,9 @@ Goal: make `keyquest` playable as a 10-minute daily terminal practice session.
 - Accuracy, WPM, and mistake summary
 - Normal save file for session history and basic progress with tamper friction
 - Development save mode with readable JSON and visible `DEV MODE` markers
+- Terminal size warning for layouts below 80x24
+- Color mode support with no-color fallback
+- Five initial color themes
 - First reward screen with XP and simple items
 - Keyboard-only flow that works on Linux, macOS, and Windows terminals
 

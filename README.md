@@ -42,6 +42,7 @@ This project is managed with GitHub Issues and local Markdown planning docs.
 - Milestones: `docs/MILESTONES.md`
 - Active TODOs: `docs/TODO.md`
 - Onboarding training: `docs/ONBOARDING_TRAINING.md`
+- UI specification: `docs/UI_SPEC.md`
 - Progression design: `docs/PROGRESSION_DESIGN.md`
 - Achievements: `docs/ACHIEVEMENTS.md`
 - Localization: `docs/LOCALIZATION.md`
