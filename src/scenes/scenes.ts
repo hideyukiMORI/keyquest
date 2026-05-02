@@ -1,6 +1,7 @@
 import type {
   PracticeAchievementsView,
   PracticeJourneyProgressView,
+  PracticeReviewResultView,
   PracticeRewardsView,
   PracticeResultView,
   PracticeRunResultView,
@@ -203,6 +204,15 @@ export function renderPracticeRewards(
   });
 
   return [t("reward.heading"), ...rewardLines];
+}
+
+export function renderPracticeReviewResult(
+  review: PracticeReviewResultView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const { t } = translator;
+
+  return [t("review.resultHeading"), t("review.targetKeys", { keys: review.targetKeys.join(" ") })];
 }
 
 export function renderPracticeStreakProgress(

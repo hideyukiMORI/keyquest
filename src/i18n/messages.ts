@@ -25,6 +25,8 @@ const EN_MESSAGES = {
   "title.menu.loadUnavailable": "Load Game will open save slots later. Use Continue for now.",
   "review.lessonTitle": "Weak-Key Review",
   "review.noMistakes": "No weak-key review is ready yet. Finish a session with mistakes first.",
+  "review.resultHeading": "Review Focus",
+  "review.targetKeys": "Targeted weak keys: {keys}",
   "terminal.sizeWarning": "WARNING: Terminal is {columns}x{rows}. Recommended minimum is 80x24.",
   "options.heading": "Options",
   "options.language": "Language",
@@ -111,6 +113,8 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "review.lessonTitle": "弱点キー復習",
     "review.noMistakes":
       "弱点キー復習はまだありません。まずミスのあるセッションを完了してください。",
+    "review.resultHeading": "復習フォーカス",
+    "review.targetKeys": "今回狙った弱点キー: {keys}",
     "terminal.sizeWarning":
       "WARNING: 端末サイズは {columns}x{rows} です。推奨最小サイズは 80x24 です。",
     "options.heading": "オプション",
