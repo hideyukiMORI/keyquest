@@ -106,6 +106,7 @@ export function renderPracticeResult(
     t("result.typed", { text: result.actual }),
     t("result.accuracy", { accuracy }),
     t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
+    t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) }),
     t("result.mistakes", { mistakes: result.score.mistakes }),
     t("result.xpGained", { xp: result.xpGained }),
     ...devLine,
@@ -126,6 +127,7 @@ export function renderPracticeSegmentResult(
     t("session.segmentHeading", { current: result.current, total: result.total }),
     t("result.accuracy", { accuracy }),
     t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
+    t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) }),
     t("result.mistakes", { mistakes: result.score.mistakes }),
     t("result.xpGained", { xp: result.xpGained }),
   ];
@@ -144,8 +146,13 @@ export function renderPracticeRunResult(
     t("session.promptCount", { count: result.promptCount }),
     t("result.accuracy", { accuracy }),
     t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
+    t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) }),
     t("result.mistakes", { mistakes: result.score.mistakes }),
     t("result.xpGained", { xp: result.xpGained }),
     ...devLine,
   ];
+}
+
+function formatElapsedSeconds(elapsedSeconds: number): string {
+  return elapsedSeconds.toFixed(1);
 }

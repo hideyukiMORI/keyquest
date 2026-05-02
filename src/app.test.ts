@@ -35,6 +35,7 @@ describe("runApp", () => {
     expect(output.text()).toContain("Practice");
     expect(output.text()).toContain("Segment 1/3");
     expect(output.text()).toContain("Session Result");
+    expect(output.text()).toContain("Time: 20.0s");
     expect(output.text()).toContain("XP gained");
   });
 
@@ -100,6 +101,7 @@ describe("runApp", () => {
     expect(output.text()).toContain("言語を 日本語 に設定しました。");
     expect(output.text()).toContain("タイトル");
     expect(output.text()).toContain("ストーリー");
+    expect(output.text()).toContain("時間: 20.0秒");
     expect(output.text()).toContain("セッション結果");
   });
 });
