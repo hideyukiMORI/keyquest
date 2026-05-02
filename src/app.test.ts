@@ -68,6 +68,55 @@ describe("runApp", () => {
     expect(output.text()).toContain("Session Result");
   });
 
+  it("shows a notice when loading before any journey is saved", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["5", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("No saved journey is available yet");
+    expect(output.text()).toContain("Session Result");
+  });
+
+  it("loads the current saved journey from the title menu", async () => {
+    const directory = await createTempDirectory();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: createMemoryOutput(),
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["5", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-02T00:00:00.000Z"),
+      completedAt: new Date("2026-01-02T00:00:20.000Z"),
+    });
+
+    const save = await createSaveStore({ mode: "development", directory }).loadOrCreate(
+      new Date("2026-01-02T00:01:00.000Z"),
+    );
+    expect(output.text()).not.toContain("No saved journey is available yet");
+    expect(save.progress.sessions).toHaveLength(2);
+    expect(save.journey.day).toBe(3);
+  });
+
   it("shows Gatekeeper clear and Day 8 advancement after Day 7", async () => {
     const directory = await createTempDirectory();
     const now = new Date("2026-01-01T00:00:00.000Z");
@@ -566,7 +615,7 @@ describe("runApp", () => {
     expect(output.text()).toContain("セッション結果");
   });
 
-  it("explains that load game is planned and returns to the title menu", async () => {
+  it("returns to the title when loading without a saved journey", async () => {
     const output = createMemoryOutput();
     await runApp({
       mode: "normal",
@@ -579,7 +628,7 @@ describe("runApp", () => {
       completedAt: new Date("2026-01-01T00:00:20.000Z"),
     });
 
-    expect(output.text()).toContain("Load Game will open save slots later");
+    expect(output.text()).toContain("No saved journey is available yet");
     expect(output.text()).toContain("Session Result");
   });
 

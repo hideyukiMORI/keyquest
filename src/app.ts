@@ -330,8 +330,12 @@ async function runTitleMenu(options: {
     }
 
     if (action === "loadGame") {
-      notice = translator.t("title.menu.loadUnavailable");
-      continue;
+      if (save.progress.sessions.length === 0) {
+        notice = translator.t("title.menu.loadUnavailable");
+        continue;
+      }
+
+      return { save, action: "start" };
     }
 
     if (action === "help") {
