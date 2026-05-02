@@ -59,6 +59,7 @@ describe("lesson loader", () => {
     expect(DEFAULT_LESSON_PATH).toBe(getDefaultLessonPathForDay(1));
     expect(getDefaultLessonPathForDay(2)).toMatch(/lessons\/novice-hall-day-2\.json$/);
     expect(getDefaultLessonPathForDay(3)).toMatch(/lessons\/novice-hall-day-3\.json$/);
+    expect(getDefaultLessonPathForDay(5)).toMatch(/lessons\/novice-hall-day-5\.json$/);
     expect(() => getDefaultLessonPathForDay(0)).toThrow("positive integer");
   });
 });

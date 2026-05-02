@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-5",
+  "title": "Novice Hall: First Words",
+  "day": 5,
+  "locale": "en",
+  "focus": ["short words", "home row posture", "word accuracy"],
+  "prompts": [
+    {
+      "id": "first-words-1",
+      "text": "ask sad lad",
+      "targetKeys": ["a", "s", "d", "l", "k"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftPinky", "leftRing", "leftMiddle", "rightRing", "rightMiddle"]
+    },
+    {
+      "id": "first-words-2",
+      "text": "fall flask",
+      "targetKeys": ["f", "a", "l", "s", "k"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftIndex", "leftPinky", "rightRing", "leftRing", "rightMiddle"]
+    },
+    {
+      "id": "first-words-3",
+      "text": "dad fad salad",
+      "targetKeys": ["d", "a", "f", "s", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftMiddle", "leftPinky", "leftIndex", "leftRing", "rightRing"]
+    },
+    {
+      "id": "first-words-4",
+      "text": "ask lad fall flask",
+      "targetKeys": ["a", "s", "k", "l", "d", "f"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "rightMiddle",
+        "rightRing",
+        "leftMiddle",
+        "leftIndex"
+      ]
+    }
+  ]
+}
