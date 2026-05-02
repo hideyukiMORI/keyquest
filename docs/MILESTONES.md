@@ -141,6 +141,8 @@ Goal: shape daily practice into a 90-day fantasy journey.
   weak-key review
 - Short story beats
 - Achievements based on accuracy and consistency
+- Documented achievement trigger model, reward policy, and first full
+  achievement set
 - Review mode for weak keys
 - HP, MP, weapons, magic, items, and curses mapped to typing behavior
 - Incremental upgrade curves that reward practice without hiding weaknesses

@@ -34,6 +34,7 @@ Goal: turn the playable loop into a training journey.
 - Skill tracks for rows, Shift, numbers, symbols, and accuracy.
 - Weak-key detection and review quests.
 - Achievement engine and first achievement set.
+- Achievement trigger policy that rewards consistency without masking weakness.
 - Equipment, items, HP, MP, and magic as training metaphors.
 - Documented quest-map rules that keep adventure rewards tied to training value.
 
