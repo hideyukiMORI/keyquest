@@ -92,3 +92,6 @@
 - [x] Add a Titles record screen from the title menu.
 - [x] Show post-game goal details from the Journey screen.
 - [x] Integrate progress record screens into title navigation.
+- [x] Add a single `npm run release:check` command.
+- [x] Add final release checklist documentation.
+- [x] Validate npm tarball file boundaries in package smoke.
