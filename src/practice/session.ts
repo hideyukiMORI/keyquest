@@ -8,6 +8,8 @@ import type {
 } from "../save/model.js";
 import type { FingerId } from "../lessons/schema.js";
 
+export const LATEST_BUNDLED_JOURNEY_DAY = 4;
+
 export type PracticePrompt = {
   readonly id: string;
   readonly text: string;
@@ -201,6 +203,7 @@ function applyPracticeResult(options: {
     },
     journey: {
       ...options.save.journey,
+      day: advanceJourneyDay(options.save.journey.day),
       storyFlag: "noviceHallStarted",
     },
     progress: {
@@ -240,6 +243,10 @@ function aggregateScores(scores: readonly Score[]): Score {
     wordsPerMinute,
     elapsedSeconds,
   };
+}
+
+export function advanceJourneyDay(currentDay: number): number {
+  return Math.min(currentDay + 1, LATEST_BUNDLED_JOURNEY_DAY);
 }
 
 function uniqueSkillIds(skillIds: readonly SkillTrack["id"][]): readonly SkillTrack["id"][] {
