@@ -1,6 +1,6 @@
 export type CliOptions = {
   readonly devMode: boolean;
-  readonly saveDirectory?: string;
+  readonly saveDirectory: string | undefined;
 };
 
 export function parseCliArgs(args: readonly string[]): CliOptions {
@@ -9,6 +9,9 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
+    if (arg === undefined) {
+      break;
+    }
 
     if (arg === "--dev" || arg === "-dev") {
       devMode = true;

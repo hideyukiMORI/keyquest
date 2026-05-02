@@ -6,11 +6,13 @@ alwaysApply: false
 
 # TypeScript CLI Conventions
 
-- Use strict TypeScript and avoid `any`.
-- Keep pure logic in `src/core/`; keep terminal I/O at the edges.
-- Export explicit types for public module boundaries.
-- Use deterministic clocks or injected values in tests.
-- Wrap raw-mode input, ANSI output, and filesystem behavior behind small modules.
-- Follow `docs/UI_SPEC.md` for size detection, color modes, themes, and no-color fallback.
-- Keep typing screens stable; avoid continuous animation while the player is typing.
-- Add focused Vitest coverage for scoring, parsing, validation, and progression.
+- Follow `docs/CODING_STANDARDS.md`; do not invent one-off patterns.
+- Prefer `type` aliases, `readonly` data, discriminated unions, and explicit exported types.
+- Avoid `any`; use `unknown` with narrowing for untrusted data.
+- Keep `src/index.ts` thin; put CLI parsing in `src/cli/` and side effects at boundaries.
+- Keep pure logic in `src/core/`, save logic in `src/save/`, and scene logic in `src/scenes/`.
+- Do not mutate save/state objects in place; return updated copies.
+- Use type-only imports when importing only types and keep `.js` extensions in local imports.
+- Wrap raw-mode input, ANSI output, filesystem access, clocks, and process args behind small modules.
+- Follow `docs/UI_SPEC.md`; keep typing screens stable and avoid continuous animation while typing.
+- Add focused Vitest coverage beside modules, especially for parsing, save codecs, scenes, scoring, and progression.
