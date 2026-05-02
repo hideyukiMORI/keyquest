@@ -5,6 +5,8 @@ export type BundledLessonManifestEntry = {
   readonly title: string;
 };
 
+export const NOVICE_HALL_FINAL_DAY = 7;
+
 export const BUNDLED_LESSON_MANIFEST = [
   {
     day: 1,

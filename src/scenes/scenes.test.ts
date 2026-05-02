@@ -63,4 +63,25 @@ describe("scene rendering", () => {
       ),
     ).toEqual([]);
   });
+
+  it("renders a Novice Hall clear message on the Gatekeeper Trial day", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 7,
+        chapter: 1,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    expect(
+      renderPracticeJourneyProgress(
+        {
+          beforeSave,
+          afterSave: beforeSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual(["Journey", "Gatekeeper Trial cleared. The Novice Hall opens the road ahead."]);
+  });
 });

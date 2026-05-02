@@ -68,6 +68,7 @@ describe("runApp", () => {
     });
 
     expect(output.text()).not.toContain("Next lesson:");
+    expect(output.text()).toContain("Gatekeeper Trial cleared");
   });
 
   it("uses lesson session prompt count overrides", async () => {

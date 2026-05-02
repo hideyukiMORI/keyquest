@@ -7,6 +7,7 @@ import type {
   SceneContext,
   SceneOutput,
 } from "./types.js";
+import { NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
 import { styleText } from "../terminal/ansi.js";
 
 export const titleScene: Scene = {
@@ -201,14 +202,19 @@ export function renderPracticeJourneyProgress(
   progress: PracticeJourneyProgressView,
   translator: SceneContext["translator"],
 ): readonly string[] {
+  const { t } = translator;
   const beforeDay = progress.beforeSave.journey.day;
   const afterDay = progress.afterSave.journey.day;
-  if (afterDay <= beforeDay) {
+  const progressLines = [
+    beforeDay === NOVICE_HALL_FINAL_DAY ? t("journey.noviceHallClear") : "",
+    afterDay > beforeDay ? t("journey.nextDay", { day: afterDay }) : "",
+  ].filter((line) => line.length > 0);
+
+  if (progressLines.length === 0) {
     return [];
   }
 
-  const { t } = translator;
-  return [t("journey.heading"), t("journey.nextDay", { day: afterDay })];
+  return [t("journey.heading"), ...progressLines];
 }
 
 function formatElapsedSeconds(elapsedSeconds: number): string {
