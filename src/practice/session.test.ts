@@ -157,6 +157,42 @@ describe("completePracticeRun", () => {
       },
     ]);
   });
+
+  it("unlocks the Novice Hall title from Day 7", () => {
+    const startedAt = new Date("2026-01-01T00:00:00.000Z");
+    const completedAt = new Date("2026-01-01T00:00:10.000Z");
+    const save = {
+      ...createNewSave(startedAt, "normal"),
+      journey: {
+        day: 7,
+        chapter: 1,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    const result = completePracticeRun({
+      save,
+      mode: "normal",
+      attempts: [
+        {
+          prompt: {
+            id: "gatekeeper",
+            text: "f j",
+            skillIds: ["homePosition"],
+            targetKeys: ["f", "j"],
+            fingerHints: ["leftIndex", "rightIndex"],
+          },
+          actual: "f j",
+          startedAt,
+          completedAt,
+        },
+      ],
+    });
+
+    expect(result.updatedSave.progress.titles?.map((title) => title.id)).toEqual([
+      "noviceHallGraduate",
+    ]);
+  });
 });
 
 describe("advanceJourneyDay", () => {

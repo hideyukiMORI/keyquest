@@ -24,6 +24,13 @@ export type AchievementRecord = {
   readonly unlockedAt: string;
 };
 
+export type TitleRewardId = "noviceHallGraduate";
+
+export type TitleRewardRecord = {
+  readonly id: TitleRewardId;
+  readonly unlockedAt: string;
+};
+
 export type SessionRecord = {
   readonly id: string;
   readonly mode: SaveMode;
@@ -67,6 +74,7 @@ export type KeyQuestSave = {
     readonly sessions: readonly SessionRecord[];
     readonly skills: readonly SkillTrack[];
     readonly achievements?: readonly AchievementRecord[];
+    readonly titles?: readonly TitleRewardRecord[];
   };
   readonly development: {
     readonly everUsedDevMode: boolean;
@@ -100,6 +108,7 @@ export function createNewSave(now: Date, mode: SaveMode): KeyQuestSave {
       streakDays: 0,
       sessions: [],
       achievements: [],
+      titles: [],
       skills: [
         { id: "homePosition", level: 1, xp: 0 },
         { id: "fingerResponsibility", level: 1, xp: 0 },

@@ -71,6 +71,7 @@ describe("runApp", () => {
     });
 
     expect(output.text()).toContain("Gatekeeper Trial cleared");
+    expect(output.text()).toContain("Earned title: Novice Hall Graduate");
     expect(output.text()).toContain("Next lesson: Day 8 is ready for next time.");
   });
 
