@@ -41,6 +41,33 @@ describe("runApp", () => {
     expect(output.text()).toContain("Rewards");
   });
 
+  it("styles headings when terminal color is enabled", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      terminalRuntime: {
+        colorMode: "always",
+        colorEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("\u001b[93mStory\u001b[0m");
+  });
+
   it("warns when the terminal is below the recommended size", async () => {
     const output = createMemoryOutput();
     await runApp({
