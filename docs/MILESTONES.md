@@ -126,6 +126,8 @@ Goal: make lessons easy to write, review, and improve.
 - Weak-key review prompt generation from mistake history
 - Selectable weak-key review quest from the title menu
 - Review quest result messaging that explains the targeted weak keys
+- Chinese, Korean, Spanish, and Portuguese-BR UI catalogs for the current
+  gameplay flow
 - Programmer symbol lessons
 - Lesson validation command included in `npm run verify`
 - English-only typing prompts separated from localized UI strings

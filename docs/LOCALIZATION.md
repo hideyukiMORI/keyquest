@@ -55,3 +55,5 @@ for every supported locale before release.
 - English typing prompts stay in lesson files and are not localized.
 - `NEW GAME` and `LOAD GAME` are visible as planned title menu slots so the menu
   can grow without changing the basic navigation shape.
+- The current gameplay UI catalog is translated for English, Japanese,
+  Simplified Chinese, Korean, Spanish, and Portuguese-BR.
