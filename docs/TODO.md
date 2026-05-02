@@ -83,3 +83,5 @@
 - [x] Implement minimal Load Game current-slot action.
 - [x] Confirm New Game before replacing existing progress.
 - [x] Preserve options when starting New Game.
+- [x] Add interactive `j`/`k` menu navigation for TTY mode.
+- [x] Allow options changes during practice.

@@ -175,6 +175,8 @@ Goal: publish a useful open-source CLI.
 - In-game help menu for first-time players
 - Minimal current-slot Load Game action
 - New Game confirmation before replacing progress
+- Interactive `j`/`k` menu navigation in TTY mode
+- In-practice options shortcut
 - README with screenshots or terminal recording
 - README terminal transcript preview
 - npm package metadata

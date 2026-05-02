@@ -21,7 +21,7 @@ describe("realtime typing screen", () => {
       "",
       "...",
       "",
-      "Enter to submit. Backspace edits. Ctrl+C cancels.",
+      "Enter to submit. Backspace edits. Ctrl+O opens options. Ctrl+C cancels.",
     ]);
   });
 
@@ -53,6 +53,20 @@ describe("realtime typing screen", () => {
         translator: createTranslator("en"),
       }),
     ).rejects.toThrow("Practice cancelled");
+    expect(input.rawCalls).toEqual(["start", "end"]);
+  });
+
+  it("requests options from the realtime prompt", async () => {
+    const input = createQueuedRealtimeInput(["\u000f"]);
+
+    await expect(
+      runRealtimeTypingPrompt({
+        prompt: createPrompt("f j"),
+        input,
+        screen: createMemoryScreen(),
+        translator: createTranslator("en"),
+      }),
+    ).rejects.toThrow("Practice options requested");
     expect(input.rawCalls).toEqual(["start", "end"]);
   });
 });

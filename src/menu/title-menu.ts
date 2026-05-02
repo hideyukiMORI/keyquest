@@ -7,26 +7,38 @@ import {
   type Translator,
 } from "../i18n/messages.js";
 import type { KeyQuestSave } from "../save/model.js";
+import type { InteractiveMenuItem } from "./interactive-menu.js";
 
 export type TitleMenuAction = "start" | "review" | "options" | "newGame" | "loadGame" | "help";
 
-export function renderTitleMenu(save: KeyQuestSave, translator: Translator): readonly string[] {
+export function getTitleMenuItems(
+  save: KeyQuestSave,
+  translator: Translator,
+): readonly InteractiveMenuItem<TitleMenuAction>[] {
   const hasExistingSession = save.progress.sessions.length > 0;
   const firstAction = hasExistingSession
     ? translator.t("title.menu.continue")
     : translator.t("title.menu.start");
 
   return [
+    { value: "start", label: firstAction },
+    { value: "review", label: translator.t("title.menu.review") },
+    { value: "options", label: translator.t("title.menu.options") },
+    { value: "newGame", label: translator.t("title.menu.newGame") },
+    { value: "loadGame", label: translator.t("title.menu.loadGame") },
+    { value: "help", label: translator.t("title.menu.help") },
+  ];
+}
+
+export function renderTitleMenu(save: KeyQuestSave, translator: Translator): readonly string[] {
+  const items = getTitleMenuItems(save, translator);
+
+  return [
     translator.t("app.title"),
     translator.t("app.subtitle"),
     "",
     translator.t("title.menu.heading"),
-    `1. ${firstAction}`,
-    `2. ${translator.t("title.menu.review")}`,
-    `3. ${translator.t("title.menu.options")}`,
-    `4. ${translator.t("title.menu.newGame")}`,
-    `5. ${translator.t("title.menu.loadGame")}`,
-    `6. ${translator.t("title.menu.help")}`,
+    ...items.map((item, index) => `${index + 1}. ${item.label}`),
   ];
 }
 
@@ -88,6 +100,23 @@ export function renderLanguageOptions(
     "",
     ...SUPPORTED_LOCALES.map((locale, index) => `${index + 1}. ${localeDisplayName(locale)}`),
     `0. ${translator.t("options.back")}`,
+  ];
+}
+
+export type LanguageMenuAction = LocaleId | "back";
+
+export function getLanguageMenuItems(
+  translator: Translator,
+): readonly InteractiveMenuItem<LanguageMenuAction>[] {
+  return [
+    ...SUPPORTED_LOCALES.map((locale) => ({
+      value: locale,
+      label: localeDisplayName(locale),
+    })),
+    {
+      value: "back",
+      label: translator.t("options.back"),
+    },
   ];
 }
 

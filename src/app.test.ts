@@ -423,6 +423,7 @@ describe("runApp", () => {
       lesson: createTestLesson(),
       lessonPath: undefined,
       realtimeInput: createQueuedRealtimeInput([
+        "\r",
         "f",
         " ",
         "j",
@@ -460,6 +461,83 @@ describe("runApp", () => {
     expect(output.text()).toContain("Input:  f j");
     expect(output.text()).toContain("Session Result");
     expect(output.text()).toContain("Unlocked: Flawless Focus");
+  });
+
+  it("uses interactive title and language menus with realtime input", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput([]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      realtimeInput: createQueuedRealtimeInput([
+        "j",
+        "j",
+        "\r",
+        "j",
+        "\r",
+        "\r",
+        "f",
+        " ",
+        "j",
+        "\r",
+        "f",
+        "f",
+        " ",
+        "j",
+        "j",
+        "\r",
+        "f",
+        "j",
+        " ",
+        "j",
+        "f",
+        "\r",
+      ]),
+      terminalRuntime: {
+        colorMode: "never",
+        colorEnabled: false,
+        screenEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("オプション");
+    expect(output.text()).toContain("j/k または矢印キーで移動");
+    expect(output.text()).toContain("言語を 日本語 に設定しました。");
+    expect(output.text()).toContain("セッション結果");
+  });
+
+  it("lets the player change options during practice", async () => {
+    const directory = await createTempDirectory();
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "options", "2", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    const save = await createSaveStore({ mode: "development", directory }).loadOrCreate(
+      new Date("2026-01-01T00:01:00.000Z"),
+    );
+    expect(save.settings.locale).toBe("ja");
+    expect(output.text()).toContain("言語を 日本語 に設定しました。");
+    expect(output.text()).toContain("セッション結果");
   });
 
   it("falls back to line input when raw mode is unavailable", async () => {
