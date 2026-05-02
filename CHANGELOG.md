@@ -7,6 +7,7 @@ drafts from git history.
 
 ## Unreleased
 
+- Added New Game confirmation before replacing an existing saved journey.
 - Added a minimal Load Game action for the current saved journey.
 - Added a README terminal transcript preview for the public CLI flow.
 - Strengthened `npm run package:smoke` to install the packed tarball and run the CLI.

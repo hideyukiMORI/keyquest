@@ -24,6 +24,9 @@ const EN_MESSAGES = {
   "title.menu.prompt": "Choose: ",
   "title.menu.planned": "planned",
   "title.menu.loadUnavailable": "No saved journey is available yet. Choose Start first.",
+  "title.menu.newGameConfirm":
+    "Start a new game and replace the current save? Type yes to confirm: ",
+  "title.menu.newGameCancelled": "New Game cancelled. Your current journey is unchanged.",
   "help.heading": "How to Play",
   "help.daily": "Play one short daily session to advance the 90-day journey.",
   "help.review": "Review Weak Keys creates focused practice from your recent mistakes.",
@@ -146,6 +149,9 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.prompt": "選択: ",
     "title.menu.planned": "予定",
     "title.menu.loadUnavailable": "保存済みの旅はまだありません。まずスタートを選んでください。",
+    "title.menu.newGameConfirm":
+      "ニューゲームを開始して現在のセーブを置き換えますか？ yes と入力すると実行します: ",
+    "title.menu.newGameCancelled": "ニューゲームをキャンセルしました。現在の旅はそのままです。",
     "help.heading": "遊び方",
     "help.daily": "短いデイリーセッションを1回遊ぶと、90日間の旅が進みます。",
     "help.review": "弱点キー復習は、直近のミスから集中練習を作ります。",
@@ -266,6 +272,8 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.prompt": "请选择: ",
     "title.menu.planned": "计划中",
     "title.menu.loadUnavailable": "还没有可读取的旅程。请先选择开始。",
+    "title.menu.newGameConfirm": "要开始新游戏并替换当前存档吗？输入 yes 确认: ",
+    "title.menu.newGameCancelled": "新游戏已取消。当前旅程未改变。",
     "help.heading": "玩法说明",
     "help.daily": "每天完成一次短练习，就能推进 90 天旅程。",
     "help.review": "复习弱键会根据最近的错误生成集中练习。",
@@ -381,6 +389,9 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.prompt": "선택: ",
     "title.menu.planned": "예정",
     "title.menu.loadUnavailable": "아직 불러올 여정이 없습니다. 먼저 시작을 선택하세요.",
+    "title.menu.newGameConfirm":
+      "새 게임을 시작해 현재 저장을 바꾸시겠습니까? yes를 입력하면 진행합니다: ",
+    "title.menu.newGameCancelled": "새 게임이 취소되었습니다. 현재 여정은 그대로입니다.",
     "help.heading": "플레이 방법",
     "help.daily": "짧은 일일 세션을 한 번 플레이하면 90일 여정이 진행됩니다.",
     "help.review": "약한 키 복습은 최근 실수에서 집중 연습을 만듭니다.",
@@ -497,6 +508,9 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.prompt": "Elige: ",
     "title.menu.planned": "planeado",
     "title.menu.loadUnavailable": "Aún no hay viaje guardado. Elige Empezar primero.",
+    "title.menu.newGameConfirm":
+      "¿Empezar una nueva partida y reemplazar el guardado actual? Escribe yes para confirmar: ",
+    "title.menu.newGameCancelled": "Nueva partida cancelada. Tu viaje actual no cambió.",
     "help.heading": "Cómo jugar",
     "help.daily": "Juega una sesión diaria corta para avanzar en el viaje de 90 días.",
     "help.review":
@@ -621,6 +635,9 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.prompt": "Escolha: ",
     "title.menu.planned": "planejado",
     "title.menu.loadUnavailable": "Ainda não há jornada salva. Escolha Começar primeiro.",
+    "title.menu.newGameConfirm":
+      "Começar um novo jogo e substituir o save atual? Digite yes para confirmar: ",
+    "title.menu.newGameCancelled": "Novo jogo cancelado. Sua jornada atual não foi alterada.",
     "help.heading": "Como jogar",
     "help.daily": "Jogue uma sessão diária curta para avançar na jornada de 90 dias.",
     "help.review": "Revisar teclas fracas cria prática focada a partir dos seus erros recentes.",
