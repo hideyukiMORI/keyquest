@@ -61,6 +61,7 @@ stable.
 - Five initial color themes using semantic color names
 - Reduced-motion setting and policy
 - Screen rendering boundary that keeps ANSI control away from core game logic
+- Non-scrolling redraw path for major terminal screens
 - Input boundary that can support both line input and raw key input
 
 Exit criteria:

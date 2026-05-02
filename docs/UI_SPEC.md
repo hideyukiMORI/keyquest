@@ -59,6 +59,24 @@ Show only what the player needs now.
 This keeps the interface clean while still allowing satisfying RPG and
 incremental feedback.
 
+## Non-Scrolling Screen Rendering
+
+Interactive terminal screens should redraw in place instead of appending every
+state change to scrollback.
+
+Current policy:
+
+- Use the screen renderer for title, options, practice intro, segment result,
+  and final result screens.
+- In TTY output, clear the screen and move the cursor home before drawing the
+  next major screen.
+- In non-TTY output, keep append-only plain text so logs, tests, and piped runs
+  stay readable.
+- Cap redraw output to the known terminal height, reserving one row for the input
+  prompt, so a screen body does not force scrolling.
+- Keep raw ANSI control inside terminal modules; scene and game logic should
+  continue to return semantic text.
+
 ## Terminal Size
 
 Recommended minimum terminal size:
