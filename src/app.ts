@@ -24,6 +24,7 @@ import {
   renderPracticeRunResult,
   renderPracticeSegmentResult,
 } from "./scenes/scenes.js";
+import type { TerminalRuntime } from "./terminal/runtime.js";
 
 export type RunAppOptions = {
   readonly mode: SaveMode;
@@ -32,6 +33,7 @@ export type RunAppOptions = {
   readonly textOutput: TextOutput;
   readonly lesson: Lesson | undefined;
   readonly lessonPath: string | undefined;
+  readonly terminalRuntime?: TerminalRuntime;
   readonly now?: Date;
   readonly completedAt?: Date;
 };

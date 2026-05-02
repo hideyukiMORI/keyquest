@@ -18,7 +18,18 @@ describe("parseCliArgs", () => {
     expect(parseCliArgs(["--lesson=lessons/day-1.json"]).lessonPath).toBe("lessons/day-1.json");
   });
 
+  it("parses terminal runtime flags", () => {
+    expect(parseCliArgs(["--color", "always"]).colorMode).toBe("always");
+    expect(parseCliArgs(["--color=never"]).colorMode).toBe("never");
+    expect(parseCliArgs(["--no-color"]).colorMode).toBe("never");
+    expect(parseCliArgs(["--reduced-motion"]).reducedMotion).toBe(true);
+  });
+
   it("rejects unknown options", () => {
     expect(() => parseCliArgs(["--mystery"])).toThrow("Unknown option");
+  });
+
+  it("rejects unsupported color modes", () => {
+    expect(() => parseCliArgs(["--color", "sparkles"])).toThrow("Unsupported color mode");
   });
 });

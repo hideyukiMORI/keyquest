@@ -1,13 +1,19 @@
+import { parseTerminalColorMode, type TerminalColorMode } from "../terminal/runtime.js";
+
 export type CliOptions = {
   readonly devMode: boolean;
   readonly saveDirectory: string | undefined;
   readonly lessonPath: string | undefined;
+  readonly colorMode: TerminalColorMode | undefined;
+  readonly reducedMotion: boolean;
 };
 
 export function parseCliArgs(args: readonly string[]): CliOptions {
   let devMode = false;
   let saveDirectory: string | undefined;
   let lessonPath: string | undefined;
+  let colorMode: TerminalColorMode | undefined;
+  let reducedMotion = false;
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
@@ -17,6 +23,16 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
 
     if (arg === "--dev" || arg === "-dev") {
       devMode = true;
+      continue;
+    }
+
+    if (arg === "--reduced-motion") {
+      reducedMotion = true;
+      continue;
+    }
+
+    if (arg === "--no-color") {
+      colorMode = "never";
       continue;
     }
 
@@ -52,8 +68,24 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
       continue;
     }
 
+    if (arg === "--color") {
+      const value = args[index + 1];
+      if (value === undefined || value.startsWith("-")) {
+        throw new Error("--color requires auto, always, or never");
+      }
+
+      colorMode = parseTerminalColorMode(value);
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith("--color=")) {
+      colorMode = parseTerminalColorMode(arg.slice("--color=".length));
+      continue;
+    }
+
     throw new Error(`Unknown option: ${arg}`);
   }
 
-  return { devMode, saveDirectory, lessonPath };
+  return { devMode, saveDirectory, lessonPath, colorMode, reducedMotion };
 }
