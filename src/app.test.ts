@@ -133,6 +133,47 @@ describe("runApp", () => {
     expect(output.text()).toContain("Prompts: 4");
   });
 
+  it("shows streak milestone messages after rewards", async () => {
+    const directory = await createTempDirectory();
+    const now = new Date("2026-01-03T00:00:00.000Z");
+    const save = createNewSave(now, "normal");
+    await createSaveStore({ mode: "normal", directory }).write({
+      ...save,
+      progress: {
+        ...save.progress,
+        streakDays: 2,
+        sessions: [
+          {
+            id: "session-previous",
+            mode: "normal",
+            startedAt: "2026-01-02T00:00:00.000Z",
+            completedAt: "2026-01-02T00:10:00.000Z",
+            promptCount: 1,
+            accuracy: 1,
+            wordsPerMinute: 30,
+            xpGained: 10,
+            mistakes: [],
+          },
+        ],
+      },
+    });
+    const output = createMemoryOutput();
+
+    await runApp({
+      mode: "normal",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now,
+      completedAt: new Date("2026-01-03T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("3 days in a row.");
+    expect(output.text()).toContain("Three days steady. The habit is taking root.");
+  });
+
   it("styles headings when terminal color is enabled", async () => {
     const output = createMemoryOutput();
     await runApp({

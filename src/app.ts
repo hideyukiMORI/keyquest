@@ -26,6 +26,7 @@ import {
   renderPracticeRunResult,
   renderPracticeRewards,
   renderPracticeSegmentResult,
+  renderPracticeStreakProgress,
   renderPracticeTitleRewards,
 } from "./scenes/scenes.js";
 import type { SceneContext } from "./scenes/types.js";
@@ -160,6 +161,17 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       translator,
     ).join("\n"),
   );
+  const streakProgressLines = renderPracticeStreakProgress(
+    {
+      beforeSave: menuSave,
+      afterSave: result.updatedSave,
+    },
+    translator,
+  );
+  if (streakProgressLines.length > 0) {
+    options.textOutput.writeLine("");
+    options.textOutput.writeLine(streakProgressLines.join("\n"));
+  }
   const achievementLines = renderPracticeAchievements(
     {
       beforeSave: menuSave,

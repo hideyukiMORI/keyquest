@@ -6,6 +6,7 @@ import {
   renderPracticeAchievements,
   renderPracticeJourneyProgress,
   renderPracticeRewards,
+  renderPracticeStreakProgress,
   renderPracticeTitleRewards,
 } from "./scenes.js";
 
@@ -89,6 +90,42 @@ describe("scene rendering", () => {
         createTranslator("en"),
       ),
     ).toEqual(["Titles", "Earned title: Novice Hall Graduate"]);
+  });
+
+  it("renders streak milestone progress", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      progress: {
+        ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal").progress,
+        streakDays: 2,
+      },
+    };
+    const afterSave = {
+      ...beforeSave,
+      progress: {
+        ...beforeSave.progress,
+        streakDays: 3,
+      },
+    };
+
+    expect(
+      renderPracticeStreakProgress(
+        {
+          beforeSave,
+          afterSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual(["Streak", "3 days in a row.", "Three days steady. The habit is taking root."]);
+    expect(
+      renderPracticeStreakProgress(
+        {
+          beforeSave: afterSave,
+          afterSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual([]);
   });
 
   it("renders journey progress only when the day advances", () => {

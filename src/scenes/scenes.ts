@@ -4,6 +4,7 @@ import type {
   PracticeRewardsView,
   PracticeResultView,
   PracticeRunResultView,
+  PracticeStreakProgressView,
   PracticeTitleRewardsView,
   Scene,
   SceneContext,
@@ -198,6 +199,35 @@ export function renderPracticeRewards(
   });
 
   return [t("reward.heading"), ...rewardLines];
+}
+
+export function renderPracticeStreakProgress(
+  progress: PracticeStreakProgressView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const beforeStreak = progress.beforeSave.progress.streakDays;
+  const afterStreak = progress.afterSave.progress.streakDays;
+  const reachedMilestones = [3, 7, 30].filter(
+    (milestone) => beforeStreak < milestone && afterStreak >= milestone,
+  );
+
+  if (reachedMilestones.length === 0) {
+    return [];
+  }
+
+  const { t } = translator;
+  const milestoneLines = reachedMilestones.map((days) => {
+    const key =
+      days === 30
+        ? "streak.milestoneThirty"
+        : days === 7
+          ? "streak.milestoneSeven"
+          : "streak.milestoneThree";
+
+    return t(key);
+  });
+
+  return [t("streak.heading"), t("streak.current", { days: afterStreak }), ...milestoneLines];
 }
 
 export function renderPracticeAchievements(
