@@ -12,6 +12,7 @@
       `New Game`, and `Load Game`.
 - [x] Keep `main` green with `npm run verify`.
 - [x] Add Novice Hall lessons for Day 2 through Day 7.
+- [x] Add the first post-Novice-Hall Day 8 lesson.
 - [x] Resolve the default lesson from the saved journey day.
 - [x] Advance journey day after completed sessions, capped at bundled lessons.
 
@@ -32,10 +33,14 @@
 - [x] Replace the bundled lesson cap with a lesson manifest.
 - [x] Add a small screen message when the journey advances to the next day.
 - [x] Validate bundled lesson files against the lesson manifest.
-- [ ] Design post-Novice-Hall progression after Day 7.
-- [ ] Add a dedicated first-week completion or gatekeeper clear message.
-- [ ] Decide whether boss lessons can override the default three-prompt session
+- [x] Design post-Novice-Hall progression after Day 7.
+- [x] Add a dedicated first-week completion or gatekeeper clear message.
+- [x] Decide whether boss lessons can override the default three-prompt session
       length.
+- [x] Add the first achievement unlock path.
+- [ ] Add achievement definitions for streaks and long-session play.
+- [ ] Add first title reward or item reward after Gatekeeper Trial.
+- [ ] Add a lesson manifest validation command for CI and release checks.
 
 ## Mid Term
 

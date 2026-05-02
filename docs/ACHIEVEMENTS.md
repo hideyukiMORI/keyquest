@@ -10,6 +10,17 @@ practice bonuses. They should never replace skill.
 
 ## Categories
 
+## Implemented First Slice
+
+The first implementation deliberately keeps achievements small:
+
+- First Steps: complete the first session.
+- Flawless Focus: complete a session with no mistakes.
+
+Achievement unlocks are stored in save progress and rendered after the reward
+screen. Future achievements should reuse this path rather than adding separate
+session-end UI.
+
 ### Continuity
 
 - First Quest: complete the first session.

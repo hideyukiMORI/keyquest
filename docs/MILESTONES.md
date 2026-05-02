@@ -94,7 +94,8 @@ system too early.
 - First reward screen with XP gain
 - Simple level-up display for skill tracks
 - First item or title reward
-- First achievement unlock path
+- First achievement unlock path (complete for `firstSession` and
+  `perfectSession`)
 - Save data for rewards that can evolve into equipment, magic, and items
 
 Exit criteria:
@@ -108,7 +109,10 @@ Exit criteria:
 Goal: make lessons easy to write, review, and improve.
 
 - Versioned lesson schema
-- Beginner home-row lessons
+- Beginner home-row lessons through the first Novice Hall week
+- First post-Novice-Hall lesson entry
+- Lesson-specific session prompt counts for boss-style lessons
+- Bundled lesson manifest for default progression
 - Programmer symbol lessons
 - Lesson validation command
 - English-only typing prompts separated from localized UI strings
