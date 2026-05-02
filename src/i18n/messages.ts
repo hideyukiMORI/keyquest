@@ -23,7 +23,7 @@ const EN_MESSAGES = {
   "title.menu.start": "Start",
   "title.menu.prompt": "Choose: ",
   "title.menu.planned": "planned",
-  "title.menu.loadUnavailable": "Load Game will open save slots later. Use Continue for now.",
+  "title.menu.loadUnavailable": "No saved journey is available yet. Choose Start first.",
   "help.heading": "How to Play",
   "help.daily": "Play one short daily session to advance the 90-day journey.",
   "help.review": "Review Weak Keys creates focused practice from your recent mistakes.",
@@ -145,8 +145,7 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.start": "スタート",
     "title.menu.prompt": "選択: ",
     "title.menu.planned": "予定",
-    "title.menu.loadUnavailable":
-      "ロードゲームは今後セーブスロットに対応します。今は「つづきから」を使ってください。",
+    "title.menu.loadUnavailable": "保存済みの旅はまだありません。まずスタートを選んでください。",
     "help.heading": "遊び方",
     "help.daily": "短いデイリーセッションを1回遊ぶと、90日間の旅が進みます。",
     "help.review": "弱点キー復習は、直近のミスから集中練習を作ります。",
@@ -266,7 +265,7 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.start": "开始",
     "title.menu.prompt": "请选择: ",
     "title.menu.planned": "计划中",
-    "title.menu.loadUnavailable": "读取游戏稍后会支持存档槽。现在请使用继续。",
+    "title.menu.loadUnavailable": "还没有可读取的旅程。请先选择开始。",
     "help.heading": "玩法说明",
     "help.daily": "每天完成一次短练习，就能推进 90 天旅程。",
     "help.review": "复习弱键会根据最近的错误生成集中练习。",
@@ -381,8 +380,7 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.start": "시작",
     "title.menu.prompt": "선택: ",
     "title.menu.planned": "예정",
-    "title.menu.loadUnavailable":
-      "불러오기는 나중에 저장 슬롯으로 열립니다. 지금은 계속하기를 사용하세요.",
+    "title.menu.loadUnavailable": "아직 불러올 여정이 없습니다. 먼저 시작을 선택하세요.",
     "help.heading": "플레이 방법",
     "help.daily": "짧은 일일 세션을 한 번 플레이하면 90일 여정이 진행됩니다.",
     "help.review": "약한 키 복습은 최근 실수에서 집중 연습을 만듭니다.",
@@ -498,8 +496,7 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.start": "Empezar",
     "title.menu.prompt": "Elige: ",
     "title.menu.planned": "planeado",
-    "title.menu.loadUnavailable":
-      "Cargar partida abrirá ranuras de guardado más adelante. Usa Continuar por ahora.",
+    "title.menu.loadUnavailable": "Aún no hay viaje guardado. Elige Empezar primero.",
     "help.heading": "Cómo jugar",
     "help.daily": "Juega una sesión diaria corta para avanzar en el viaje de 90 días.",
     "help.review":
@@ -623,8 +620,7 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.start": "Começar",
     "title.menu.prompt": "Escolha: ",
     "title.menu.planned": "planejado",
-    "title.menu.loadUnavailable":
-      "Carregar jogo abrirá slots de save mais tarde. Use Continuar por enquanto.",
+    "title.menu.loadUnavailable": "Ainda não há jornada salva. Escolha Começar primeiro.",
     "help.heading": "Como jogar",
     "help.daily": "Jogue uma sessão diária curta para avançar na jornada de 90 dias.",
     "help.review": "Revisar teclas fracas cria prática focada a partir dos seus erros recentes.",

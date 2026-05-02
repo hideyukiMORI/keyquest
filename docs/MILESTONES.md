@@ -173,6 +173,7 @@ Goal: publish a useful open-source CLI.
 - `npx keyquest` smoke test
 - CLI help and version output
 - In-game help menu for first-time players
+- Minimal current-slot Load Game action
 - README with screenshots or terminal recording
 - README terminal transcript preview
 - npm package metadata

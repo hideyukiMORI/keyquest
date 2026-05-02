@@ -25,7 +25,7 @@ export function renderTitleMenu(save: KeyQuestSave, translator: Translator): rea
     `2. ${translator.t("title.menu.review")}`,
     `3. ${translator.t("title.menu.options")}`,
     `4. ${translator.t("title.menu.newGame")}`,
-    `5. ${translator.t("title.menu.loadGame")} (${translator.t("title.menu.planned")})`,
+    `5. ${translator.t("title.menu.loadGame")}`,
     `6. ${translator.t("title.menu.help")}`,
   ];
 }

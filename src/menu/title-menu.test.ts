@@ -18,7 +18,8 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("Start");
     expect(lines.join("\n")).toContain("Review Weak Keys");
     expect(lines.join("\n")).toContain("New Game");
-    expect(lines.join("\n")).toContain("Load Game (planned)");
+    expect(lines.join("\n")).toContain("Load Game");
+    expect(lines.join("\n")).not.toContain("Load Game (planned)");
     expect(lines.join("\n")).toContain("Help");
   });
 
