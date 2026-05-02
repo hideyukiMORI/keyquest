@@ -41,6 +41,7 @@ import { styleText } from "./terminal/ansi.js";
 import type { TerminalRuntime } from "./terminal/runtime.js";
 import { createScreenRenderer, type ScreenRenderer } from "./terminal/screen.js";
 import type { RealtimeTypingInput } from "./realtime/input.js";
+import { isRawModeUnavailableError } from "./realtime/raw-mode.js";
 import { runRealtimeTypingPrompt } from "./realtime/typing-screen.js";
 
 export type RunAppOptions = {
@@ -251,12 +252,18 @@ async function readPracticeInput(options: {
   readonly terminalRuntime: TerminalRuntime | undefined;
 }): Promise<string> {
   if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
-    return runRealtimeTypingPrompt({
-      prompt: options.practicePrompt,
-      input: options.realtimeInput,
-      screen: options.screen,
-      translator: options.translator,
-    });
+    try {
+      return await runRealtimeTypingPrompt({
+        prompt: options.practicePrompt,
+        input: options.realtimeInput,
+        screen: options.screen,
+        translator: options.translator,
+      });
+    } catch (error) {
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
   }
 
   return options.textInput.readLine("> ");

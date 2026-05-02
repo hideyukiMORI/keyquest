@@ -9,6 +9,7 @@ import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
 import type { Lesson } from "./lessons/schema.js";
 import type { RealtimeTypingInput } from "./realtime/input.js";
+import { RawModeUnavailableError } from "./realtime/raw-mode.js";
 import { createNewSave } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 
@@ -340,6 +341,37 @@ describe("runApp", () => {
     expect(output.text()).toContain("Unlocked: Flawless Focus");
   });
 
+  it("falls back to line input when raw mode is unavailable", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      realtimeInput: createUnavailableRealtimeInput(),
+      terminalRuntime: {
+        colorMode: "never",
+        colorEnabled: false,
+        screenEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).not.toContain("Real-time Practice");
+    expect(output.text()).toContain("Session Result");
+    expect(output.text()).toContain("Unlocked: Flawless Focus");
+  });
+
   it("warns when the terminal is below the recommended size", async () => {
     const output = createMemoryOutput();
     await runApp({
@@ -655,6 +687,21 @@ function createQueuedRealtimeInput(keys: readonly string[]): RealtimeTypingInput
     },
     async withRawMode<T>(run: () => Promise<T> | T): Promise<T> {
       return run();
+    },
+  };
+}
+
+function createUnavailableRealtimeInput(): RealtimeTypingInput {
+  return {
+    readKey(): Promise<string> {
+      return Promise.reject(new Error("raw key should not be read"));
+    },
+    withRawMode(): Promise<never> {
+      return Promise.reject(
+        new RawModeUnavailableError(
+          new TypeError("Cannot read properties of undefined (reading '_handle')"),
+        ),
+      );
     },
   };
 }
