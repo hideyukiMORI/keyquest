@@ -16,13 +16,15 @@ describe("title menu", () => {
 
     expect(lines.join("\n")).toContain("Start");
     expect(lines.join("\n")).toContain("New Game");
-    expect(lines.join("\n")).toContain("Load Game");
+    expect(lines.join("\n")).toContain("Load Game (planned)");
   });
 
-  it("parses start and options actions", () => {
+  it("parses title actions", () => {
     expect(parseTitleMenuAction("")).toBe("start");
     expect(parseTitleMenuAction("1")).toBe("start");
     expect(parseTitleMenuAction("2")).toBe("options");
+    expect(parseTitleMenuAction("3")).toBe("newGame");
+    expect(parseTitleMenuAction("4")).toBe("loadGame");
   });
 
   it("renders and parses language choices", () => {

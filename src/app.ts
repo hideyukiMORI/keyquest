@@ -15,7 +15,7 @@ import {
   renderTitleMenu,
 } from "./menu/title-menu.js";
 import { completePracticeRun, type PracticeAttempt } from "./practice/session.js";
-import { updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
+import { createNewSave, updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
 import {
@@ -155,6 +155,19 @@ async function runTitleMenu(options: {
     if (action === "start") {
       options.textOutput.writeLine("");
       return save;
+    }
+
+    if (action === "newGame") {
+      const newSave = createNewSave(options.now, options.mode);
+      await options.writeSave(newSave);
+      options.textOutput.writeLine("");
+      return newSave;
+    }
+
+    if (action === "loadGame") {
+      options.textOutput.writeLine(translator.t("title.menu.loadUnavailable"));
+      options.textOutput.writeLine("");
+      continue;
     }
 
     const selectedLocale = await runLanguageOptions({

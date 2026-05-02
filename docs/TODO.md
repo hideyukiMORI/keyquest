@@ -8,7 +8,7 @@
       result screen.
 - [x] Record per-character mistakes in session results for future weak-key
       review.
-- [ ] Clarify title menu semantics for current `Start` and future `Continue`,
+- [x] Clarify title menu semantics for current `Start` and future `Continue`,
       `New Game`, and `Load Game`.
 - [ ] Keep `main` green with `npm run verify`.
 
