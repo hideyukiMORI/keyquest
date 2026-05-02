@@ -16,10 +16,11 @@ export type Score = {
 
 const WORD_LENGTH = 5;
 const SECONDS_PER_MINUTE = 60;
+const MINIMUM_ELAPSED_MILLISECONDS = 1000;
 
 export function scoreTypingResult(result: TypingResult): Score {
   const elapsedMilliseconds = Math.max(
-    1,
+    MINIMUM_ELAPSED_MILLISECONDS,
     result.completedAt.getTime() - result.startedAt.getTime(),
   );
   const elapsedSeconds = elapsedMilliseconds / 1000;

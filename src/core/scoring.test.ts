@@ -29,4 +29,16 @@ describe("scoreTypingResult", () => {
     expect(score.mistakes).toBe(3);
     expect(score.accuracy).toBe(0.4);
   });
+
+  it("uses a one second minimum elapsed time", () => {
+    const score = scoreTypingResult({
+      expected: "hello",
+      actual: "hello",
+      startedAt: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:00.010Z"),
+    });
+
+    expect(score.elapsedSeconds).toBe(1);
+    expect(score.wordsPerMinute).toBe(60);
+  });
 });

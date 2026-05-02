@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { scoreTypingResult } from "../core/scoring.js";
 import { createNewSave } from "../save/model.js";
 import { formatSceneSequence, renderSceneSequence } from "./manager.js";
 import { defaultScenes } from "./scenes.js";
@@ -15,14 +14,10 @@ describe("scene manager", () => {
         save: createNewSave(now, "normal"),
         mode: "normal",
         now,
-        practicePreview: {
-          prompt,
-          score: scoreTypingResult({
-            expected: prompt,
-            actual: prompt,
-            startedAt: now,
-            completedAt: new Date(now.getTime() + 5_000),
-          }),
+        practicePrompt: {
+          id: "home-row-1",
+          text: prompt,
+          skillIds: ["homePosition"],
         },
       },
     });
@@ -31,7 +26,7 @@ describe("scene manager", () => {
       "title",
       "story",
       "status",
-      "practicePreview",
+      "practiceIntro",
     ]);
     expect(formatSceneSequence(outputs)).toContain("Novice Hall");
   });
