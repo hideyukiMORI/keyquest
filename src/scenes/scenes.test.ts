@@ -146,6 +146,30 @@ describe("scene rendering", () => {
     ).toEqual(["Journey", "Ferryman Trial cleared. The River Gate yields to your steady hands."]);
   });
 
+  it("renders the Lantern Keep clear message on the Beacon Trial day", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 28,
+        chapter: 4,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    expect(
+      renderPracticeJourneyProgress(
+        {
+          beforeSave,
+          afterSave: beforeSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual([
+      "Journey",
+      "Beacon Trial cleared. The Lantern Keep shines over your number-row reach.",
+    ]);
+  });
+
   it("renders streak milestone progress", () => {
     const beforeSave = {
       ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),

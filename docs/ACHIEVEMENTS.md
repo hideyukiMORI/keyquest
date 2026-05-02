@@ -108,3 +108,4 @@ Implemented title rewards:
 - Novice Hall Graduate: clear the Day 7 Gatekeeper Trial.
 - Meadow Road Pathfinder: clear the Day 14 Waystone Trial.
 - River Gate Ferryman: clear the Day 21 Ferryman Trial.
+- Lantern Keep Beacon: clear the Day 28 Beacon Trial.
