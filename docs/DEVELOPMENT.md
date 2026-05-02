@@ -10,11 +10,17 @@ a Pull Request unless the change is a small repository-maintenance update.
 
 - Practice value comes first. Game mechanics should reinforce accuracy, rhythm,
   recall, and review.
+- The target first journey is 90 days of 10-minute daily practice, ending with a
+  satisfying fantasy finale.
+- Use roguelite and incremental systems to make practice motivating, but never
+  let rewards hide the player's real weaknesses.
 - Keep the terminal experience fast and calm. Avoid visual noise that makes
   typing harder.
 - Prefer portable Node.js APIs before adding native dependencies.
 - Treat lesson data as product content. It should be reviewed as carefully as
   code.
+- Localize UI and story messages, but keep typing prompts in English across all
+  locales.
 - Optimize after measurement. A typing game is usually limited by terminal I/O
   and interaction design, not raw JavaScript speed.
 
