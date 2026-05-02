@@ -68,6 +68,25 @@ describe("runApp", () => {
     expect(output.text()).toContain("Session Result");
   });
 
+  it("returns to the title menu after showing journey progress", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["7", "", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Journey Progress");
+    expect(output.text()).toContain("Day: 1/90");
+    expect(output.text()).toContain("Weekly Trial: Gatekeeper Trial on Day 7");
+    expect(output.text()).toContain("Session Result");
+  });
+
   it("shows a notice when loading before any journey is saved", async () => {
     const output = createMemoryOutput();
     await runApp({

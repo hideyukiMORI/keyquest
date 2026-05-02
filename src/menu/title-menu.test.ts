@@ -6,6 +6,7 @@ import {
   parseLocaleChoice,
   parseTitleMenuAction,
   renderInGameHelp,
+  renderJourneyProgress,
   renderLanguageOptions,
   renderTitleMenu,
 } from "./title-menu.js";
@@ -21,6 +22,7 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("Load Game");
     expect(lines.join("\n")).not.toContain("Load Game (planned)");
     expect(lines.join("\n")).toContain("Help");
+    expect(lines.join("\n")).toContain("Journey");
   });
 
   it("parses title actions", () => {
@@ -32,6 +34,8 @@ describe("title menu", () => {
     expect(parseTitleMenuAction("5")).toBe("loadGame");
     expect(parseTitleMenuAction("6")).toBe("help");
     expect(parseTitleMenuAction("help")).toBe("help");
+    expect(parseTitleMenuAction("7")).toBe("journey");
+    expect(parseTitleMenuAction("journey")).toBe("journey");
   });
 
   it("renders in-game help", () => {
@@ -40,6 +44,24 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("How to Play");
     expect(lines.join("\n")).toContain("90-day journey");
     expect(lines.join("\n")).toContain("Press Enter to return to the title.");
+  });
+
+  it("renders journey progress", () => {
+    const save = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 14,
+        chapter: 2,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+    const lines = renderJourneyProgress(save, createTranslator("en"));
+
+    expect(lines.join("\n")).toContain("Journey Progress");
+    expect(lines.join("\n")).toContain("Day: 14/90");
+    expect(lines.join("\n")).toContain("Arc: Meadow Road");
+    expect(lines.join("\n")).toContain("Weekly Trial: Waystone Trial on Day 14");
+    expect(lines.join("\n")).toContain("76 days remain");
   });
 
   it("renders and parses language choices", () => {
