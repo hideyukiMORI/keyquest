@@ -53,6 +53,13 @@ export type WeaponId = "trainingBlade";
 
 export type CurseId = "rushedHands";
 
+export type EquipmentUpgradeId = "trainingBladeGrip" | "focusCharmThread";
+
+export type EquipmentUpgradeRecord = {
+  readonly id: EquipmentUpgradeId;
+  readonly level: number;
+};
+
 export type QuestResources = {
   readonly hp: number;
   readonly maxHp: number;
@@ -62,6 +69,7 @@ export type QuestResources = {
   readonly items: readonly ItemId[];
   readonly magic: readonly MagicId[];
   readonly weapons: readonly WeaponId[];
+  readonly equipmentUpgrades: readonly EquipmentUpgradeRecord[];
   readonly curses: readonly CurseId[];
 };
 
@@ -173,6 +181,12 @@ export function createInitialQuestResources(): QuestResources {
     items: [],
     magic: ["steadyBreath"],
     weapons: ["trainingBlade"],
+    equipmentUpgrades: [
+      {
+        id: "trainingBladeGrip",
+        level: 0,
+      },
+    ],
     curses: [],
   };
 }

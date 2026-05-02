@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { createNewSave } from "../save/model.js";
+import { getEquipmentUpgradeLevel } from "../quest/equipment.js";
+import { createInitialQuestResources, createNewSave } from "../save/model.js";
 import {
   advanceJourneyDay,
   calculateNextStreakDays,
@@ -190,6 +191,50 @@ describe("completePracticeRun", () => {
 
     expect(result.updatedSave.journey.day).toBe(save.journey.day);
     expect(result.updatedSave.progress.sessions).toHaveLength(1);
+  });
+
+  it("applies affordable equipment upgrades after a practice run", () => {
+    const startedAt = new Date("2026-01-01T00:00:00.000Z");
+    const completedAt = new Date("2026-01-01T00:00:10.000Z");
+    const save = createNewSave(startedAt, "normal");
+    const initialResources = save.progress.resources ?? createInitialQuestResources();
+    const result = completePracticeRun({
+      save: {
+        ...save,
+        progress: {
+          ...save.progress,
+          resources: {
+            ...initialResources,
+            materials: {
+              focusCrystal: 2,
+              repairShard: 1,
+            },
+          },
+        },
+      },
+      mode: "normal",
+      attempts: [
+        {
+          prompt: {
+            id: "home-row-1",
+            text: "f j",
+            skillIds: ["homePosition"],
+            targetKeys: ["f", "j"],
+            fingerHints: ["leftIndex", "rightIndex"],
+          },
+          actual: "f j",
+          startedAt,
+          completedAt,
+        },
+      ],
+    });
+
+    const resources = result.updatedSave.progress.resources;
+    expect(resources).toBeDefined();
+    expect(resources?.maxHp).toBe(21);
+    expect(
+      resources === undefined ? 0 : getEquipmentUpgradeLevel(resources, "trainingBladeGrip"),
+    ).toBe(1);
   });
 
   it("unlocks the Novice Hall title from Day 7", () => {
