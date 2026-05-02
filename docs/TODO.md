@@ -78,3 +78,4 @@
 
 - [x] Add CLI help and version output.
 - [x] Add in-game help menu.
+- [x] Strengthen npm package tarball smoke test.

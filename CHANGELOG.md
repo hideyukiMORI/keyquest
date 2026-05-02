@@ -7,6 +7,7 @@ drafts from git history.
 
 ## Unreleased
 
+- Strengthened `npm run package:smoke` to install the packed tarball and run the CLI.
 - Added an in-game Help screen from the title menu.
 - Added `--help` and `--version` CLI output for non-interactive discovery.
 - Added final Day 90 ending scene copy for the main journey completion state.

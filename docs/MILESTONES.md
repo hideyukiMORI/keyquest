@@ -176,6 +176,7 @@ Goal: publish a useful open-source CLI.
 - README with screenshots or terminal recording
 - npm package metadata
 - npm package smoke script and publishing checklist
+- Tarball install smoke for packaged CLI
 - Supported locales validated
 - Release notes script and changelog workflow
 - First public release notes
