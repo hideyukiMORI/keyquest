@@ -43,6 +43,28 @@ export type TitleRewardRecord = {
   readonly unlockedAt: string;
 };
 
+export type MaterialId = "focusCrystal" | "repairShard";
+
+export type ItemId = "minorFocusPotion";
+
+export type MagicId = "steadyBreath";
+
+export type WeaponId = "trainingBlade";
+
+export type CurseId = "rushedHands";
+
+export type QuestResources = {
+  readonly hp: number;
+  readonly maxHp: number;
+  readonly mp: number;
+  readonly maxMp: number;
+  readonly materials: Readonly<Record<MaterialId, number>>;
+  readonly items: readonly ItemId[];
+  readonly magic: readonly MagicId[];
+  readonly weapons: readonly WeaponId[];
+  readonly curses: readonly CurseId[];
+};
+
 export type SessionRecord = {
   readonly id: string;
   readonly mode: SaveMode;
@@ -85,6 +107,7 @@ export type KeyQuestSave = {
     readonly streakDays: number;
     readonly sessions: readonly SessionRecord[];
     readonly skills: readonly SkillTrack[];
+    readonly resources?: QuestResources;
     readonly achievements?: readonly AchievementRecord[];
     readonly titles?: readonly TitleRewardRecord[];
   };
@@ -121,6 +144,7 @@ export function createNewSave(now: Date, mode: SaveMode): KeyQuestSave {
       sessions: [],
       achievements: [],
       titles: [],
+      resources: createInitialQuestResources(),
       skills: [
         { id: "homePosition", level: 1, xp: 0 },
         { id: "fingerResponsibility", level: 1, xp: 0 },
@@ -133,6 +157,23 @@ export function createNewSave(now: Date, mode: SaveMode): KeyQuestSave {
       everUsedDevMode: mode === "development",
       devSessions: 0,
     },
+  };
+}
+
+export function createInitialQuestResources(): QuestResources {
+  return {
+    hp: 20,
+    maxHp: 20,
+    mp: 0,
+    maxMp: 10,
+    materials: {
+      focusCrystal: 0,
+      repairShard: 0,
+    },
+    items: [],
+    magic: ["steadyBreath"],
+    weapons: ["trainingBlade"],
+    curses: [],
   };
 }
 

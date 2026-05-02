@@ -1,6 +1,7 @@
 import { unlockSessionAchievements } from "../achievements/engine.js";
 import { scoreTypingResult, type Score } from "../core/scoring.js";
 import { getLatestBundledLessonDay } from "../lessons/manifest.js";
+import { resolveQuestResources } from "../quest/resources.js";
 import { unlockSessionTitles } from "../rewards/titles.js";
 import type {
   CharacterMistakeRecord,
@@ -89,6 +90,7 @@ export function completePracticeSession(options: {
       save: options.save,
       mode: options.mode,
       session,
+      score,
       prompts: [options.prompt],
       completedAt: options.completedAt,
       advancesJourney: options.advancesJourney ?? true,
@@ -150,6 +152,7 @@ export function completePracticeRun(options: {
       save: options.save,
       mode: options.mode,
       session,
+      score,
       prompts: options.attempts.map((attempt) => attempt.prompt),
       completedAt: lastAttempt.completedAt,
       advancesJourney: options.advancesJourney ?? true,
@@ -195,6 +198,7 @@ function applyPracticeResult(options: {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
   readonly session: SessionRecord;
+  readonly score: Score;
   readonly prompts: readonly PracticePrompt[];
   readonly completedAt: Date;
   readonly advancesJourney: boolean;
@@ -213,6 +217,11 @@ function applyPracticeResult(options: {
     unlockedAt: options.completedAt,
   });
   const previousTitles = options.save.progress.titles ?? [];
+  const questResourceResult = resolveQuestResources({
+    resources: options.save.progress.resources,
+    score: options.score,
+    xpGained: options.session.xpGained,
+  });
 
   return {
     ...options.save,
@@ -232,6 +241,7 @@ function applyPracticeResult(options: {
       totalXp: options.save.progress.totalXp + options.session.xpGained,
       streakDays: nextStreakDays,
       sessions: [...options.save.progress.sessions, options.session],
+      resources: questResourceResult.resources,
       achievements: [...previousAchievements, ...achievementUnlocks],
       titles: [...previousTitles, ...titleUnlocks],
       skills: updateSkillTracks(

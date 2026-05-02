@@ -36,6 +36,8 @@ describe("completePracticeSession", () => {
     expect(result.updatedSave.journey.storyFlag).toBe("noviceHallStarted");
     expect(result.updatedSave.journey.day).toBe(2);
     expect(result.updatedSave.progress.sessions[0]?.mistakes).toEqual([]);
+    expect(result.updatedSave.progress.resources?.hp).toBe(20);
+    expect(result.updatedSave.progress.resources?.mp).toBe(3);
   });
 
   it("marks development sessions separately", () => {
@@ -157,6 +159,8 @@ describe("completePracticeRun", () => {
         actual: null,
       },
     ]);
+    expect(result.updatedSave.progress.resources?.hp).toBe(18);
+    expect(result.updatedSave.progress.resources?.materials.repairShard).toBe(2);
   });
 
   it("can complete a review run without advancing the journey", () => {
