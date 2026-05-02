@@ -65,7 +65,7 @@ The save model should support:
 - Daily streaks and missed days
 - 90-day journey progress
 - XP and skill tracks
-- HP, MP, materials, items, weapons, magic, and curses
+- HP, MP, materials, items, weapons, equipment upgrades, magic, and curses
 - Per-character mistake records for later weak-key statistics
 - Achievement unlocks
 - Title reward unlocks
@@ -77,6 +77,8 @@ Implemented resource state currently stores:
 - `mp` / `maxMp`: accumulated focus resource.
 - `materials.focusCrystal`: earned from XP.
 - `materials.repairShard`: earned from mistakes for future recovery systems.
+- `equipmentUpgrades`: deterministic equipment upgrade records such as
+  `trainingBladeGrip`.
 - `items`, `weapons`, `magic`, and `curses`: stable inventory slots for future
   systems.
 

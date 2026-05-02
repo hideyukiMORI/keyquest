@@ -17,6 +17,7 @@ import {
   NOVICE_HALL_FINAL_DAY,
   RIVER_GATE_FINAL_DAY,
 } from "../lessons/manifest.js";
+import { EQUIPMENT_UPGRADES, getEquipmentUpgradeLevel } from "../quest/equipment.js";
 import { getQuestArcForDay } from "../quest/map.js";
 import { createInitialQuestResources } from "../save/model.js";
 import { styleText } from "../terminal/ansi.js";
@@ -214,8 +215,24 @@ export function renderPracticeRewards(
 
     return [skillLine, ...levelLine];
   });
+  const beforeResources = rewards.beforeSave.progress.resources ?? createInitialQuestResources();
+  const afterResources = rewards.afterSave.progress.resources ?? createInitialQuestResources();
+  const equipmentLines = EQUIPMENT_UPGRADES.flatMap((upgrade) => {
+    const beforeLevel = getEquipmentUpgradeLevel(beforeResources, upgrade.id);
+    const afterLevel = getEquipmentUpgradeLevel(afterResources, upgrade.id);
+    if (afterLevel <= beforeLevel) {
+      return [];
+    }
 
-  return [t("reward.heading"), ...rewardLines];
+    return [
+      t("reward.equipmentUpgrade", {
+        name: t(`equipment.${upgrade.id}`),
+        level: afterLevel,
+      }),
+    ];
+  });
+
+  return [t("reward.heading"), ...rewardLines, ...equipmentLines];
 }
 
 export function renderPracticeReviewResult(

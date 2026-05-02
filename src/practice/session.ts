@@ -1,5 +1,6 @@
 import { unlockSessionAchievements } from "../achievements/engine.js";
 import { scoreTypingResult, type Score } from "../core/scoring.js";
+import { resolveEquipmentUpgrades } from "../quest/equipment.js";
 import { getLatestBundledLessonDay } from "../lessons/manifest.js";
 import { resolveQuestResources } from "../quest/resources.js";
 import { unlockSessionTitles } from "../rewards/titles.js";
@@ -222,6 +223,7 @@ function applyPracticeResult(options: {
     score: options.score,
     xpGained: options.session.xpGained,
   });
+  const equipmentUpgradeResult = resolveEquipmentUpgrades(questResourceResult.resources);
 
   return {
     ...options.save,
@@ -241,7 +243,7 @@ function applyPracticeResult(options: {
       totalXp: options.save.progress.totalXp + options.session.xpGained,
       streakDays: nextStreakDays,
       sessions: [...options.save.progress.sessions, options.session],
-      resources: questResourceResult.resources,
+      resources: equipmentUpgradeResult.resources,
       achievements: [...previousAchievements, ...achievementUnlocks],
       titles: [...previousTitles, ...titleUnlocks],
       skills: updateSkillTracks(

@@ -99,6 +99,9 @@ The first resource implementation is intentionally small and deterministic:
 - Repair Shards are earned from mistakes and can later support weak-key recovery.
 - The initial inventory includes a training weapon and a basic focus magic ID so
   future UI can render equipment without changing the save shape again.
+- Training Blade Grip is the first deterministic equipment upgrade. It spends
+  Focus Crystals and Repair Shards, then increases `maxHp` by a small amount so
+  practice creates visible durability without changing typing scores.
 
 HP is saved as the post-quest result, but each quest resolves damage from
 `maxHp`; it should not become a punishment that carries forward forever. MP and
