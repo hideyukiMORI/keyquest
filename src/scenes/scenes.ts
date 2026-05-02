@@ -4,6 +4,7 @@ import type {
   PracticeRewardsView,
   PracticeResultView,
   PracticeRunResultView,
+  PracticeTitleRewardsView,
   Scene,
   SceneContext,
   SceneOutput,
@@ -219,6 +220,28 @@ export function renderPracticeAchievements(
   }
 
   return [translator.t("achievement.heading"), ...unlockedAchievementLines];
+}
+
+export function renderPracticeTitleRewards(
+  titles: PracticeTitleRewardsView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const beforeTitleIds = new Set(
+    (titles.beforeSave.progress.titles ?? []).map((title) => title.id),
+  );
+  const unlockedTitleLines = (titles.afterSave.progress.titles ?? [])
+    .filter((title) => !beforeTitleIds.has(title.id))
+    .map((title) =>
+      translator.t("titleReward.unlocked", {
+        title: translator.t(`titleReward.${title.id}`),
+      }),
+    );
+
+  if (unlockedTitleLines.length === 0) {
+    return [];
+  }
+
+  return [translator.t("titleReward.heading"), ...unlockedTitleLines];
 }
 
 export function renderPracticeJourneyProgress(

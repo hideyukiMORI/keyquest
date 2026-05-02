@@ -6,6 +6,7 @@ import {
   renderPracticeAchievements,
   renderPracticeJourneyProgress,
   renderPracticeRewards,
+  renderPracticeTitleRewards,
 } from "./scenes.js";
 
 describe("scene rendering", () => {
@@ -62,6 +63,32 @@ describe("scene rendering", () => {
         createTranslator("en"),
       ),
     ).toEqual(["Achievements", "Unlocked: First Steps"]);
+  });
+
+  it("renders newly unlocked title rewards", () => {
+    const beforeSave = createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal");
+    const afterSave = {
+      ...beforeSave,
+      progress: {
+        ...beforeSave.progress,
+        titles: [
+          {
+            id: "noviceHallGraduate" as const,
+            unlockedAt: "2026-01-01T00:00:10.000Z",
+          },
+        ],
+      },
+    };
+
+    expect(
+      renderPracticeTitleRewards(
+        {
+          beforeSave,
+          afterSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual(["Titles", "Earned title: Novice Hall Graduate"]);
   });
 
   it("renders journey progress only when the day advances", () => {

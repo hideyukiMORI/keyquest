@@ -26,6 +26,7 @@ import {
   renderPracticeRunResult,
   renderPracticeRewards,
   renderPracticeSegmentResult,
+  renderPracticeTitleRewards,
 } from "./scenes/scenes.js";
 import type { SceneContext } from "./scenes/types.js";
 import { styleText } from "./terminal/ansi.js";
@@ -169,6 +170,17 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   if (achievementLines.length > 0) {
     options.textOutput.writeLine("");
     options.textOutput.writeLine(achievementLines.join("\n"));
+  }
+  const titleRewardLines = renderPracticeTitleRewards(
+    {
+      beforeSave: menuSave,
+      afterSave: result.updatedSave,
+    },
+    translator,
+  );
+  if (titleRewardLines.length > 0) {
+    options.textOutput.writeLine("");
+    options.textOutput.writeLine(titleRewardLines.join("\n"));
   }
   const journeyProgressLines = renderPracticeJourneyProgress(
     {

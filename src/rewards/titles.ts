@@ -1,0 +1,30 @@
+import { NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
+import type { KeyQuestSave, TitleRewardId, TitleRewardRecord } from "../save/model.js";
+
+export type TitleRewardDefinition = {
+  readonly id: TitleRewardId;
+  readonly title: string;
+};
+
+export const TITLE_REWARDS: Readonly<Record<TitleRewardId, TitleRewardDefinition>> = {
+  noviceHallGraduate: {
+    id: "noviceHallGraduate",
+    title: "Novice Hall Graduate",
+  },
+};
+
+export function unlockSessionTitles(options: {
+  readonly save: KeyQuestSave;
+  readonly unlockedAt: Date;
+}): readonly TitleRewardRecord[] {
+  const candidates: TitleRewardId[] =
+    options.save.journey.day === NOVICE_HALL_FINAL_DAY ? ["noviceHallGraduate"] : [];
+  const existingTitleIds = new Set((options.save.progress.titles ?? []).map((title) => title.id));
+
+  return candidates
+    .filter((id) => !existingTitleIds.has(id))
+    .map((id) => ({
+      id,
+      unlockedAt: options.unlockedAt.toISOString(),
+    }));
+}
