@@ -92,6 +92,27 @@ describe("scene rendering", () => {
     ).toEqual(["Titles", "Earned title: Novice Hall Graduate"]);
   });
 
+  it("renders the Meadow Road clear message on the Waystone Trial day", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 14,
+        chapter: 2,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    expect(
+      renderPracticeJourneyProgress(
+        {
+          beforeSave,
+          afterSave: beforeSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual(["Journey", "Waystone Trial cleared. The Meadow Road opens into wider lands."]);
+  });
+
   it("renders streak milestone progress", () => {
     const beforeSave = {
       ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),

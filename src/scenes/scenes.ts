@@ -10,7 +10,7 @@ import type {
   SceneContext,
   SceneOutput,
 } from "./types.js";
-import { NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
+import { MEADOW_ROAD_FINAL_DAY, NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
 import { styleText } from "../terminal/ansi.js";
 
 export const titleScene: Scene = {
@@ -283,6 +283,7 @@ export function renderPracticeJourneyProgress(
   const afterDay = progress.afterSave.journey.day;
   const progressLines = [
     beforeDay === NOVICE_HALL_FINAL_DAY ? t("journey.noviceHallClear") : "",
+    beforeDay === MEADOW_ROAD_FINAL_DAY ? t("journey.meadowRoadClear") : "",
     afterDay > beforeDay ? t("journey.nextDay", { day: afterDay }) : "",
   ].filter((line) => line.length > 0);
 

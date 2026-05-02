@@ -1,4 +1,4 @@
-import { NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
+import { MEADOW_ROAD_FINAL_DAY, NOVICE_HALL_FINAL_DAY } from "../lessons/manifest.js";
 import type { KeyQuestSave, TitleRewardId, TitleRewardRecord } from "../save/model.js";
 
 export type TitleRewardDefinition = {
@@ -11,14 +11,20 @@ export const TITLE_REWARDS: Readonly<Record<TitleRewardId, TitleRewardDefinition
     id: "noviceHallGraduate",
     title: "Novice Hall Graduate",
   },
+  meadowRoadPathfinder: {
+    id: "meadowRoadPathfinder",
+    title: "Meadow Road Pathfinder",
+  },
 };
 
 export function unlockSessionTitles(options: {
   readonly save: KeyQuestSave;
   readonly unlockedAt: Date;
 }): readonly TitleRewardRecord[] {
-  const candidates: TitleRewardId[] =
-    options.save.journey.day === NOVICE_HALL_FINAL_DAY ? ["noviceHallGraduate"] : [];
+  const candidates: TitleRewardId[] = [
+    options.save.journey.day === NOVICE_HALL_FINAL_DAY ? "noviceHallGraduate" : undefined,
+    options.save.journey.day === MEADOW_ROAD_FINAL_DAY ? "meadowRoadPathfinder" : undefined,
+  ].filter((id): id is TitleRewardId => id !== undefined);
   const existingTitleIds = new Set((options.save.progress.titles ?? []).map((title) => title.id));
 
   return candidates
