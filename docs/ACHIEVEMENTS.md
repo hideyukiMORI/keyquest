@@ -16,6 +16,12 @@ The first implementation deliberately keeps achievements small:
 
 - First Steps: complete the first session.
 - Flawless Focus: complete a session with no mistakes.
+- Three Days Pact: reach a 3-day practice streak.
+- Unbroken 7: reach a 7-day practice streak.
+- Moon Cycle: reach a 30-day practice streak.
+- Long Watch: practice for 30 minutes in one session.
+- Deep Dive: practice for 1 hour in one session.
+- Dungeon Marathon: practice for 3 hours in one session.
 
 Achievement unlocks are stored in save progress and rendered after the reward
 screen. Future achievements should reuse this path rather than adding separate

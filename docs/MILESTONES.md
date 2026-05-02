@@ -93,9 +93,10 @@ system too early.
 
 - First reward screen with XP gain
 - Simple level-up display for skill tracks
-- First item or title reward
-- First achievement unlock path (complete for `firstSession` and
-  `perfectSession`)
+- First title reward after Gatekeeper Trial (`noviceHallGraduate`)
+- First achievement unlock path for first session, perfect sessions,
+  streak milestones, and long-session play
+- Daily streak progression from session completion dates
 - Save data for rewards that can evolve into equipment, magic, and items
 
 Exit criteria:
@@ -110,11 +111,11 @@ Goal: make lessons easy to write, review, and improve.
 
 - Versioned lesson schema
 - Beginner home-row lessons through the first Novice Hall week
-- First post-Novice-Hall lesson entry
+- First Meadow Road lessons through Day 10
 - Lesson-specific session prompt counts for boss-style lessons
 - Bundled lesson manifest for default progression
 - Programmer symbol lessons
-- Lesson validation command
+- Lesson validation command included in `npm run verify`
 - English-only typing prompts separated from localized UI strings
 
 ## Mid Term: 90-Day Adventure Layer

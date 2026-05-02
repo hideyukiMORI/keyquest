@@ -68,6 +68,7 @@ The save model should support:
 - HP, MP, items, weapons, magic, and materials
 - Per-character mistake records for later weak-key statistics
 - Achievement unlocks
+- Title reward unlocks
 - Dev-mode marker for sessions generated in development mode
 
 ## Migration Policy

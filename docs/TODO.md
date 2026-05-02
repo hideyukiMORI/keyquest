@@ -13,6 +13,7 @@
 - [x] Keep `main` green with `npm run verify`.
 - [x] Add Novice Hall lessons for Day 2 through Day 7.
 - [x] Add the first post-Novice-Hall Day 8 lesson.
+- [x] Add Meadow Road Day 9 and Day 10 lessons.
 - [x] Resolve the default lesson from the saved journey day.
 - [x] Advance journey day after completed sessions, capped at bundled lessons.
 
@@ -38,9 +39,13 @@
 - [x] Decide whether boss lessons can override the default three-prompt session
       length.
 - [x] Add the first achievement unlock path.
-- [ ] Add achievement definitions for streaks and long-session play.
-- [ ] Add first title reward or item reward after Gatekeeper Trial.
-- [ ] Add a lesson manifest validation command for CI and release checks.
+- [x] Add achievement definitions for streaks and long-session play.
+- [x] Add first title reward or item reward after Gatekeeper Trial.
+- [x] Add a lesson manifest validation command for CI and release checks.
+- [x] Track daily streaks and unlock continuity achievements.
+- [ ] Add a visible streak milestone message after session rewards.
+- [ ] Add weak-key review quest generation from mistake history.
+- [ ] Add Day 11 through Day 14 Meadow Road lessons.
 
 ## Mid Term
 
