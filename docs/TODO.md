@@ -71,5 +71,5 @@
 - [x] Add 90-day ending state and post-game practice goal model.
 - [ ] Add final Day 90 ending scene content.
 - [x] Add importable lesson packs.
-- [ ] Prepare npm publishing.
+- [x] Prepare npm publishing.
 - [ ] Add release notes and changelog automation.

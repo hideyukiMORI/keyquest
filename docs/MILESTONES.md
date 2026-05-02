@@ -172,6 +172,7 @@ Goal: publish a useful open-source CLI.
 - `npx keyquest` smoke test
 - README with screenshots or terminal recording
 - npm package metadata
+- npm package smoke script and publishing checklist
 - Supported locales validated
 - Release checklist and changelog
 - First public release notes
