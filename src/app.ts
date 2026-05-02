@@ -9,12 +9,18 @@ import {
 import type { Lesson } from "./lessons/schema.js";
 import {
   createMenuTranslator,
+  type TitleMenuAction,
   parseLocaleChoice,
   parseTitleMenuAction,
   renderLanguageOptions,
   renderTitleMenu,
 } from "./menu/title-menu.js";
-import { completePracticeRun, type PracticeAttempt } from "./practice/session.js";
+import {
+  completePracticeRun,
+  type PracticeAttempt,
+  type PracticePrompt,
+} from "./practice/session.js";
+import { createWeakKeyReviewPrompt } from "./practice/weak-key-review.js";
 import { createNewSave, updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
@@ -61,7 +67,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     options.textOutput.writeLine("");
   }
 
-  const menuSave = await runTitleMenu({
+  const menuSelection = await runTitleMenu({
     save,
     mode: options.mode,
     now,
@@ -69,13 +75,23 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     textOutput: options.textOutput,
     writeSave: saveStore.write,
   });
+  const menuSave = menuSelection.save;
+  const reviewPrompt =
+    menuSelection.action === "review" ? createWeakKeyReviewPrompt(menuSave) : undefined;
   const defaultLessonPath = getDefaultLessonPathForDay(menuSave.journey.day);
   const lesson =
-    options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? defaultLessonPath));
-  const practicePrompts = selectPracticePrompts(
-    lesson,
-    lesson.sessionPromptCount ?? DAILY_SESSION_PROMPT_COUNT,
-  );
+    reviewPrompt === undefined
+      ? (options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? defaultLessonPath)))
+      : createReviewLesson(
+          menuSave.journey.day,
+          createTranslator(menuSave.settings.locale).t("review.lessonTitle"),
+          reviewPrompt,
+        );
+  const practicePrompts =
+    reviewPrompt === undefined
+      ? selectPracticePrompts(lesson, lesson.sessionPromptCount ?? DAILY_SESSION_PROMPT_COUNT)
+      : [reviewPrompt];
+  const advancesJourney = menuSelection.action !== "review";
   const translator = createTranslator(menuSave.settings.locale);
   const attempts: PracticeAttempt[] = [];
   let promptStartedAt = now;
@@ -110,6 +126,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       save: menuSave,
       mode: options.mode,
       attempts: [attempt],
+      advancesJourney: false,
     }).attempts[0];
     if (segmentResult === undefined) {
       throw new Error("Practice segment did not produce a result");
@@ -136,6 +153,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     save: menuSave,
     mode: options.mode,
     attempts,
+    advancesJourney,
   });
 
   await saveStore.write(result.updatedSave);
@@ -214,7 +232,10 @@ async function runTitleMenu(options: {
   readonly textInput: TextInput;
   readonly textOutput: TextOutput;
   readonly writeSave: (save: KeyQuestSave) => Promise<void>;
-}): Promise<KeyQuestSave> {
+}): Promise<{
+  readonly save: KeyQuestSave;
+  readonly action: Extract<TitleMenuAction, "start" | "review">;
+}> {
   let save = options.save;
 
   for (;;) {
@@ -229,14 +250,25 @@ async function runTitleMenu(options: {
     );
     if (action === "start") {
       options.textOutput.writeLine("");
-      return save;
+      return { save, action };
+    }
+
+    if (action === "review") {
+      if (createWeakKeyReviewPrompt(save) === undefined) {
+        options.textOutput.writeLine(translator.t("review.noMistakes"));
+        options.textOutput.writeLine("");
+        continue;
+      }
+
+      options.textOutput.writeLine("");
+      return { save, action };
     }
 
     if (action === "newGame") {
       const newSave = createNewSave(options.now, options.mode);
       await options.writeSave(newSave);
       options.textOutput.writeLine("");
-      return newSave;
+      return { save: newSave, action: "start" };
     }
 
     if (action === "loadGame") {
@@ -253,6 +285,26 @@ async function runTitleMenu(options: {
     save = updateLocale(save, selectedLocale, options.now);
     await options.writeSave(save);
   }
+}
+
+function createReviewLesson(day: number, title: string, practicePrompt: PracticePrompt): Lesson {
+  return {
+    schemaVersion: 1,
+    id: "weak-key-review",
+    title,
+    day,
+    locale: "en",
+    focus: ["weak-key review", "accuracy"],
+    prompts: [
+      {
+        id: practicePrompt.id,
+        text: practicePrompt.text,
+        targetKeys: practicePrompt.targetKeys,
+        skillIds: practicePrompt.skillIds,
+        fingerHints: practicePrompt.fingerHints,
+      },
+    ],
+  };
 }
 
 async function runLanguageOptions(options: {

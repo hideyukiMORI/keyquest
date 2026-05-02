@@ -57,6 +57,7 @@ export function completePracticeSession(options: {
   readonly actual: string;
   readonly startedAt: Date;
   readonly completedAt: Date;
+  readonly advancesJourney?: boolean;
 }): PracticeSessionResult {
   const score = scoreTypingResult({
     expected: options.prompt.text,
@@ -90,6 +91,7 @@ export function completePracticeSession(options: {
       session,
       prompts: [options.prompt],
       completedAt: options.completedAt,
+      advancesJourney: options.advancesJourney ?? true,
     }),
   };
 }
@@ -98,6 +100,7 @@ export function completePracticeRun(options: {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
   readonly attempts: readonly PracticeAttempt[];
+  readonly advancesJourney?: boolean;
 }): PracticeRunResult {
   if (options.attempts.length === 0) {
     throw new Error("Practice run requires at least one attempt");
@@ -149,6 +152,7 @@ export function completePracticeRun(options: {
       session,
       prompts: options.attempts.map((attempt) => attempt.prompt),
       completedAt: lastAttempt.completedAt,
+      advancesJourney: options.advancesJourney ?? true,
     }),
   };
 }
@@ -193,6 +197,7 @@ function applyPracticeResult(options: {
   readonly session: SessionRecord;
   readonly prompts: readonly PracticePrompt[];
   readonly completedAt: Date;
+  readonly advancesJourney: boolean;
 }): KeyQuestSave {
   const trainedSkillIds = uniqueSkillIds(options.prompts.flatMap((prompt) => prompt.skillIds));
   const nextStreakDays = calculateNextStreakDays(options.save, options.completedAt);
@@ -217,7 +222,9 @@ function applyPracticeResult(options: {
     },
     journey: {
       ...options.save.journey,
-      day: advanceJourneyDay(options.save.journey.day),
+      day: options.advancesJourney
+        ? advanceJourneyDay(options.save.journey.day)
+        : options.save.journey.day,
       storyFlag: "noviceHallStarted",
     },
     progress: {

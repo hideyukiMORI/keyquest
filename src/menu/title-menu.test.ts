@@ -15,6 +15,7 @@ describe("title menu", () => {
     const lines = renderTitleMenu(save, createTranslator("en"));
 
     expect(lines.join("\n")).toContain("Start");
+    expect(lines.join("\n")).toContain("Review Weak Keys");
     expect(lines.join("\n")).toContain("New Game");
     expect(lines.join("\n")).toContain("Load Game (planned)");
   });
@@ -22,9 +23,10 @@ describe("title menu", () => {
   it("parses title actions", () => {
     expect(parseTitleMenuAction("")).toBe("start");
     expect(parseTitleMenuAction("1")).toBe("start");
-    expect(parseTitleMenuAction("2")).toBe("options");
-    expect(parseTitleMenuAction("3")).toBe("newGame");
-    expect(parseTitleMenuAction("4")).toBe("loadGame");
+    expect(parseTitleMenuAction("2")).toBe("review");
+    expect(parseTitleMenuAction("3")).toBe("options");
+    expect(parseTitleMenuAction("4")).toBe("newGame");
+    expect(parseTitleMenuAction("5")).toBe("loadGame");
   });
 
   it("renders and parses language choices", () => {

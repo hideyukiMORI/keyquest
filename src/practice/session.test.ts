@@ -159,6 +159,35 @@ describe("completePracticeRun", () => {
     ]);
   });
 
+  it("can complete a review run without advancing the journey", () => {
+    const startedAt = new Date("2026-01-01T00:00:00.000Z");
+    const completedAt = new Date("2026-01-01T00:00:10.000Z");
+    const save = createNewSave(startedAt, "normal");
+
+    const result = completePracticeRun({
+      save,
+      mode: "normal",
+      advancesJourney: false,
+      attempts: [
+        {
+          prompt: {
+            id: "weak-key-review-j",
+            text: "j j j",
+            skillIds: ["fingerResponsibility", "accuracy"],
+            targetKeys: ["j"],
+            fingerHints: ["rightIndex"],
+          },
+          actual: "j j j",
+          startedAt,
+          completedAt,
+        },
+      ],
+    });
+
+    expect(result.updatedSave.journey.day).toBe(save.journey.day);
+    expect(result.updatedSave.progress.sessions).toHaveLength(1);
+  });
+
   it("unlocks the Novice Hall title from Day 7", () => {
     const startedAt = new Date("2026-01-01T00:00:00.000Z");
     const completedAt = new Date("2026-01-01T00:00:10.000Z");

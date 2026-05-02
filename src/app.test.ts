@@ -306,7 +306,7 @@ describe("runApp", () => {
     await runApp({
       mode: "normal",
       saveDirectory: await createTempDirectory(),
-      textInput: createQueuedTextInput(["2", "2", "1", "f j", "ff jj", "fj jf"]),
+      textInput: createQueuedTextInput(["3", "2", "1", "f j", "ff jj", "fj jf"]),
       textOutput: output,
       lesson: createTestLesson(),
       lessonPath: undefined,
@@ -326,7 +326,7 @@ describe("runApp", () => {
     await runApp({
       mode: "normal",
       saveDirectory: await createTempDirectory(),
-      textInput: createQueuedTextInput(["4", "1", "f j", "ff jj", "fj jf"]),
+      textInput: createQueuedTextInput(["5", "1", "f j", "ff jj", "fj jf"]),
       textOutput: output,
       lesson: createTestLesson(),
       lessonPath: undefined,
@@ -335,6 +335,70 @@ describe("runApp", () => {
     });
 
     expect(output.text()).toContain("Load Game will open save slots later");
+    expect(output.text()).toContain("Session Result");
+  });
+
+  it("runs a weak-key review without advancing the journey", async () => {
+    const directory = await createTempDirectory();
+    const now = new Date("2026-01-01T00:00:00.000Z");
+    const save = createNewSave(now, "normal");
+    await createSaveStore({ mode: "normal", directory }).write({
+      ...save,
+      progress: {
+        ...save.progress,
+        sessions: [
+          {
+            id: "session-previous",
+            mode: "normal",
+            startedAt: "2026-01-01T00:00:00.000Z",
+            completedAt: "2026-01-01T00:10:00.000Z",
+            promptCount: 1,
+            accuracy: 0.5,
+            wordsPerMinute: 20,
+            xpGained: 5,
+            mistakes: [
+              { promptId: "p1", index: 0, expected: "j", actual: "f" },
+              { promptId: "p1", index: 1, expected: "j", actual: "f" },
+              { promptId: "p1", index: 2, expected: "f", actual: "j" },
+            ],
+          },
+        ],
+      },
+    });
+    const output = createMemoryOutput();
+
+    await runApp({
+      mode: "normal",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["2", "j j j f f f jf fj"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now,
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    const updatedSave = await createSaveStore({ mode: "normal", directory }).loadOrCreate(now);
+    expect(output.text()).toContain("Lesson: Weak-Key Review");
+    expect(output.text()).toContain("Prompts: 1");
+    expect(updatedSave.journey.day).toBe(1);
+  });
+
+  it("returns to title when weak-key review is unavailable", async () => {
+    const output = createMemoryOutput();
+
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["2", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("No weak-key review is ready yet");
     expect(output.text()).toContain("Session Result");
   });
 
@@ -353,7 +417,7 @@ describe("runApp", () => {
     await runApp({
       mode: "development",
       saveDirectory: directory,
-      textInput: createQueuedTextInput(["3", "f j", "ff jj", "fj jf"]),
+      textInput: createQueuedTextInput(["4", "f j", "ff jj", "fj jf"]),
       textOutput: createMemoryOutput(),
       lesson: createTestLesson(),
       lessonPath: undefined,
