@@ -57,7 +57,7 @@
 
 ## Mid Term
 
-- [ ] Design [#4](https://github.com/hideyukiMORI/keyquest/issues/4): adventure progression.
+- [x] Design [#4](https://github.com/hideyukiMORI/keyquest/issues/4): adventure progression.
 - [ ] Design [#9](https://github.com/hideyukiMORI/keyquest/issues/9): achievement engine and first achievement set.
 - [ ] Add HP, MP, XP, item, magic, weapon, and curse models.
 - [ ] Add weekly boss quest rules.

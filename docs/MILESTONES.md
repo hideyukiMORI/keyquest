@@ -137,6 +137,8 @@ Goal: shape daily practice into a 90-day fantasy journey.
 - 7-day training cycle with weekly boss quests
 - 90-day story map and ending
 - Quest map and progression
+- Documented adventure progression model for daily quests, weekly arcs, and
+  weak-key review
 - Short story beats
 - Achievements based on accuracy and consistency
 - Review mode for weak keys
