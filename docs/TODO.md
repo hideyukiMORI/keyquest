@@ -53,7 +53,7 @@
 - [ ] Add River Gate clear message and third-week title reward.
 - [ ] Add Day 22 through Day 28 lessons.
 - [ ] Add review quest result messaging that explains the targeted weak keys.
-- [ ] Add raw-mode real-time typing screen on top of the screen renderer.
+- [x] Add raw-mode real-time typing screen on top of the screen renderer.
 
 ## Mid Term
 

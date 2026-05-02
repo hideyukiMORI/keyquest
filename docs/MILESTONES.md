@@ -63,6 +63,7 @@ stable.
 - Screen rendering boundary that keeps ANSI control away from core game logic
 - Non-scrolling redraw path for major terminal screens
 - Input boundary that can support both line input and raw key input
+- Real-time typing screen adapter that redraws prompt progress on each keypress
 
 Exit criteria:
 
@@ -80,6 +81,8 @@ rewriting the main practice flow.
 - Backspace handling
 - Ctrl+C and escape-safe terminal cleanup
 - Deterministic tests for real-time typing state transitions
+- Main practice loop integration for TTY screen rendering with line-input
+  fallback
 - Manual smoke test instructions for Linux, macOS, and Windows terminals
 
 Exit criteria:

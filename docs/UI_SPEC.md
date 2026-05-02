@@ -68,6 +68,9 @@ Current policy:
 
 - Use the screen renderer for title, options, practice intro, segment result,
   and final result screens.
+- In TTY output, practice prompts may switch to a raw-mode real-time screen that
+  redraws target text, current input, character progress, and controls on each
+  keypress.
 - In TTY output, clear the screen and move the cursor home before drawing the
   next major screen.
 - In non-TTY output, keep append-only plain text so logs, tests, and piped runs
@@ -76,6 +79,8 @@ Current policy:
   prompt, so a screen body does not force scrolling.
 - Keep raw ANSI control inside terminal modules; scene and game logic should
   continue to return semantic text.
+- Keep the real-time typing state pure and testable; raw terminal input should
+  be an adapter around that state machine.
 
 ## Terminal Size
 
