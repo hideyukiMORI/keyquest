@@ -317,7 +317,10 @@ describe("scene rendering", () => {
       ),
     ).toEqual([
       "Ending",
-      "Day 90 complete. The final gate is open when the ending scene is ready.",
+      "Day 90 complete. The final gate opens.",
+      "The dark keep falls silent as your steady hands finish the last spell.",
+      "The old instructor smiles: the blade was never steel, but practice kept daily.",
+      "KeyQuest is cleared. New roads remain for sharper accuracy and calmer rhythm.",
     ]);
   });
 

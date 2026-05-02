@@ -7,6 +7,7 @@ drafts from git history.
 
 ## Unreleased
 
+- Added final Day 90 ending scene copy for the main journey completion state.
 - Added `npm run release:notes` to draft release notes from commits since the
   latest tag.
 - Added publishing docs that connect changelog updates, package smoke checks, and
