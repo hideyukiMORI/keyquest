@@ -15,4 +15,6 @@ alwaysApply: false
 - Use type-only imports when importing only types and keep `.js` extensions in local imports.
 - Wrap raw-mode input, ANSI output, filesystem access, clocks, and process args behind small modules.
 - Follow `docs/UI_SPEC.md`; keep typing screens stable and avoid continuous animation while typing.
-- Add focused Vitest coverage beside modules, especially for parsing, save codecs, scenes, scoring, and progression.
+- Follow `docs/TESTING_STRATEGY.md`; add focused Vitest coverage beside modules.
+- Test parsing, save codecs/stores, scenes, scoring, progression, achievements, and terminal fallbacks as contracts.
+- Use fixed dates, temporary directories, and injected dependencies; avoid sleeps, broad snapshots, and real randomness.

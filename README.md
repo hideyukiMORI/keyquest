@@ -53,5 +53,6 @@ This project is managed with GitHub Issues and local Markdown planning docs.
 - Achievements: `docs/ACHIEVEMENTS.md`
 - Localization: `docs/LOCALIZATION.md`
 - Save data: `docs/SAVE_DATA.md`
+- Testing strategy: `docs/TESTING_STRATEGY.md`
 - Development philosophy and policy: `docs/DEVELOPMENT.md`
 - Coding standards: `docs/CODING_STANDARDS.md`

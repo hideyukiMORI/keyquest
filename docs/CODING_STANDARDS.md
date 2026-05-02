@@ -77,15 +77,16 @@
 
 ## Tests
 
-- Unit test scoring, parsing, validation, and progression rules.
+- Follow `docs/TESTING_STRATEGY.md`.
 - Add tests next to the module under test with `*.test.ts`.
-- Test public behavior, not private implementation details.
+- Test public behavior and contracts, not private implementation details.
 - Use deterministic dates, temporary directories, and injected dependencies.
 - For save and CLI code, test both normal and development modes.
-- Add regression tests when fixing bugs.
-- Add integration or smoke tests for CLI behavior once the loop stabilizes.
-- Do not over-test throwaway prototypes; convert useful prototypes into tested
-  modules before they become foundation code.
+- Add regression tests when fixing bugs unless the test would be more brittle
+  than useful.
+- Do not use broad snapshots for ANSI-heavy output, animation frames, or save
+  files with timestamps.
+- Run `npm run verify` before pushing.
 
 ## Formatting
 
