@@ -41,6 +41,7 @@ describe("runApp", () => {
     expect(output.text()).toContain("Time: 20.0s");
     expect(output.text()).toContain("XP gained");
     expect(output.text()).toContain("Rewards");
+    expect(output.text()).not.toContain("Review Focus");
     expect(output.text()).toContain("Achievements");
     expect(output.text()).toContain("Unlocked: First Steps");
     expect(output.text()).toContain("Unlocked: Flawless Focus");
@@ -520,6 +521,8 @@ describe("runApp", () => {
 
     const updatedSave = await createSaveStore({ mode: "normal", directory }).loadOrCreate(now);
     expect(output.text()).toContain("Lesson: Weak-Key Review");
+    expect(output.text()).toContain("Review Focus");
+    expect(output.text()).toContain("Targeted weak keys: j f");
     expect(output.text()).toContain("Prompts: 1");
     expect(updatedSave.journey.day).toBe(1);
   });

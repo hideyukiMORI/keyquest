@@ -29,6 +29,7 @@ import {
   practiceIntroScene,
   renderPracticeAchievements,
   renderPracticeJourneyProgress,
+  renderPracticeReviewResult,
   renderPracticeRunResult,
   renderPracticeRewards,
   renderPracticeSegmentResult,
@@ -180,6 +181,16 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       },
       translator,
     ),
+    ...(reviewPrompt === undefined
+      ? []
+      : [
+          renderPracticeReviewResult(
+            {
+              targetKeys: reviewPrompt.targetKeys,
+            },
+            translator,
+          ),
+        ]),
     renderPracticeRewards(
       {
         beforeSave: menuSave,

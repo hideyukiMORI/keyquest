@@ -5,6 +5,7 @@ import { createNewSave } from "../save/model.js";
 import {
   renderPracticeAchievements,
   renderPracticeJourneyProgress,
+  renderPracticeReviewResult,
   renderPracticeRewards,
   renderPracticeStreakProgress,
   renderPracticeTitleRewards,
@@ -90,6 +91,17 @@ describe("scene rendering", () => {
         createTranslator("en"),
       ),
     ).toEqual(["Titles", "Earned title: Novice Hall Graduate"]);
+  });
+
+  it("renders weak-key review target keys", () => {
+    expect(
+      renderPracticeReviewResult(
+        {
+          targetKeys: ["j", "f"],
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual(["Review Focus", "Targeted weak keys: j f"]);
   });
 
   it("renders the Meadow Road clear message on the Waystone Trial day", () => {
