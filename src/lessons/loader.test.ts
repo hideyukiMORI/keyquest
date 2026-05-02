@@ -4,7 +4,13 @@ import { join } from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { loadLessonFromFile, selectPracticePrompt, selectPracticePrompts } from "./loader.js";
+import {
+  DEFAULT_LESSON_PATH,
+  getDefaultLessonPathForDay,
+  loadLessonFromFile,
+  selectPracticePrompt,
+  selectPracticePrompts,
+} from "./loader.js";
 
 const tempDirectories: string[] = [];
 
@@ -47,6 +53,13 @@ describe("lesson loader", () => {
       fingerHints: ["leftIndex", "rightIndex"],
     });
     expect(selectPracticePrompts(lesson, 3)).toHaveLength(1);
+  });
+
+  it("resolves default lesson paths from journey days", () => {
+    expect(DEFAULT_LESSON_PATH).toBe(getDefaultLessonPathForDay(1));
+    expect(getDefaultLessonPathForDay(2)).toMatch(/lessons\/novice-hall-day-2\.json$/);
+    expect(getDefaultLessonPathForDay(3)).toMatch(/lessons\/novice-hall-day-3\.json$/);
+    expect(() => getDefaultLessonPathForDay(0)).toThrow("positive integer");
   });
 });
 

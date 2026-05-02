@@ -2,7 +2,7 @@ import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
 import { createTranslator, localeDisplayName } from "./i18n/messages.js";
 import {
-  DEFAULT_LESSON_PATH,
+  getDefaultLessonPathForDay,
   loadLessonFromFile,
   selectPracticePrompts,
 } from "./lessons/loader.js";
@@ -65,8 +65,9 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     textOutput: options.textOutput,
     writeSave: saveStore.write,
   });
+  const defaultLessonPath = getDefaultLessonPathForDay(menuSave.journey.day);
   const lesson =
-    options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? DEFAULT_LESSON_PATH));
+    options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? defaultLessonPath));
   const practicePrompts = selectPracticePrompts(lesson, DAILY_SESSION_PROMPT_COUNT);
   const translator = createTranslator(menuSave.settings.locale);
   const attempts: PracticeAttempt[] = [];
