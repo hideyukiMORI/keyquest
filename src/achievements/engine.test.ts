@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createNewSave, type SessionRecord } from "../save/model.js";
-import { unlockSessionAchievements } from "./engine.js";
+import { ACHIEVEMENTS, unlockSessionAchievements } from "./engine.js";
 
 describe("achievement engine", () => {
   it("unlocks first-session and perfect-session achievements once", () => {
@@ -51,6 +51,35 @@ describe("achievement engine", () => {
         unlockedAt: now,
       }).map((unlock) => unlock.id),
     ).toEqual(["firstSession"]);
+  });
+
+  it("unlocks long-session achievements from elapsed time", () => {
+    const now = new Date("2026-01-01T00:00:00.000Z");
+
+    expect(
+      unlockSessionAchievements({
+        save: createNewSave(now, "normal"),
+        session: {
+          ...createSession({ mistakes: [] }),
+          startedAt: "2026-01-01T00:00:00.000Z",
+          completedAt: "2026-01-01T03:00:00.000Z",
+        },
+        unlockedAt: now,
+      }).map((unlock) => unlock.id),
+    ).toEqual(["firstSession", "perfectSession", "longWatch", "deepDive", "dungeonMarathon"]);
+  });
+
+  it("defines continuity achievements for future streak logic", () => {
+    expect(Object.keys(ACHIEVEMENTS)).toEqual([
+      "firstSession",
+      "perfectSession",
+      "threeDaysPact",
+      "unbrokenSeven",
+      "moonCycle",
+      "longWatch",
+      "deepDive",
+      "dungeonMarathon",
+    ]);
   });
 });
 
