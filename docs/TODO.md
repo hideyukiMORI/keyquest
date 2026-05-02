@@ -14,7 +14,7 @@
 
 ## Next
 
-- [ ] Design the terminal UI runtime boundary for screen rendering, color, size,
+- [x] Design the terminal UI runtime boundary for screen rendering, color, size,
       and motion.
 - [ ] Add terminal capability detection for size and color support.
 - [ ] Add `--color`, `--no-color`, and reduced-motion option handling.
