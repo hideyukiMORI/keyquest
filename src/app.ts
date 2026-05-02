@@ -25,6 +25,8 @@ import {
   renderPracticeRewards,
   renderPracticeSegmentResult,
 } from "./scenes/scenes.js";
+import type { SceneContext } from "./scenes/types.js";
+import { styleText } from "./terminal/ansi.js";
 import type { TerminalRuntime } from "./terminal/runtime.js";
 
 export type RunAppOptions = {
@@ -71,11 +73,12 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   let promptStartedAt = now;
 
   for (const [index, practicePrompt] of practicePrompts.entries()) {
-    const context = {
+    const context: SceneContext = {
       save: menuSave,
       mode: options.mode,
       now,
       translator,
+      terminalRuntime: options.terminalRuntime,
       lesson,
       practicePrompt,
     };
@@ -232,9 +235,13 @@ function renderTerminalWarnings(
   }
 
   return [
-    translator.t("terminal.sizeWarning", {
-      columns: terminalRuntime.size.columns ?? "?",
-      rows: terminalRuntime.size.rows ?? "?",
-    }),
+    styleText(
+      translator.t("terminal.sizeWarning", {
+        columns: terminalRuntime.size.columns ?? "?",
+        rows: terminalRuntime.size.rows ?? "?",
+      }),
+      "warning",
+      terminalRuntime,
+    ),
   ];
 }

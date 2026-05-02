@@ -16,6 +16,7 @@ describe("scene manager", () => {
         mode: "normal",
         now,
         translator: createTranslator("en"),
+        terminalRuntime: undefined,
         lesson: {
           schemaVersion: 1,
           id: "novice-hall-day-1",

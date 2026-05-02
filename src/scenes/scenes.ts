@@ -6,6 +6,7 @@ import type {
   SceneContext,
   SceneOutput,
 } from "./types.js";
+import { styleText } from "../terminal/ansi.js";
 
 export const titleScene: Scene = {
   id: "title",
@@ -15,9 +16,11 @@ export const titleScene: Scene = {
     return {
       id: "title",
       lines: [
-        t("app.title"),
+        styleText(t("app.title"), "accent", context.terminalRuntime),
         t("app.subtitle"),
-        context.mode === "development" ? t("dev.banner") : "",
+        context.mode === "development"
+          ? styleText(t("dev.banner"), "warning", context.terminalRuntime)
+          : "",
       ].filter((line) => line.length > 0),
       next: "story",
     };
@@ -32,7 +35,7 @@ export const storyScene: Scene = {
     return {
       id: "story",
       lines: [
-        t("story.heading"),
+        styleText(t("story.heading"), "accent", context.terminalRuntime),
         `Day ${context.lesson.day}: ${context.lesson.title}`,
         t("story.noviceIntro"),
         t("story.noviceQuote"),
@@ -54,7 +57,7 @@ export const statusScene: Scene = {
     return {
       id: "status",
       lines: [
-        t("status.heading"),
+        styleText(t("status.heading"), "accent", context.terminalRuntime),
         t("status.hero", { hero: context.save.profile.heroName }),
         t("status.xp", { xp: context.save.progress.totalXp }),
         t("status.streak", { days: context.save.progress.streakDays }),
@@ -74,7 +77,7 @@ export const practiceIntroScene: Scene = {
     return {
       id: "practiceIntro",
       lines: [
-        t("practice.heading"),
+        styleText(t("practice.heading"), "accent", context.terminalRuntime),
         t("practice.lesson", { lesson: context.lesson.title }),
         t("practice.homeHint"),
         t("practice.keys", { keys: practicePrompt.targetKeys.join(" ") }),
