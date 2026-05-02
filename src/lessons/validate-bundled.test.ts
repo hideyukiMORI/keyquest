@@ -15,6 +15,10 @@ describe("bundled lesson validation command", () => {
       "8: meadow-road-day-8",
       "9: meadow-road-day-9",
       "10: meadow-road-day-10",
+      "11: meadow-road-day-11",
+      "12: meadow-road-day-12",
+      "13: meadow-road-day-13",
+      "14: meadow-road-day-14",
     ]);
   });
 });

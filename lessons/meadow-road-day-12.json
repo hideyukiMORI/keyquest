@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-12",
+  "title": "Meadow Road: Top Row Trail",
+  "day": 12,
+  "locale": "en",
+  "focus": ["top row travel", "lateral control", "steady return"],
+  "prompts": [
+    {
+      "id": "meadow-road-trail-1",
+      "text": "qwer uiop qwer uiop",
+      "targetKeys": ["q", "w", "e", "r", "u", "i", "o", "p"],
+      "skillIds": ["homePosition", "fingerResponsibility", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "meadow-road-trail-2",
+      "text": "trew poi poi trew",
+      "targetKeys": ["t", "r", "e", "w", "p", "o", "i"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "leftIndex",
+        "leftMiddle",
+        "leftRing",
+        "rightPinky",
+        "rightRing",
+        "rightMiddle"
+      ]
+    },
+    {
+      "id": "meadow-road-trail-3",
+      "text": "we quit we pop",
+      "targetKeys": ["w", "e", "q", "u", "i", "t", "p", "o"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftRing",
+        "leftMiddle",
+        "leftPinky",
+        "rightIndex",
+        "rightMiddle",
+        "leftIndex",
+        "rightPinky",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "meadow-road-trail-4",
+      "text": "type pure quiet",
+      "targetKeys": ["t", "y", "p", "e", "u", "r", "q", "i"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "rightIndex",
+        "rightPinky",
+        "leftMiddle",
+        "rightIndex",
+        "leftIndex",
+        "leftPinky",
+        "rightMiddle"
+      ]
+    }
+  ]
+}
