@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-2",
+  "title": "Novice Hall: Left And Right Balance",
+  "day": 2,
+  "locale": "en",
+  "focus": ["left hand balance", "right hand balance", "home row rhythm"],
+  "prompts": [
+    {
+      "id": "left-right-balance-1",
+      "text": "asdf jkl;",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "left-right-balance-2",
+      "text": "asdf fdsa jkl; ;lkj",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "left-right-balance-3",
+      "text": "af sj dk fl",
+      "targetKeys": ["a", "f", "s", "j", "d", "k", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftIndex",
+        "leftRing",
+        "rightIndex",
+        "leftMiddle",
+        "rightMiddle",
+        "rightRing"
+      ]
+    },
+    {
+      "id": "left-right-balance-4",
+      "text": "sad lad ask fall",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing"
+      ]
+    }
+  ]
+}
