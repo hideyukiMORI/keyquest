@@ -728,6 +728,37 @@ describe("runApp", () => {
     expect(save.profile.createdAt).toBe("2026-01-02T00:00:00.000Z");
   });
 
+  it("preserves options when New Game replaces progress", async () => {
+    const directory = await createTempDirectory();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["3", "2", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: createMemoryOutput(),
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["4", "yes", "f j", "ff jj", "fj jf"]),
+      textOutput: createMemoryOutput(),
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-02T00:00:00.000Z"),
+      completedAt: new Date("2026-01-02T00:00:20.000Z"),
+    });
+
+    const save = await createSaveStore({ mode: "development", directory }).loadOrCreate(
+      new Date("2026-01-02T00:01:00.000Z"),
+    );
+    expect(save.settings.locale).toBe("ja");
+    expect(save.progress.sessions).toHaveLength(1);
+    expect(save.profile.createdAt).toBe("2026-01-02T00:00:00.000Z");
+  });
+
   it("keeps the current save when New Game confirmation is cancelled", async () => {
     const directory = await createTempDirectory();
     await runApp({

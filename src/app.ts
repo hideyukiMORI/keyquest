@@ -334,7 +334,10 @@ async function runTitleMenu(options: {
         }
       }
 
-      const newSave = createNewSave(options.now, options.mode);
+      const newSave = {
+        ...createNewSave(options.now, options.mode),
+        settings: save.settings,
+      };
       await options.writeSave(newSave);
       return { save: newSave, action: "start" };
     }
