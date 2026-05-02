@@ -11,7 +11,7 @@
 - [x] Clarify title menu semantics for current `Start` and future `Continue`,
       `New Game`, and `Load Game`.
 - [x] Keep `main` green with `npm run verify`.
-- [x] Add Novice Hall lessons for Day 2 through Day 5.
+- [x] Add Novice Hall lessons for Day 2 through Day 7.
 - [x] Resolve the default lesson from the saved journey day.
 - [x] Advance journey day after completed sessions, capped at bundled lessons.
 
@@ -27,10 +27,15 @@
 - [x] Add safe terminal cleanup for Ctrl+C and interrupted raw-mode sessions.
 - [x] Add a first reward screen with skill XP and a simple level-up message.
 - [x] Draft the first 7-day training cycle.
-- [ ] Add Novice Hall Day 6 weak-finger review lesson.
-- [ ] Add Novice Hall Day 7 gatekeeper trial lesson.
-- [ ] Replace the bundled lesson cap with a lesson manifest.
-- [ ] Add a small screen message when the journey advances to the next day.
+- [x] Add Novice Hall Day 6 weak-finger review lesson.
+- [x] Add Novice Hall Day 7 gatekeeper trial lesson.
+- [x] Replace the bundled lesson cap with a lesson manifest.
+- [x] Add a small screen message when the journey advances to the next day.
+- [x] Validate bundled lesson files against the lesson manifest.
+- [ ] Design post-Novice-Hall progression after Day 7.
+- [ ] Add a dedicated first-week completion or gatekeeper clear message.
+- [ ] Decide whether boss lessons can override the default three-prompt session
+      length.
 
 ## Mid Term
 
