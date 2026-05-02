@@ -1,4 +1,5 @@
 import { scoreTypingResult, type Score } from "../core/scoring.js";
+import { getLatestBundledLessonDay } from "../lessons/manifest.js";
 import type {
   CharacterMistakeRecord,
   KeyQuestSave,
@@ -7,8 +8,6 @@ import type {
   SkillTrack,
 } from "../save/model.js";
 import type { FingerId } from "../lessons/schema.js";
-
-export const LATEST_BUNDLED_JOURNEY_DAY = 7;
 
 export type PracticePrompt = {
   readonly id: string;
@@ -246,7 +245,7 @@ function aggregateScores(scores: readonly Score[]): Score {
 }
 
 export function advanceJourneyDay(currentDay: number): number {
-  return Math.min(currentDay + 1, LATEST_BUNDLED_JOURNEY_DAY);
+  return Math.min(currentDay + 1, getLatestBundledLessonDay());
 }
 
 function uniqueSkillIds(skillIds: readonly SkillTrack["id"][]): readonly SkillTrack["id"][] {

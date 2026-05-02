@@ -63,6 +63,7 @@ describe("lesson loader", () => {
     expect(getDefaultLessonPathForDay(6)).toMatch(/lessons\/novice-hall-day-6\.json$/);
     expect(getDefaultLessonPathForDay(7)).toMatch(/lessons\/novice-hall-day-7\.json$/);
     expect(() => getDefaultLessonPathForDay(0)).toThrow("positive integer");
+    expect(() => getDefaultLessonPathForDay(8)).toThrow("No bundled lesson");
   });
 });
 
