@@ -64,6 +64,22 @@ Use a 7-day training cycle.
 Boss quests should test the week's skills, not surprise the player with unrelated
 difficulty.
 
+## Implemented 90-Day Map Skeleton
+
+The typed quest map now covers the full 90-day promise. Days 1-28 are backed by
+bundled lessons, while Days 29-90 are planned arcs that give future content stable
+destinations:
+
+- Ashen Forge: Shift keys and capital letters.
+- Windspire: speed control and rhythm.
+- Clockwork Citadel: programmer pairs and brackets.
+- Starfall Library: symbols, operators, and code-like flow.
+- Dragon Spine: accuracy under speed pressure.
+- Moonlit Labyrinth: weak-key recovery and calm correction.
+- Obsidian Throne: mixed punctuation and long-form focus.
+- Dawn Citadel: full-keyboard mastery review.
+- Final Gate: final integrated typing quest.
+
 ## Incremental Systems
 
 Incremental growth should be steady, legible, and mostly deterministic.

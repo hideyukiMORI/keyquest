@@ -7,7 +7,7 @@ import {
   type Translator,
 } from "../i18n/messages.js";
 import { JOURNEY_ENDING_DAY, getJourneyEndingState } from "../quest/ending.js";
-import { QUEST_ARCS } from "../quest/map.js";
+import { getDisplayQuestArcForDay } from "../quest/map.js";
 import type { KeyQuestSave } from "../save/model.js";
 import type { InteractiveMenuItem } from "./interactive-menu.js";
 
@@ -108,7 +108,7 @@ export function renderJourneyProgress(
   save: KeyQuestSave,
   translator: Translator,
 ): readonly string[] {
-  const arc = getDisplayQuestArc(save.journey.day);
+  const arc = getDisplayQuestArcForDay(save.journey.day);
   const endingState = getJourneyEndingState(save);
   const endingLine =
     endingState.status === "inProgress"
@@ -188,18 +188,4 @@ export function parseLocaleChoice(input: string, currentLocale: LocaleId): Local
 
 export function createMenuTranslator(save: KeyQuestSave): Translator {
   return createTranslator(save.settings.locale);
-}
-
-function getDisplayQuestArc(day: number): (typeof QUEST_ARCS)[number] {
-  const arc = QUEST_ARCS.find((candidate) => day >= candidate.startDay && day <= candidate.endDay);
-  if (arc !== undefined) {
-    return arc;
-  }
-
-  const finalArc = QUEST_ARCS[QUEST_ARCS.length - 1];
-  if (finalArc === undefined) {
-    throw new Error("At least one quest arc is required");
-  }
-
-  return finalArc;
 }

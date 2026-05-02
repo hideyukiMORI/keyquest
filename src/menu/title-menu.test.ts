@@ -64,6 +64,22 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("76 days remain");
   });
 
+  it("renders final journey arc progress", () => {
+    const save = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 90,
+        chapter: 13,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+    const lines = renderJourneyProgress(save, createTranslator("en"));
+
+    expect(lines.join("\n")).toContain("Arc: Final Gate");
+    expect(lines.join("\n")).toContain("Weekly Trial: Last Spell Trial on Day 90");
+    expect(lines.join("\n")).toContain("The final gate is open");
+  });
+
   it("renders and parses language choices", () => {
     const lines = renderLanguageOptions("en", createTranslator("en"));
 
