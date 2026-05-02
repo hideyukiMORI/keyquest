@@ -1,16 +1,14 @@
 import type { Score } from "../core/scoring.js";
+import type { PracticePrompt } from "../practice/session.js";
 import type { KeyQuestSave, SaveMode } from "../save/model.js";
 
-export type SceneId = "title" | "story" | "status" | "practicePreview" | "exit";
+export type SceneId = "title" | "story" | "status" | "practiceIntro" | "exit";
 
 export type SceneContext = {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
   readonly now: Date;
-  readonly practicePreview: {
-    readonly prompt: string;
-    readonly score: Score;
-  };
+  readonly practicePrompt: PracticePrompt;
 };
 
 export type SceneOutput = {
@@ -22,4 +20,12 @@ export type SceneOutput = {
 export type Scene = {
   readonly id: SceneId;
   readonly render: (context: SceneContext) => SceneOutput;
+};
+
+export type PracticeResultView = {
+  readonly prompt: PracticePrompt;
+  readonly actual: string;
+  readonly score: Score;
+  readonly xpGained: number;
+  readonly mode: SaveMode;
 };

@@ -1,4 +1,4 @@
-import type { Scene, SceneContext, SceneOutput } from "./types.js";
+import type { PracticeResultView, Scene, SceneContext, SceneOutput } from "./types.js";
 
 export const titleScene: Scene = {
   id: "title",
@@ -48,23 +48,22 @@ export const statusScene: Scene = {
         `Streak: ${context.save.progress.streakDays} days`,
         `Training: ${skills}`,
       ],
-      next: "practicePreview",
+      next: "practiceIntro",
     };
   },
 };
 
-export const practicePreviewScene: Scene = {
-  id: "practicePreview",
+export const practiceIntroScene: Scene = {
+  id: "practiceIntro",
   render(context: SceneContext): SceneOutput {
-    const { prompt, score } = context.practicePreview;
+    const { practicePrompt } = context;
 
     return {
-      id: "practicePreview",
+      id: "practiceIntro",
       lines: [
-        "Practice Preview",
-        `Prompt: ${prompt}`,
-        `Baseline: ${score.wordsPerMinute.toFixed(1)} WPM / ${Math.round(score.accuracy * 100)}% accuracy`,
-        "Next implementation: replace this preview with the interactive typing loop.",
+        "Practice",
+        "Keep your fingers on the home position.",
+        `Type: ${practicePrompt.text}`,
       ],
       next: "exit",
     };
@@ -75,5 +74,24 @@ export const defaultScenes: readonly Scene[] = [
   titleScene,
   storyScene,
   statusScene,
-  practicePreviewScene,
+  practiceIntroScene,
 ];
+
+export function renderPracticeResult(result: PracticeResultView): readonly string[] {
+  const accuracy = Math.round(result.score.accuracy * 100);
+  const devLine =
+    result.mode === "development"
+      ? ["DEV MODE CLEAR - the bards refuse to sing about debug magic."]
+      : [];
+
+  return [
+    "Result",
+    `Expected: ${result.prompt.text}`,
+    `Typed:    ${result.actual}`,
+    `Accuracy: ${accuracy}%`,
+    `WPM: ${result.score.wordsPerMinute.toFixed(1)}`,
+    `Mistakes: ${result.score.mistakes}`,
+    `XP gained: ${result.xpGained}`,
+    ...devLine,
+  ];
+}
