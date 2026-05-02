@@ -119,6 +119,7 @@ Goal: make lessons easy to write, review, and improve.
 - Beginner home-row lessons through the first Novice Hall week
 - First Meadow Road lessons through Day 14
 - First River Gate lessons through Day 21
+- First Lantern Keep lessons through Day 28
 - Lesson-specific session prompt counts for boss-style lessons
 - Bundled lesson manifest for default progression
 - Weak-key review prompt generation from mistake history

@@ -65,6 +65,23 @@ session length.
 The Day 21 checkpoint is the first weekly trial that includes punctuation. It
 should still reward calm accuracy over speed.
 
+## Days 22-28
+
+The fourth week begins the "Lantern Keep" arc. It introduces the number row in
+small, practical pieces before mixing digits into readable English prompts.
+
+- Day 22: left number row with `1`, `2`, `3`, and `4`.
+- Day 23: right number row with `7`, `8`, `9`, and `0`.
+- Day 24: center number span with `4`, `5`, `6`, and `7`.
+- Day 25: short counts and codes in simple phrases.
+- Day 26: map labels and room numbers.
+- Day 27: mixed number-row instructions.
+- Day 28: Beacon Trial checkpoint for number-row control.
+
+The Day 28 checkpoint should confirm that digits can be typed without losing
+home-position discipline. It still avoids Shift-heavy symbols so the player can
+lock in number-row reach before the next layer of complexity.
+
 ### Day 1: Novice Stance
 
 Player goal: learn that good typing starts from calm finger placement.

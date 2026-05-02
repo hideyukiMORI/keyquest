@@ -136,6 +136,48 @@ export const BUNDLED_LESSON_MANIFEST = [
     filename: "river-gate-day-21.json",
     title: "River Gate: Ferryman Trial",
   },
+  {
+    day: 22,
+    id: "lantern-keep-day-22",
+    filename: "lantern-keep-day-22.json",
+    title: "Lantern Keep: Left Number Row",
+  },
+  {
+    day: 23,
+    id: "lantern-keep-day-23",
+    filename: "lantern-keep-day-23.json",
+    title: "Lantern Keep: Right Number Row",
+  },
+  {
+    day: 24,
+    id: "lantern-keep-day-24",
+    filename: "lantern-keep-day-24.json",
+    title: "Lantern Keep: Center Span",
+  },
+  {
+    day: 25,
+    id: "lantern-keep-day-25",
+    filename: "lantern-keep-day-25.json",
+    title: "Lantern Keep: Counts And Codes",
+  },
+  {
+    day: 26,
+    id: "lantern-keep-day-26",
+    filename: "lantern-keep-day-26.json",
+    title: "Lantern Keep: Map Marks",
+  },
+  {
+    day: 27,
+    id: "lantern-keep-day-27",
+    filename: "lantern-keep-day-27.json",
+    title: "Lantern Keep: Mixed Signals",
+  },
+  {
+    day: 28,
+    id: "lantern-keep-day-28",
+    filename: "lantern-keep-day-28.json",
+    title: "Lantern Keep: Beacon Trial",
+  },
 ] as const satisfies readonly BundledLessonManifestEntry[];
 
 export function getBundledLessonForDay(day: number): BundledLessonManifestEntry {

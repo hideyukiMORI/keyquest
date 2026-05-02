@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "lantern-keep-day-25",
+  "title": "Lantern Keep: Counts And Codes",
+  "day": 25,
+  "locale": "en",
+  "focus": ["number words", "short codes", "accuracy under context"],
+  "prompts": [
+    {
+      "id": "lantern-counts-1",
+      "text": "take 2 keys and 3 maps",
+      "targetKeys": ["t", "a", "k", "e", "2", "y", "s", "3", "m", "p"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "leftPinky",
+        "rightMiddle",
+        "leftMiddle",
+        "leftRing",
+        "rightIndex",
+        "leftRing",
+        "leftMiddle",
+        "rightIndex",
+        "rightPinky"
+      ]
+    },
+    {
+      "id": "lantern-counts-2",
+      "text": "mark 4 rooms before 5",
+      "targetKeys": ["m", "a", "r", "k", "4", "o", "s", "b", "e", "f", "5"],
+      "skillIds": ["fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "rightIndex",
+        "leftPinky",
+        "leftIndex",
+        "rightMiddle",
+        "leftIndex",
+        "rightRing",
+        "leftRing",
+        "leftIndex",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex"
+      ]
+    },
+    {
+      "id": "lantern-counts-3",
+      "text": "code 120 opens gate 34",
+      "targetKeys": ["c", "o", "d", "e", "1", "2", "0", "p", "n", "s", "g", "a", "t", "3", "4"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy", "rhythm"],
+      "fingerHints": [
+        "leftMiddle",
+        "rightRing",
+        "leftMiddle",
+        "leftMiddle",
+        "leftPinky",
+        "leftRing",
+        "rightPinky",
+        "rightPinky",
+        "rightIndex",
+        "leftRing",
+        "leftIndex",
+        "leftPinky",
+        "leftIndex",
+        "leftMiddle",
+        "leftIndex"
+      ]
+    }
+  ]
+}

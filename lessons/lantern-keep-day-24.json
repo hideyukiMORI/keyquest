@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "lantern-keep-day-24",
+  "title": "Lantern Keep: Center Span",
+  "day": 24,
+  "locale": "en",
+  "focus": ["center number row", "index reach", "steady return"],
+  "prompts": [
+    {
+      "id": "lantern-center-span-1",
+      "text": "4 5 6 7",
+      "targetKeys": ["4", "5", "6", "7"],
+      "skillIds": ["fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftIndex", "leftIndex", "rightIndex", "rightIndex"]
+    },
+    {
+      "id": "lantern-center-span-2",
+      "text": "45 56 67 76 65 54",
+      "targetKeys": ["4", "5", "6", "7"],
+      "skillIds": ["fingerResponsibility", "rhythm"],
+      "fingerHints": ["leftIndex", "leftIndex", "rightIndex", "rightIndex"]
+    },
+    {
+      "id": "lantern-center-span-3",
+      "text": "level 45 bridge 67",
+      "targetKeys": ["l", "e", "v", "4", "5", "b", "r", "i", "d", "g", "6", "7"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "rightRing",
+        "leftMiddle",
+        "leftIndex",
+        "leftIndex",
+        "leftIndex",
+        "leftIndex",
+        "leftIndex",
+        "rightMiddle",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightIndex"
+      ]
+    }
+  ]
+}

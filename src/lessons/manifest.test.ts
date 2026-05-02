@@ -10,9 +10,10 @@ import {
 describe("bundled lesson manifest", () => {
   it("lists bundled lessons in day order", () => {
     expect(BUNDLED_LESSON_MANIFEST.map((lesson) => lesson.day)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+      27, 28,
     ]);
-    expect(getLatestBundledLessonDay()).toBe(21);
+    expect(getLatestBundledLessonDay()).toBe(28);
   });
 
   it("resolves lessons by day and rejects unavailable days", () => {
@@ -46,8 +47,14 @@ describe("bundled lesson manifest", () => {
       filename: "river-gate-day-21.json",
       title: "River Gate: Ferryman Trial",
     });
+    expect(getBundledLessonForDay(28)).toEqual({
+      day: 28,
+      id: "lantern-keep-day-28",
+      filename: "lantern-keep-day-28.json",
+      title: "Lantern Keep: Beacon Trial",
+    });
     expect(() => getBundledLessonForDay(0)).toThrow("positive integer");
-    expect(() => getBundledLessonForDay(22)).toThrow("No bundled lesson");
+    expect(() => getBundledLessonForDay(29)).toThrow("No bundled lesson");
   });
 
   it("matches bundled lesson files to manifest metadata", async () => {
@@ -105,6 +112,22 @@ describe("bundled lesson manifest", () => {
       "river-gate-trial-2",
       "river-gate-trial-3",
       "river-gate-trial-ferryman",
+    ]);
+  });
+
+  it("selects the Lantern Keep checkpoint prompt in the current Day 28 session", async () => {
+    const lesson = await loadLessonFromFile(getDefaultLessonPathForDay(28));
+    const sessionPromptCount = lesson.sessionPromptCount;
+    if (sessionPromptCount === undefined) {
+      throw new Error("Day 28 must define a session prompt count");
+    }
+
+    expect(lesson.sessionPromptCount).toBe(4);
+    expect(selectPracticePrompts(lesson, sessionPromptCount).map((prompt) => prompt.id)).toEqual([
+      "lantern-trial-1",
+      "lantern-trial-2",
+      "lantern-trial-3",
+      "lantern-trial-beacon",
     ]);
   });
 });

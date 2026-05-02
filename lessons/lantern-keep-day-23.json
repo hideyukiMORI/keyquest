@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "lantern-keep-day-23",
+  "title": "Lantern Keep: Right Number Row",
+  "day": 23,
+  "locale": "en",
+  "focus": ["right number row", "upper reach", "rhythm"],
+  "prompts": [
+    {
+      "id": "lantern-right-number-1",
+      "text": "7 8 9 0",
+      "targetKeys": ["7", "8", "9", "0"],
+      "skillIds": ["fingerResponsibility", "accuracy"],
+      "fingerHints": ["rightIndex", "rightMiddle", "rightRing", "rightPinky"]
+    },
+    {
+      "id": "lantern-right-number-2",
+      "text": "77 88 99 00",
+      "targetKeys": ["7", "8", "9", "0"],
+      "skillIds": ["fingerResponsibility", "rhythm"],
+      "fingerHints": ["rightIndex", "rightMiddle", "rightRing", "rightPinky"]
+    },
+    {
+      "id": "lantern-right-number-3",
+      "text": "tower 78 path 90",
+      "targetKeys": ["t", "o", "w", "e", "r", "7", "8", "p", "a", "h", "9", "0"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": [
+        "leftIndex",
+        "rightRing",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightPinky",
+        "leftPinky",
+        "rightIndex",
+        "rightRing",
+        "rightPinky"
+      ]
+    }
+  ]
+}

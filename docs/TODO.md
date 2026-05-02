@@ -51,7 +51,7 @@
 - [x] Add Meadow Road clear message and first second-week title reward.
 - [x] Add non-scrolling terminal screen rendering for major screens.
 - [x] Add River Gate clear message and third-week title reward.
-- [ ] Add Day 22 through Day 28 lessons.
+- [x] Add Day 22 through Day 28 lessons.
 - [x] Add review quest result messaging that explains the targeted weak keys.
 - [x] Add raw-mode real-time typing screen on top of the screen renderer.
 
