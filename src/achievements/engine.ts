@@ -53,10 +53,14 @@ export function unlockSessionAchievements(options: {
   readonly save: KeyQuestSave;
   readonly session: SessionRecord;
   readonly unlockedAt: Date;
+  readonly nextStreakDays: number;
 }): readonly AchievementRecord[] {
   const candidates: AchievementId[] = [
     options.save.progress.sessions.length === 0 ? "firstSession" : undefined,
     options.session.mistakes.length === 0 ? "perfectSession" : undefined,
+    options.nextStreakDays >= 3 ? "threeDaysPact" : undefined,
+    options.nextStreakDays >= 7 ? "unbrokenSeven" : undefined,
+    options.nextStreakDays >= 30 ? "moonCycle" : undefined,
     sessionElapsedSeconds(options.session) >= LONG_WATCH_SECONDS ? "longWatch" : undefined,
     sessionElapsedSeconds(options.session) >= DEEP_DIVE_SECONDS ? "deepDive" : undefined,
     sessionElapsedSeconds(options.session) >= DUNGEON_MARATHON_SECONDS

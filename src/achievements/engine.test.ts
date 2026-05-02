@@ -11,6 +11,7 @@ describe("achievement engine", () => {
       save: createNewSave(now, "normal"),
       session,
       unlockedAt: now,
+      nextStreakDays: 1,
     });
 
     expect(unlocks).toEqual([
@@ -35,6 +36,7 @@ describe("achievement engine", () => {
         },
         session,
         unlockedAt: now,
+        nextStreakDays: 1,
       }),
     ).toEqual([]);
   });
@@ -49,6 +51,7 @@ describe("achievement engine", () => {
           mistakes: [{ promptId: "p1", index: 0, expected: "f", actual: "j" }],
         }),
         unlockedAt: now,
+        nextStreakDays: 1,
       }).map((unlock) => unlock.id),
     ).toEqual(["firstSession"]);
   });
@@ -65,6 +68,7 @@ describe("achievement engine", () => {
           completedAt: "2026-01-01T03:00:00.000Z",
         },
         unlockedAt: now,
+        nextStreakDays: 1,
       }).map((unlock) => unlock.id),
     ).toEqual(["firstSession", "perfectSession", "longWatch", "deepDive", "dungeonMarathon"]);
   });
@@ -80,6 +84,19 @@ describe("achievement engine", () => {
       "deepDive",
       "dungeonMarathon",
     ]);
+  });
+
+  it("unlocks continuity achievements from streak length", () => {
+    const now = new Date("2026-01-01T00:00:00.000Z");
+
+    expect(
+      unlockSessionAchievements({
+        save: createNewSave(now, "normal"),
+        session: createSession({ mistakes: [] }),
+        unlockedAt: now,
+        nextStreakDays: 30,
+      }).map((unlock) => unlock.id),
+    ).toEqual(["firstSession", "perfectSession", "threeDaysPact", "unbrokenSeven", "moonCycle"]);
   });
 });
 
