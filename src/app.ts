@@ -6,6 +6,7 @@ import {
   loadLessonFromFile,
   selectPracticePrompts,
 } from "./lessons/loader.js";
+import { getLessonPackLessonPath, loadLessonPackManifest } from "./lessons/pack.js";
 import type { Lesson } from "./lessons/schema.js";
 import {
   createMenuTranslator,
@@ -52,6 +53,7 @@ export type RunAppOptions = {
   readonly textOutput: TextOutput;
   readonly lesson: Lesson | undefined;
   readonly lessonPath: string | undefined;
+  readonly lessonPackPath?: string;
   readonly terminalRuntime?: TerminalRuntime;
   readonly realtimeInput?: RealtimeTypingInput;
   readonly now?: Date;
@@ -89,10 +91,14 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   const menuSave = menuSelection.save;
   const reviewQuest =
     menuSelection.action === "review" ? createWeakKeyReviewQuest({ save: menuSave }) : undefined;
-  const defaultLessonPath = getDefaultLessonPathForDay(menuSave.journey.day);
+  const resolvedLessonPath = await resolveLessonPath({
+    day: menuSave.journey.day,
+    lessonPath: options.lessonPath,
+    lessonPackPath: options.lessonPackPath,
+  });
   const lesson =
     reviewQuest === undefined
-      ? (options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? defaultLessonPath)))
+      ? (options.lesson ?? (await loadLessonFromFile(resolvedLessonPath)))
       : createReviewLesson(menuSave.journey.day, reviewQuest.title, reviewQuest.prompt);
   const practicePrompts =
     reviewQuest === undefined
@@ -378,6 +384,23 @@ async function runLanguageOptions(options: {
   ]);
 
   return selectedLocale;
+}
+
+async function resolveLessonPath(options: {
+  readonly day: number;
+  readonly lessonPath: string | undefined;
+  readonly lessonPackPath: string | undefined;
+}): Promise<string> {
+  if (options.lessonPath !== undefined) {
+    return options.lessonPath;
+  }
+
+  if (options.lessonPackPath !== undefined) {
+    const manifest = await loadLessonPackManifest(options.lessonPackPath);
+    return getLessonPackLessonPath(manifest, options.lessonPackPath, options.day);
+  }
+
+  return getDefaultLessonPathForDay(options.day);
 }
 
 function renderTerminalWarnings(

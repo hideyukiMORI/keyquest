@@ -4,6 +4,7 @@ export type CliOptions = {
   readonly devMode: boolean;
   readonly saveDirectory: string | undefined;
   readonly lessonPath: string | undefined;
+  readonly lessonPackPath: string | undefined;
   readonly colorMode: TerminalColorMode | undefined;
   readonly reducedMotion: boolean;
 };
@@ -12,6 +13,7 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
   let devMode = false;
   let saveDirectory: string | undefined;
   let lessonPath: string | undefined;
+  let lessonPackPath: string | undefined;
   let colorMode: TerminalColorMode | undefined;
   let reducedMotion = false;
 
@@ -68,6 +70,22 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
       continue;
     }
 
+    if (arg === "--lesson-pack") {
+      const value = args[index + 1];
+      if (value === undefined || value.startsWith("-")) {
+        throw new Error("--lesson-pack requires a manifest file path");
+      }
+
+      lessonPackPath = value;
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith("--lesson-pack=")) {
+      lessonPackPath = arg.slice("--lesson-pack=".length);
+      continue;
+    }
+
     if (arg === "--color") {
       const value = args[index + 1];
       if (value === undefined || value.startsWith("-")) {
@@ -87,5 +105,5 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
     throw new Error(`Unknown option: ${arg}`);
   }
 
-  return { devMode, saveDirectory, lessonPath, colorMode, reducedMotion };
+  return { devMode, saveDirectory, lessonPath, lessonPackPath, colorMode, reducedMotion };
 }

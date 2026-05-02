@@ -162,7 +162,7 @@ Goal: make KeyQuest rewarding beyond the first month and after the ending.
 - First deterministic crafting-material equipment upgrade slice
 - First 90-day ending state and post-game goal model
 - Optional new-game-plus style progression
-- Importable lesson packs
+- Importable lesson pack manifests via `--lesson-pack`
 - Accessibility and localization polish
 
 ## Release: Public CLI
