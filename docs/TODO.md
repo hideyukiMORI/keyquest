@@ -5,7 +5,7 @@
 - [ ] Build [#2](https://github.com/hideyukiMORI/keyquest/issues/2): first interactive typing loop.
 - [ ] Define [#7](https://github.com/hideyukiMORI/keyquest/issues/7): local save-file shape for session history, XP, streaks, and settings.
 - [ ] Design [#11](https://github.com/hideyukiMORI/keyquest/issues/11): first home-position and finger-usage lesson sequence.
-- [ ] Define [#13](https://github.com/hideyukiMORI/keyquest/issues/13): terminal size, color mode, and theme behavior.
+- [ ] Design [#15](https://github.com/hideyukiMORI/keyquest/issues/15): minimal modern CLI motion and feedback.
 - [ ] Add the first 10-minute daily session result screen.
 - [ ] Keep `main` green with `npm run verify`.
 

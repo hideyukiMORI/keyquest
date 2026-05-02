@@ -12,6 +12,7 @@ Goal: make the core loop playable and measurable.
 - Normal save file for local progress with tamper friction.
 - Development save mode using readable JSON and visible `DEV MODE` markers.
 - Terminal size handling, no-color mode, and initial color themes.
+- Minimal modern CLI presentation with subtle loading, progress, and reward motion.
 - Basic localization infrastructure.
 
 Exit criteria:

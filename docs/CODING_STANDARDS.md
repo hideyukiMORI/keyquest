@@ -17,6 +17,8 @@
 - Raw-mode input, ANSI escape sequences, and file paths should be wrapped behind
   small modules.
 - Do not rely on color alone to communicate important state.
+- Keep typing screens visually stable; place most animation before or after
+  typing segments.
 
 ## Tests
 
