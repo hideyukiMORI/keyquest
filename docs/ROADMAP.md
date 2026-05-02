@@ -35,6 +35,7 @@ Goal: turn the playable loop into a training journey.
 - Weak-key detection and review quests.
 - Achievement engine and first achievement set.
 - Equipment, items, HP, MP, and magic as training metaphors.
+- Documented quest-map rules that keep adventure rewards tied to training value.
 
 Exit criteria:
 
