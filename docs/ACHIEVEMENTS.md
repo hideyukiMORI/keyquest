@@ -10,6 +10,57 @@ practice bonuses. They should never replace skill.
 
 ## Categories
 
+## Engine Model
+
+Achievements should be deterministic checks over save data and the just-finished
+session. The engine should not read terminal state, random values, wall-clock
+time outside the supplied completion timestamp, or localized strings.
+
+Achievement checks can use these inputs:
+
+- Previous save progress: sessions, titles, achievements, total XP, skill tracks,
+  streak days, and journey day.
+- Current session record: started time, completed time, prompt count, accuracy,
+  WPM, XP, and per-character mistakes.
+- Derived session summary: elapsed seconds, perfect-session flag, weak-key stats,
+  and next streak count.
+- Future quest result data: HP remaining, MP state, modifiers, items used, and
+  boss prompt outcome.
+
+Unlocking rules:
+
+- Achievements unlock at most once per save.
+- Unlock order should be stable and testable.
+- A single session may unlock multiple achievements.
+- Hidden achievements may exist, but they must not block the 90-day ending.
+- Achievements should be displayed after rewards and before journey progress.
+
+## Reward Policy
+
+Rewards should be small and motivating:
+
+- Titles
+- Story flavor
+- Materials
+- Cosmetic equipment names
+- Minor temporary practice assists
+
+Avoid rewards that make practice easier in a way that hides weakness. The game
+should help players face weaknesses, not bypass them.
+
+Good achievement rewards:
+
+- Celebrate consistency and recovery.
+- Point the player toward the next useful practice behavior.
+- Unlock cosmetic identity or story flavor.
+
+Avoid achievement rewards that:
+
+- Auto-correct mistakes.
+- Reduce weak-key frequency by hiding weak keys.
+- Give large speed bonuses unrelated to accuracy.
+- Make broken streaks feel unrecoverable.
+
 ## Implemented First Slice
 
 The first implementation deliberately keeps achievements small:
@@ -30,6 +81,12 @@ session-end UI.
 Streak achievements also have a small visible milestone message after the reward
 screen. This keeps continuity feeling special even when the achievement list is
 not the player's main focus.
+
+## First Full Achievement Set
+
+The first complete set should cover six categories. It can be implemented in
+small batches, but the categories should stay stable so save data remains easy to
+understand.
 
 ### Continuity
 
@@ -90,18 +147,23 @@ Hidden achievements can add charm, but they should not block core completion.
 - Perfectly type prompts containing `;`, `{}`, and `=>`.
 - Return after a broken streak.
 
-## Reward Policy
+## Implementation Slices
 
-Rewards should be small and motivating:
+Achievement implementation should remain incremental:
 
-- Titles
-- Story flavor
-- Materials
-- Cosmetic equipment names
-- Minor temporary practice assists
+1. Keep the current session-completion achievements green.
+2. Add accuracy and speed-with-control achievements from session summaries.
+3. Add weak-key recovery achievements after review quest stats are persisted.
+4. Add roguelite achievements after HP, MP, items, and modifiers exist.
+5. Add 90-day journey achievements after the ending path is implemented.
 
-Avoid rewards that make practice easier in a way that hides weakness. The game
-should help players face weaknesses, not bypass them.
+Every new achievement should include:
+
+- A stable ID in the save model.
+- A definition in the achievement catalog.
+- Localized display text.
+- Unit tests for unlock and "does not unlock twice".
+- A rendering path that reuses the existing achievement result screen.
 
 Implemented title rewards:
 
