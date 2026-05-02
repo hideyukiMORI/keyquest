@@ -33,9 +33,13 @@ During typing, the screen should stay calm. Rewards, story, inventory, and
 progression should mostly appear after a typing segment so the game never fights
 the practice.
 
+The earliest sessions should be stubborn about fundamentals. Home position,
+finger responsibility, and calm accuracy should come before speed, equipment, or
+complex adventure systems.
+
 ## 90-Day Arc
 
-- Days 1-7: onboarding, home row, basic rhythm, first boss.
+- Days 1-7: home position, finger usage, basic rhythm, first boss.
 - Days 8-30: common words, simple punctuation, first kingdom restored.
 - Days 31-60: programmer symbols, mixed prompts, weak-key review, second kingdom.
 - Days 61-89: longer passages, accuracy under pressure, advanced symbol runs.

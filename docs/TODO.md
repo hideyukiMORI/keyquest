@@ -2,15 +2,16 @@
 
 ## Now
 
-- [ ] Complete [#6](https://github.com/hideyukiMORI/keyquest/issues/6): product direction and roadmap.
 - [ ] Build [#2](https://github.com/hideyukiMORI/keyquest/issues/2): first interactive typing loop.
 - [ ] Define [#7](https://github.com/hideyukiMORI/keyquest/issues/7): local save-file shape for session history, XP, streaks, and settings.
+- [ ] Design [#11](https://github.com/hideyukiMORI/keyquest/issues/11): first home-position and finger-usage lesson sequence.
 - [ ] Add the first 10-minute daily session result screen.
 - [ ] Keep `main` green with `npm run verify`.
 
 ## Next
 
 - [ ] Define [#3](https://github.com/hideyukiMORI/keyquest/issues/3): lesson data schema and loader.
+- [ ] Add a beginner lesson schema field for intended finger usage.
 - [ ] Separate English typing prompts from localized UI message keys.
 - [ ] Add terminal raw-mode input handling.
 - [ ] Record per-character mistakes for weak-key review.

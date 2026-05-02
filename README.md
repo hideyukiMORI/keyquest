@@ -41,8 +41,10 @@ This project is managed with GitHub Issues and local Markdown planning docs.
 - Roadmap: `docs/ROADMAP.md`
 - Milestones: `docs/MILESTONES.md`
 - Active TODOs: `docs/TODO.md`
+- Onboarding training: `docs/ONBOARDING_TRAINING.md`
 - Progression design: `docs/PROGRESSION_DESIGN.md`
 - Achievements: `docs/ACHIEVEMENTS.md`
 - Localization: `docs/LOCALIZATION.md`
+- Save data: `docs/SAVE_DATA.md`
 - Development philosophy and policy: `docs/DEVELOPMENT.md`
 - Coding standards: `docs/CODING_STANDARDS.md`

@@ -9,6 +9,8 @@ alwaysApply: true
 - Keep `docs/MILESTONES.md` and `docs/TODO.md` aligned with active work.
 - Keep product decisions aligned with `docs/PRODUCT_DIRECTION.md` and
   `docs/PROGRESSION_DESIGN.md`.
+- Keep onboarding lesson decisions aligned with `docs/ONBOARDING_TRAINING.md`.
+- Keep persistence decisions aligned with `docs/SAVE_DATA.md`.
 - Keep `main` releasable; run `npm run verify` before pushing.
 - Prefer small PRs with clear acceptance criteria and test plans.
 - Preserve terminal portability across Linux, macOS, and Windows.
