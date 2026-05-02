@@ -72,4 +72,4 @@
 - [ ] Add final Day 90 ending scene content.
 - [x] Add importable lesson packs.
 - [x] Prepare npm publishing.
-- [ ] Add release notes and changelog automation.
+- [x] Add release notes and changelog automation.

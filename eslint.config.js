@@ -6,6 +6,14 @@ export default tseslint.config(
     ignores: ["dist/**", "coverage/**", "node_modules/**"],
   },
   js.configs.recommended,
+  {
+    files: ["**/*.js", "**/*.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+      },
+    },
+  },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts"],

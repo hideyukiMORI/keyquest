@@ -174,5 +174,5 @@ Goal: publish a useful open-source CLI.
 - npm package metadata
 - npm package smoke script and publishing checklist
 - Supported locales validated
-- Release checklist and changelog
+- Release notes script and changelog workflow
 - First public release notes
