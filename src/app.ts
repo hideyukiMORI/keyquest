@@ -47,6 +47,13 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     ...(options.saveDirectory === undefined ? {} : { directory: options.saveDirectory }),
   });
   const save = await saveStore.loadOrCreate(now);
+  const initialTranslator = createTranslator(save.settings.locale);
+  const terminalWarnings = renderTerminalWarnings(options.terminalRuntime, initialTranslator);
+  if (terminalWarnings.length > 0) {
+    options.textOutput.writeLine(terminalWarnings.join("\n"));
+    options.textOutput.writeLine("");
+  }
+
   const menuSave = await runTitleMenu({
     save,
     mode: options.mode,
@@ -203,4 +210,20 @@ async function runLanguageOptions(options: {
   options.textOutput.writeLine("");
 
   return selectedLocale;
+}
+
+function renderTerminalWarnings(
+  terminalRuntime: TerminalRuntime | undefined,
+  translator: ReturnType<typeof createTranslator>,
+): readonly string[] {
+  if (terminalRuntime?.size.isBelowMinimum !== true) {
+    return [];
+  }
+
+  return [
+    translator.t("terminal.sizeWarning", {
+      columns: terminalRuntime.size.columns ?? "?",
+      rows: terminalRuntime.size.rows ?? "?",
+    }),
+  ];
 }

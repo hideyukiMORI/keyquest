@@ -22,6 +22,7 @@ const EN_MESSAGES = {
   "title.menu.prompt": "Choose: ",
   "title.menu.planned": "planned",
   "title.menu.loadUnavailable": "Load Game will open save slots later. Use Continue for now.",
+  "terminal.sizeWarning": "WARNING: Terminal is {columns}x{rows}. Recommended minimum is 80x24.",
   "options.heading": "Options",
   "options.language": "Language",
   "options.back": "Back",
@@ -71,6 +72,8 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.planned": "予定",
     "title.menu.loadUnavailable":
       "ロードゲームは今後セーブスロットに対応します。今は「つづきから」を使ってください。",
+    "terminal.sizeWarning":
+      "WARNING: 端末サイズは {columns}x{rows} です。推奨最小サイズは 80x24 です。",
     "options.heading": "オプション",
     "options.language": "言語",
     "options.back": "戻る",

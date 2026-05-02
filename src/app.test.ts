@@ -40,6 +40,60 @@ describe("runApp", () => {
     expect(output.text()).toContain("XP gained");
   });
 
+  it("warns when the terminal is below the recommended size", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      terminalRuntime: {
+        colorMode: "auto",
+        colorEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 79,
+          rows: 24,
+          isBelowMinimum: true,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("WARNING: Terminal is 79x24");
+  });
+
+  it("does not warn when terminal size is unknown", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      terminalRuntime: {
+        colorMode: "auto",
+        colorEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: undefined,
+          rows: undefined,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).not.toContain("WARNING: Terminal");
+  });
+
   it("marks development mode visibly", async () => {
     const output = createMemoryOutput();
     await runApp({

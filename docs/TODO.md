@@ -16,8 +16,8 @@
 
 - [x] Design the terminal UI runtime boundary for screen rendering, color, size,
       and motion.
-- [ ] Add terminal capability detection for size and color support.
-- [ ] Add `--color`, `--no-color`, and reduced-motion option handling.
+- [x] Add terminal capability detection for size and color support.
+- [x] Add `--color`, `--no-color`, and reduced-motion option handling.
 - [ ] Add five semantic color themes: classic, forest, arcane, ember, and mono.
 - [ ] Build a one-prompt raw-mode typing spike behind a testable state machine.
 - [ ] Add safe terminal cleanup for Ctrl+C and interrupted raw-mode sessions.
