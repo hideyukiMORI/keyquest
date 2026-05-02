@@ -72,6 +72,7 @@ Goal: make KeyQuest easy to try and trustworthy as an open-source CLI.
 - `npx keyquest` works cleanly.
 - README explains the 90-day premise and shows the CLI flow.
 - Release checklist exists.
+- A single release check command verifies the package before publishing.
 - Package metadata is ready for npm.
 - Supported locales pass catalog validation.
 - Smoke tests cover install, start, and a minimal session path.

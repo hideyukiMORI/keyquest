@@ -7,6 +7,8 @@ drafts from git history.
 
 ## Unreleased
 
+- Added `npm run release:check` and a final release checklist.
+- Strengthened package smoke checks to validate npm tarball file boundaries.
 - Added title-menu record screens for resources, achievements, and titles.
 - Added post-game goal details to the Journey progress screen.
 - Extended the typed quest arc map with planned arcs through Day 90.

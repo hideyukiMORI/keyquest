@@ -125,7 +125,7 @@ npm run verify
 Check the package contents before publishing:
 
 ```bash
-npm run package:smoke
+npm run release:check
 ```
 
 ## Project Management
@@ -144,6 +144,7 @@ This project is managed with GitHub Issues and local Markdown planning docs.
 - Localization: `docs/LOCALIZATION.md`
 - Save data: `docs/SAVE_DATA.md`
 - Publishing: `docs/PUBLISHING.md`
+- Release checklist: `docs/RELEASE_CHECKLIST.md`
 - Testing strategy: `docs/TESTING_STRATEGY.md`
 - Development philosophy and policy: `docs/DEVELOPMENT.md`
 - Coding standards: `docs/CODING_STANDARDS.md`

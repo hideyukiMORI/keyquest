@@ -11,6 +11,7 @@ const tempDirectory = mkdtempSync(join(tmpdir(), "keyquest-package-smoke-"));
 let tarballPath;
 
 try {
+  rmSync(new URL("../dist", import.meta.url), { recursive: true, force: true });
   exec("npm", ["run", "build"], { cwd: packageRoot });
   const packOutput = exec("npm", ["pack", "--json"], { cwd: packageRoot });
   const packedFiles = JSON.parse(packOutput);
@@ -18,6 +19,7 @@ try {
   if (firstPack === undefined || typeof firstPack.filename !== "string") {
     throw new Error("npm pack did not report a tarball filename");
   }
+  assertPackageFiles(firstPack);
 
   tarballPath = new URL(firstPack.filename, packageRoot).pathname;
   exec("npm", ["install", tarballPath], { cwd: tempDirectory });
@@ -47,4 +49,36 @@ function exec(command, args, options) {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "inherit"],
   });
+}
+
+function assertPackageFiles(pack) {
+  if (!Array.isArray(pack.files)) {
+    throw new Error("npm pack did not report package files");
+  }
+
+  const paths = pack.files.map((file) => file.path);
+  const requiredPrefixes = ["dist/", "lessons/"];
+  const requiredFiles = ["README.md", "LICENSE", "package.json"];
+  for (const requiredFile of requiredFiles) {
+    if (!paths.includes(requiredFile)) {
+      throw new Error(`Package tarball is missing ${requiredFile}`);
+    }
+  }
+
+  for (const requiredPrefix of requiredPrefixes) {
+    if (!paths.some((path) => path.startsWith(requiredPrefix))) {
+      throw new Error(`Package tarball is missing ${requiredPrefix}`);
+    }
+  }
+
+  const forbiddenPrefixes = ["src/", "docs/", "test/", "scripts/"];
+  const forbiddenSuffixes = [".test.js", ".test.ts", ".map"];
+  const forbiddenPath = paths.find(
+    (path) =>
+      forbiddenPrefixes.some((prefix) => path.startsWith(prefix)) ||
+      forbiddenSuffixes.some((suffix) => path.endsWith(suffix)),
+  );
+  if (forbiddenPath !== undefined) {
+    throw new Error(`Package tarball includes development-only file: ${forbiddenPath}`);
+  }
 }
