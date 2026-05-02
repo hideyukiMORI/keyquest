@@ -7,6 +7,7 @@ export type BundledLessonManifestEntry = {
 
 export const NOVICE_HALL_FINAL_DAY = 7;
 export const MEADOW_ROAD_FINAL_DAY = 14;
+export const RIVER_GATE_FINAL_DAY = 21;
 
 export const BUNDLED_LESSON_MANIFEST = [
   {

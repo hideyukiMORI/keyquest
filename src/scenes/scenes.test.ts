@@ -113,6 +113,27 @@ describe("scene rendering", () => {
     ).toEqual(["Journey", "Waystone Trial cleared. The Meadow Road opens into wider lands."]);
   });
 
+  it("renders the River Gate clear message on the Ferryman Trial day", () => {
+    const beforeSave = {
+      ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),
+      journey: {
+        day: 21,
+        chapter: 3,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    expect(
+      renderPracticeJourneyProgress(
+        {
+          beforeSave,
+          afterSave: beforeSave,
+        },
+        createTranslator("en"),
+      ),
+    ).toEqual(["Journey", "Ferryman Trial cleared. The River Gate yields to your steady hands."]);
+  });
+
   it("renders streak milestone progress", () => {
     const beforeSave = {
       ...createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal"),

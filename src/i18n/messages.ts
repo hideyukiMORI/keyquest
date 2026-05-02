@@ -83,10 +83,12 @@ const EN_MESSAGES = {
   "titleReward.unlocked": "Earned title: {title}",
   "titleReward.noviceHallGraduate": "Novice Hall Graduate",
   "titleReward.meadowRoadPathfinder": "Meadow Road Pathfinder",
+  "titleReward.riverGateFerryman": "River Gate Ferryman",
   "journey.heading": "Journey",
   "journey.nextDay": "Next lesson: Day {day} is ready for next time.",
   "journey.noviceHallClear": "Gatekeeper Trial cleared. The Novice Hall opens the road ahead.",
   "journey.meadowRoadClear": "Waystone Trial cleared. The Meadow Road opens into wider lands.",
+  "journey.riverGateClear": "Ferryman Trial cleared. The River Gate yields to your steady hands.",
 } as const;
 
 const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, string>>>>> = {
@@ -168,11 +170,14 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "titleReward.unlocked": "獲得称号: {title}",
     "titleReward.noviceHallGraduate": "Novice Hall 卒業生",
     "titleReward.meadowRoadPathfinder": "Meadow Road の開拓者",
+    "titleReward.riverGateFerryman": "River Gate の渡し守",
     "journey.heading": "旅路",
     "journey.nextDay": "次回は Day {day} のレッスンに進めます。",
     "journey.noviceHallClear": "Gatekeeper Trial クリア。Novice Hall の先の道が開きました。",
     "journey.meadowRoadClear":
       "Waystone Trial クリア。Meadow Road はさらに広い土地へ続いています。",
+    "journey.riverGateClear":
+      "Ferryman Trial クリア。River Gate はあなたの落ち着いた指に道を譲りました。",
   },
   "zh-CN": {
     ...EN_MESSAGES,
