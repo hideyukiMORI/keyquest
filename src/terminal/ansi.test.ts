@@ -20,6 +20,7 @@ function createRuntime(colorEnabled: boolean): TerminalRuntime {
   return {
     colorMode: colorEnabled ? "always" : "never",
     colorEnabled,
+    screenEnabled: false,
     theme: "classic",
     reducedMotion: false,
     size: {

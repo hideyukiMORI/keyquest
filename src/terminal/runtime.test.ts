@@ -64,6 +64,31 @@ describe("terminal runtime", () => {
     ).toBe(true);
   });
 
+  it("enables screen redraws only for TTY output", () => {
+    expect(
+      resolveTerminalRuntime({
+        colorMode: undefined,
+        theme: undefined,
+        reducedMotion: false,
+        columns: 100,
+        rows: 30,
+        isTty: true,
+        env: {},
+      }).screenEnabled,
+    ).toBe(true);
+    expect(
+      resolveTerminalRuntime({
+        colorMode: undefined,
+        theme: undefined,
+        reducedMotion: false,
+        columns: 100,
+        rows: 30,
+        isTty: false,
+        env: {},
+      }).screenEnabled,
+    ).toBe(false);
+  });
+
   it("parses supported color modes", () => {
     expect(parseTerminalColorMode("auto")).toBe("auto");
     expect(parseTerminalColorMode("always")).toBe("always");

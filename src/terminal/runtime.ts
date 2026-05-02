@@ -11,6 +11,7 @@ export type TerminalSize = {
 export type TerminalRuntime = {
   readonly colorMode: TerminalColorMode;
   readonly colorEnabled: boolean;
+  readonly screenEnabled: boolean;
   readonly theme: TerminalThemeId;
   readonly reducedMotion: boolean;
   readonly size: TerminalSize;
@@ -36,6 +37,7 @@ export function resolveTerminalRuntime(options: TerminalRuntimeOptions): Termina
   return {
     colorMode,
     colorEnabled: resolveColorEnabled(colorMode, options),
+    screenEnabled: options.isTty,
     theme: theme.id,
     reducedMotion: options.reducedMotion || options.env["KEYQUEST_REDUCED_MOTION"] === "1",
     size: {
