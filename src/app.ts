@@ -39,6 +39,8 @@ import type { SceneContext } from "./scenes/types.js";
 import { styleText } from "./terminal/ansi.js";
 import type { TerminalRuntime } from "./terminal/runtime.js";
 import { createScreenRenderer, type ScreenRenderer } from "./terminal/screen.js";
+import type { RealtimeTypingInput } from "./realtime/input.js";
+import { runRealtimeTypingPrompt } from "./realtime/typing-screen.js";
 
 export type RunAppOptions = {
   readonly mode: SaveMode;
@@ -48,6 +50,7 @@ export type RunAppOptions = {
   readonly lesson: Lesson | undefined;
   readonly lessonPath: string | undefined;
   readonly terminalRuntime?: TerminalRuntime;
+  readonly realtimeInput?: RealtimeTypingInput;
   readonly now?: Date;
   readonly completedAt?: Date;
 };
@@ -118,7 +121,14 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     });
     const introOutput = formatSceneSequence(outputs);
     screen.render(introOutput);
-    const actual = await options.textInput.readLine("> ");
+    const actual = await readPracticeInput({
+      practicePrompt,
+      textInput: options.textInput,
+      realtimeInput: options.realtimeInput,
+      screen,
+      translator,
+      terminalRuntime: options.terminalRuntime,
+    });
     const completedAt = options.completedAt ?? new Date();
     const attempt = {
       prompt: practicePrompt,
@@ -219,6 +229,26 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     finalScreenSections.push(journeyProgressLines);
   }
   screen.render(joinScreenSections(finalScreenSections));
+}
+
+async function readPracticeInput(options: {
+  readonly practicePrompt: PracticePrompt;
+  readonly textInput: TextInput;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+  readonly screen: ScreenRenderer;
+  readonly translator: ReturnType<typeof createTranslator>;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+}): Promise<string> {
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    return runRealtimeTypingPrompt({
+      prompt: options.practicePrompt,
+      input: options.realtimeInput,
+      screen: options.screen,
+      translator: options.translator,
+    });
+  }
+
+  return options.textInput.readLine("> ");
 }
 
 async function runTitleMenu(options: {

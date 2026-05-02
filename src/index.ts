@@ -4,6 +4,7 @@ import { runApp } from "./app.js";
 import { parseCliArgs } from "./cli/args.js";
 import { createNodeTextInput } from "./cli/text-input.js";
 import { createNodeTextOutput } from "./cli/text-output.js";
+import { createNodeRealtimeTypingInput } from "./realtime/input.js";
 import { resolveTerminalRuntime } from "./terminal/runtime.js";
 
 try {
@@ -13,6 +14,7 @@ try {
     output: process.stdout,
   });
   const textOutput = createNodeTextOutput(process.stdout);
+  const realtimeInput = createNodeRealtimeTypingInput(process.stdin);
   const terminalRuntime = resolveTerminalRuntime({
     colorMode: options.colorMode,
     theme: undefined,
@@ -29,6 +31,7 @@ try {
       lesson: undefined,
       lessonPath: options.lessonPath,
       terminalRuntime,
+      realtimeInput,
       textInput,
       textOutput,
     });

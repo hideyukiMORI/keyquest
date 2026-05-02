@@ -8,6 +8,7 @@ import { runApp } from "./app.js";
 import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
 import type { Lesson } from "./lessons/schema.js";
+import type { RealtimeTypingInput } from "./realtime/input.js";
 import { createNewSave } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 
@@ -258,6 +259,55 @@ describe("runApp", () => {
 
     expect(output.text()).toContain("\u001b[2J\u001b[H");
     expect(output.text()).toContain("Session Result");
+  });
+
+  it("uses realtime typing input when screen rendering is enabled", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      realtimeInput: createQueuedRealtimeInput([
+        "f",
+        " ",
+        "j",
+        "\r",
+        "f",
+        "f",
+        " ",
+        "j",
+        "j",
+        "\r",
+        "f",
+        "j",
+        " ",
+        "j",
+        "f",
+        "\r",
+      ]),
+      terminalRuntime: {
+        colorMode: "never",
+        colorEnabled: false,
+        screenEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Real-time Practice");
+    expect(output.text()).toContain("Input:  f j");
+    expect(output.text()).toContain("Session Result");
+    expect(output.text()).toContain("Unlocked: Flawless Focus");
   });
 
   it("warns when the terminal is below the recommended size", async () => {
@@ -556,6 +606,24 @@ function createAssertingTextInput(read: () => string): TextInput {
       return Promise.resolve(read());
     },
     close(): void {},
+  };
+}
+
+function createQueuedRealtimeInput(keys: readonly string[]): RealtimeTypingInput {
+  const queue = [...keys];
+
+  return {
+    readKey(): Promise<string> {
+      const key = queue.shift();
+      if (key === undefined) {
+        return Promise.reject(new Error("No queued realtime key"));
+      }
+
+      return Promise.resolve(key);
+    },
+    async withRawMode<T>(run: () => Promise<T> | T): Promise<T> {
+      return run();
+    },
   };
 }
 
