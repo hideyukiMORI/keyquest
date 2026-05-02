@@ -5,6 +5,7 @@
 - [ ] Build [#2](https://github.com/hideyukiMORI/keyquest/issues/2): first interactive typing loop.
 - [ ] Define [#7](https://github.com/hideyukiMORI/keyquest/issues/7): local save-file shape for session history, XP, streaks, and settings.
 - [ ] Design [#11](https://github.com/hideyukiMORI/keyquest/issues/11): first home-position and finger-usage lesson sequence.
+- [ ] Define [#13](https://github.com/hideyukiMORI/keyquest/issues/13): terminal size, color mode, and theme behavior.
 - [ ] Add the first 10-minute daily session result screen.
 - [ ] Keep `main` green with `npm run verify`.
 
@@ -14,6 +15,7 @@
 - [ ] Add a beginner lesson schema field for intended finger usage.
 - [ ] Separate English typing prompts from localized UI message keys.
 - [ ] Add terminal raw-mode input handling.
+- [ ] Add terminal capability detection for size and color support.
 - [ ] Record per-character mistakes for weak-key review.
 - [ ] Build [#8](https://github.com/hideyukiMORI/keyquest/issues/8): localization message catalog foundation.
 - [ ] Add initial locale catalogs for English and Japanese.

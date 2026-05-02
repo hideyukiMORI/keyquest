@@ -10,6 +10,7 @@ alwaysApply: true
 - Keep product decisions aligned with `docs/PRODUCT_DIRECTION.md` and
   `docs/PROGRESSION_DESIGN.md`.
 - Keep onboarding lesson decisions aligned with `docs/ONBOARDING_TRAINING.md`.
+- Keep terminal UI decisions aligned with `docs/UI_SPEC.md`.
 - Keep persistence decisions aligned with `docs/SAVE_DATA.md`.
 - Keep `main` releasable; run `npm run verify` before pushing.
 - Prefer small PRs with clear acceptance criteria and test plans.

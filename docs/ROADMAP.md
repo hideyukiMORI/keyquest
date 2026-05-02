@@ -11,6 +11,7 @@ Goal: make the core loop playable and measurable.
 - Session result screen with XP and simple rewards.
 - Normal save file for local progress with tamper friction.
 - Development save mode using readable JSON and visible `DEV MODE` markers.
+- Terminal size handling, no-color mode, and initial color themes.
 - Basic localization infrastructure.
 
 Exit criteria:
@@ -18,6 +19,7 @@ Exit criteria:
 - A player can complete a 10-minute session.
 - The game records progress locally.
 - The result screen makes improvement understandable.
+- Small or no-color terminals fail gracefully.
 
 ## Mid Term: 90-Day Training Structure
 
