@@ -97,8 +97,9 @@ system too early.
 
 - First reward screen with XP gain
 - Simple level-up display for skill tracks
-- First title rewards after Gatekeeper Trial, Waystone Trial, and Ferryman Trial
-  (`noviceHallGraduate`, `meadowRoadPathfinder`, `riverGateFerryman`)
+- First title rewards after Gatekeeper Trial, Waystone Trial, Ferryman Trial,
+  and Beacon Trial (`noviceHallGraduate`, `meadowRoadPathfinder`,
+  `riverGateFerryman`, `lanternKeepBeacon`)
 - First achievement unlock path for first session, perfect sessions,
   streak milestones, and long-session play
 - Daily streak progression from session completion dates

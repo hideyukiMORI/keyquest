@@ -1,4 +1,5 @@
 import {
+  LANTERN_KEEP_FINAL_DAY,
   MEADOW_ROAD_FINAL_DAY,
   NOVICE_HALL_FINAL_DAY,
   RIVER_GATE_FINAL_DAY,
@@ -23,6 +24,10 @@ export const TITLE_REWARDS: Readonly<Record<TitleRewardId, TitleRewardDefinition
     id: "riverGateFerryman",
     title: "River Gate Ferryman",
   },
+  lanternKeepBeacon: {
+    id: "lanternKeepBeacon",
+    title: "Lantern Keep Beacon",
+  },
 };
 
 export function unlockSessionTitles(options: {
@@ -33,6 +38,7 @@ export function unlockSessionTitles(options: {
     options.save.journey.day === NOVICE_HALL_FINAL_DAY ? "noviceHallGraduate" : undefined,
     options.save.journey.day === MEADOW_ROAD_FINAL_DAY ? "meadowRoadPathfinder" : undefined,
     options.save.journey.day === RIVER_GATE_FINAL_DAY ? "riverGateFerryman" : undefined,
+    options.save.journey.day === LANTERN_KEEP_FINAL_DAY ? "lanternKeepBeacon" : undefined,
   ].filter((id): id is TitleRewardId => id !== undefined);
   const existingTitleIds = new Set((options.save.progress.titles ?? []).map((title) => title.id));
 

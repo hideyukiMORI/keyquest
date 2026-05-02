@@ -106,6 +106,8 @@ describe("runApp", () => {
     expect(output.text()).not.toContain("Gatekeeper Trial cleared");
     expect(output.text()).not.toContain("Waystone Trial cleared");
     expect(output.text()).not.toContain("Ferryman Trial cleared");
+    expect(output.text()).toContain("Beacon Trial cleared");
+    expect(output.text()).toContain("Earned title: Lantern Keep Beacon");
   });
 
   it("shows Meadow Road clear and second-week title after Day 14", async () => {

@@ -12,6 +12,7 @@ import type {
   SceneOutput,
 } from "./types.js";
 import {
+  LANTERN_KEEP_FINAL_DAY,
   MEADOW_ROAD_FINAL_DAY,
   NOVICE_HALL_FINAL_DAY,
   RIVER_GATE_FINAL_DAY,
@@ -299,6 +300,7 @@ export function renderPracticeJourneyProgress(
     beforeDay === NOVICE_HALL_FINAL_DAY ? t("journey.noviceHallClear") : "",
     beforeDay === MEADOW_ROAD_FINAL_DAY ? t("journey.meadowRoadClear") : "",
     beforeDay === RIVER_GATE_FINAL_DAY ? t("journey.riverGateClear") : "",
+    beforeDay === LANTERN_KEEP_FINAL_DAY ? t("journey.lanternKeepClear") : "",
     afterDay > beforeDay ? t("journey.nextDay", { day: afterDay }) : "",
   ].filter((line) => line.length > 0);
 

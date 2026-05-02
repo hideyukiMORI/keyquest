@@ -32,7 +32,11 @@ export type AchievementRecord = {
   readonly unlockedAt: string;
 };
 
-export type TitleRewardId = "noviceHallGraduate" | "meadowRoadPathfinder" | "riverGateFerryman";
+export type TitleRewardId =
+  | "noviceHallGraduate"
+  | "meadowRoadPathfinder"
+  | "riverGateFerryman"
+  | "lanternKeepBeacon";
 
 export type TitleRewardRecord = {
   readonly id: TitleRewardId;

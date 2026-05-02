@@ -81,4 +81,23 @@ describe("title rewards", () => {
       },
     ]);
   });
+
+  it("unlocks Lantern Keep beacon title after Day 28", () => {
+    const now = new Date("2026-01-01T00:00:00.000Z");
+    const save = {
+      ...createNewSave(now, "normal"),
+      journey: {
+        day: 28,
+        chapter: 4,
+        storyFlag: "noviceHallStarted" as const,
+      },
+    };
+
+    expect(unlockSessionTitles({ save, unlockedAt: now })).toEqual([
+      {
+        id: "lanternKeepBeacon",
+        unlockedAt: "2026-01-01T00:00:00.000Z",
+      },
+    ]);
+  });
 });
