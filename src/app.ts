@@ -13,6 +13,7 @@ import {
   type TitleMenuAction,
   parseLocaleChoice,
   parseTitleMenuAction,
+  renderInGameHelp,
   renderLanguageOptions,
   renderTitleMenu,
 } from "./menu/title-menu.js";
@@ -330,6 +331,12 @@ async function runTitleMenu(options: {
 
     if (action === "loadGame") {
       notice = translator.t("title.menu.loadUnavailable");
+      continue;
+    }
+
+    if (action === "help") {
+      options.screen.render(renderInGameHelp(translator));
+      await options.textInput.readLine(translator.t("help.prompt"));
       continue;
     }
 

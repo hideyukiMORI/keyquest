@@ -8,7 +8,7 @@ import {
 } from "../i18n/messages.js";
 import type { KeyQuestSave } from "../save/model.js";
 
-export type TitleMenuAction = "start" | "review" | "options" | "newGame" | "loadGame";
+export type TitleMenuAction = "start" | "review" | "options" | "newGame" | "loadGame" | "help";
 
 export function renderTitleMenu(save: KeyQuestSave, translator: Translator): readonly string[] {
   const hasExistingSession = save.progress.sessions.length > 0;
@@ -26,6 +26,7 @@ export function renderTitleMenu(save: KeyQuestSave, translator: Translator): rea
     `3. ${translator.t("title.menu.options")}`,
     `4. ${translator.t("title.menu.newGame")}`,
     `5. ${translator.t("title.menu.loadGame")} (${translator.t("title.menu.planned")})`,
+    `6. ${translator.t("title.menu.help")}`,
   ];
 }
 
@@ -57,7 +58,24 @@ export function parseTitleMenuAction(input: string): TitleMenuAction {
     return "loadGame";
   }
 
+  if (normalized === "6" || normalized === "help") {
+    return "help";
+  }
+
   return "start";
+}
+
+export function renderInGameHelp(translator: Translator): readonly string[] {
+  return [
+    translator.t("help.heading"),
+    "",
+    translator.t("help.daily"),
+    translator.t("help.review"),
+    translator.t("help.progression"),
+    translator.t("help.options"),
+    "",
+    translator.t("help.back"),
+  ];
 }
 
 export function renderLanguageOptions(
