@@ -22,7 +22,7 @@
 - [x] Build a one-prompt raw-mode typing spike behind a testable state machine.
 - [x] Add safe terminal cleanup for Ctrl+C and interrupted raw-mode sessions.
 - [x] Add a first reward screen with skill XP and a simple level-up message.
-- [ ] Draft the first 7-day training cycle.
+- [x] Draft the first 7-day training cycle.
 
 ## Mid Term
 
