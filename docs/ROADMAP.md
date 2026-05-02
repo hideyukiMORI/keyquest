@@ -31,6 +31,7 @@ Goal: turn the playable loop into a training journey.
 
 - 7-day weekly training rhythm.
 - 90-day journey map with classic fantasy chapters.
+- Planned typed quest arcs through Day 90.
 - Skill tracks for rows, Shift, numbers, symbols, and accuracy.
 - Weak-key detection and review quests.
 - Achievement engine and first achievement set.

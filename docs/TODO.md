@@ -86,3 +86,4 @@
 - [x] Add interactive `j`/`k` menu navigation for TTY mode.
 - [x] Allow options changes during practice.
 - [x] Add a Journey progress screen with current day, arc, weekly trial, and ending progress.
+- [x] Extend the typed quest arc map with planned arcs through Day 90.

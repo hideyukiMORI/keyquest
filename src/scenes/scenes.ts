@@ -20,7 +20,7 @@ import {
 } from "../lessons/manifest.js";
 import { EQUIPMENT_UPGRADES, getEquipmentUpgradeLevel } from "../quest/equipment.js";
 import { getJourneyEndingState } from "../quest/ending.js";
-import { getQuestArcForDay } from "../quest/map.js";
+import { getDisplayQuestArcForDay } from "../quest/map.js";
 import { getQuestModifierForDay } from "../quest/modifiers.js";
 import { createInitialQuestResources } from "../save/model.js";
 import { styleText } from "../terminal/ansi.js";
@@ -71,7 +71,7 @@ export const statusScene: Scene = {
       .map((skill) => `${skill.id} Lv.${skill.level}`)
       .join(" / ");
     const resources = context.save.progress.resources ?? createInitialQuestResources();
-    const arc = getQuestArcForDay(context.save.journey.day);
+    const arc = getDisplayQuestArcForDay(context.save.journey.day);
     const modifier = getQuestModifierForDay(context.save.journey.day);
 
     return {
