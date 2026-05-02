@@ -31,6 +31,52 @@ keyquest --reduced-motion
 Inside the title menu, choose `Help` for a short explanation of the daily loop,
 weak-key review, progression rewards, and language options.
 
+## Terminal Preview
+
+```text
+KeyQuest
+A terminal typing adventure for steady hands.
+
+Title
+1. Start
+2. Review Weak Keys
+3. Options
+4. New Game
+5. Load Game (planned)
+6. Help
+
+Story
+Day 1: Novice Hall: Home Position
+The old instructor points to the home row.
+"Before the blade, learn the stance."
+
+Status
+Hero: Apprentice
+XP: 0
+Streak: 0 days
+Arc: Novice Hall
+Modifier: Steady Torch - High accuracy adds a Focus Crystal.
+HP: 20/20  MP: 0/10
+Training: homePosition Lv.1 / fingerResponsibility Lv.1 / homeRow Lv.1
+
+Practice
+Lesson: Novice Hall: Home Position
+Keep your fingers on the home position.
+Keys: f j
+Type: f j f j
+
+Session Result
+Prompts: 3
+Accuracy: 100%
+WPM: 24.0
+XP gained: 42
+
+Rewards
+homePosition: +14 XP (Lv.1)
+Unlocked: First Steps
+Next lesson: Day 2 is ready for next time.
+```
+
 ## Vision
 
 KeyQuest is a terminal-first typing adventure game. It should make daily typing
