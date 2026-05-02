@@ -173,6 +173,7 @@ Goal: publish a useful open-source CLI.
 - `npx keyquest` smoke test
 - CLI help and version output
 - In-game help menu for first-time players
+- Journey progress screen from the title menu
 - Minimal current-slot Load Game action
 - New Game confirmation before replacing progress
 - Interactive `j`/`k` menu navigation in TTY mode

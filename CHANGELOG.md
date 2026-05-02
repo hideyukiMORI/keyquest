@@ -7,6 +7,7 @@ drafts from git history.
 
 ## Unreleased
 
+- Added a Journey progress screen from the title menu with current day, arc, weekly trial, and ending progress.
 - Added interactive menu navigation with `j`/`k`, arrow keys, Enter, and Space in TTY screen mode.
 - Added an in-practice options shortcut so players can change language during a run.
 - Fixed New Game so it preserves option settings such as the selected language.

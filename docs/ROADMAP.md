@@ -41,6 +41,7 @@ Goal: turn the playable loop into a training journey.
 Exit criteria:
 
 - A player can see today's quest, this week's boss, and long-term progress.
+- The title menu exposes current journey progress without starting a session.
 - Weaknesses create targeted practice instead of generic repetition.
 - Achievements reward meaningful improvement.
 

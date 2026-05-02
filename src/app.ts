@@ -17,6 +17,7 @@ import {
   parseLocaleChoice,
   parseTitleMenuAction,
   renderInGameHelp,
+  renderJourneyProgress,
   renderLanguageOptions,
   renderTitleMenu,
 } from "./menu/title-menu.js";
@@ -510,6 +511,12 @@ async function runTitleMenu(options: {
     if (action === "help") {
       options.screen.render(renderInGameHelp(translator));
       await options.textInput.readLine(translator.t("help.prompt"));
+      continue;
+    }
+
+    if (action === "journey") {
+      options.screen.render(renderJourneyProgress(save, translator));
+      await options.textInput.readLine(translator.t("journeyProgress.prompt"));
       continue;
     }
 
