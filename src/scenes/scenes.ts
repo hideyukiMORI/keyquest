@@ -17,6 +17,7 @@ import {
   NOVICE_HALL_FINAL_DAY,
   RIVER_GATE_FINAL_DAY,
 } from "../lessons/manifest.js";
+import { getQuestArcForDay } from "../quest/map.js";
 import { createInitialQuestResources } from "../save/model.js";
 import { styleText } from "../terminal/ansi.js";
 
@@ -66,6 +67,7 @@ export const statusScene: Scene = {
       .map((skill) => `${skill.id} Lv.${skill.level}`)
       .join(" / ");
     const resources = context.save.progress.resources ?? createInitialQuestResources();
+    const arc = getQuestArcForDay(context.save.journey.day);
 
     return {
       id: "status",
@@ -74,6 +76,7 @@ export const statusScene: Scene = {
         t("status.hero", { hero: context.save.profile.heroName }),
         t("status.xp", { xp: context.save.progress.totalXp }),
         t("status.streak", { days: context.save.progress.streakDays }),
+        t("status.arc", { arc: arc.title }),
         t("status.resources", {
           hp: resources.hp,
           maxHp: resources.maxHp,
