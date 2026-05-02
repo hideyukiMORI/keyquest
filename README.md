@@ -2,6 +2,30 @@
 
 A terminal typing adventure game for fun and effective practice.
 
+## Usage
+
+Run locally from the repository:
+
+```bash
+npm run dev
+```
+
+After the package is published, the intended quick start is:
+
+```bash
+npx keyquest
+```
+
+Useful CLI flags:
+
+```bash
+keyquest --dev
+keyquest --lesson ./lessons/novice-hall-day-1.json
+keyquest --lesson-pack ./packs/home-row-extra/keyquest-pack.json
+keyquest --no-color
+keyquest --reduced-motion
+```
+
 ## Vision
 
 KeyQuest is a terminal-first typing adventure game. It should make daily typing
@@ -39,6 +63,12 @@ Run the full local verification suite:
 npm run verify
 ```
 
+Check the package contents before publishing:
+
+```bash
+npm run package:smoke
+```
+
 ## Project Management
 
 This project is managed with GitHub Issues and local Markdown planning docs.
@@ -47,6 +77,7 @@ This project is managed with GitHub Issues and local Markdown planning docs.
 - Roadmap: `docs/ROADMAP.md`
 - Milestones: `docs/MILESTONES.md`
 - Active TODOs: `docs/TODO.md`
+- Lesson packs: `docs/LESSON_PACKS.md`
 - Onboarding training: `docs/ONBOARDING_TRAINING.md`
 - UI specification: `docs/UI_SPEC.md`
 - Progression design: `docs/PROGRESSION_DESIGN.md`

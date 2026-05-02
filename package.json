@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "A terminal typing adventure game for fun and effective practice.",
   "type": "module",
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
   "bin": {
     "keyquest": "./dist/index.js"
   },
@@ -23,7 +27,9 @@
     "lessons:validate": "tsx src/lessons/validate-bundled.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run lessons:validate && npm run test"
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run lessons:validate && npm run test",
+    "package:smoke": "npm run build && npm pack --dry-run",
+    "prepublishOnly": "npm run verify && npm run build"
   },
   "repository": {
     "type": "git",
