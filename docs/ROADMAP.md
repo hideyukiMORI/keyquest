@@ -5,10 +5,12 @@
 Goal: make the core loop playable and measurable.
 
 - Interactive terminal input loop.
+- Home-position and finger-usage onboarding.
 - Prompt scoring with WPM, accuracy, mistakes, and elapsed time.
 - First lesson format and sample English prompts.
 - Session result screen with XP and simple rewards.
-- Save file for local progress.
+- Normal save file for local progress with tamper friction.
+- Development save mode using readable JSON and visible `DEV MODE` markers.
 - Basic localization infrastructure.
 
 Exit criteria:

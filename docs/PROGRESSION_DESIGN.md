@@ -23,6 +23,8 @@ avoiding difficult prompts.
 
 Progress should be visible in multiple areas:
 
+- Home Position
+- Finger Responsibility
 - Home Row
 - Top Row
 - Bottom Row
@@ -33,6 +35,10 @@ Progress should be visible in multiple areas:
 - Accuracy
 - Rhythm
 - Recovery after mistakes
+
+Home Position and Finger Responsibility are special early tracks. They should
+gate the first layer of adventure progression so players cannot rush into speed
+training with unstable form.
 
 ## Daily Power Curve
 

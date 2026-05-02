@@ -14,9 +14,11 @@ Goal: make the repository ready for Issue-based development.
 Goal: make `keyquest` playable as a 10-minute daily terminal practice session.
 
 - Interactive prompt loop
+- Home-position and finger-usage onboarding
 - Lesson loading from structured data
 - Accuracy, WPM, and mistake summary
-- Local save file for session history and basic progress
+- Normal save file for session history and basic progress with tamper friction
+- Development save mode with readable JSON and visible `DEV MODE` markers
 - First reward screen with XP and simple items
 - Keyboard-only flow that works on Linux, macOS, and Windows terminals
 
