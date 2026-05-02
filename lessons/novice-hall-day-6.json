@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-6",
+  "title": "Novice Hall: Repair The Stance",
+  "day": 6,
+  "locale": "en",
+  "focus": ["weak finger repair", "slow perfect typing", "home row recovery"],
+  "prompts": [
+    {
+      "id": "repair-stance-1",
+      "text": "aa ;; ss ll",
+      "targetKeys": ["a", ";", "s", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftPinky", "rightPinky", "leftRing", "rightRing"]
+    },
+    {
+      "id": "repair-stance-2",
+      "text": "a; s; al sl",
+      "targetKeys": ["a", ";", "s", "l"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftPinky", "rightPinky", "leftRing", "rightRing"]
+    },
+    {
+      "id": "repair-stance-3",
+      "text": "sad lass fall",
+      "targetKeys": ["s", "a", "d", "l", "f"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftRing", "leftPinky", "leftMiddle", "rightRing", "leftIndex"]
+    },
+    {
+      "id": "repair-stance-4",
+      "text": "ask lass fall salad",
+      "targetKeys": ["a", "s", "k", "l", "f", "d"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "rightMiddle",
+        "rightRing",
+        "leftIndex",
+        "leftMiddle"
+      ]
+    }
+  ]
+}

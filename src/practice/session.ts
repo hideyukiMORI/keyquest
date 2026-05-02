@@ -8,7 +8,7 @@ import type {
 } from "../save/model.js";
 import type { FingerId } from "../lessons/schema.js";
 
-export const LATEST_BUNDLED_JOURNEY_DAY = 5;
+export const LATEST_BUNDLED_JOURNEY_DAY = 6;
 
 export type PracticePrompt = {
   readonly id: string;
