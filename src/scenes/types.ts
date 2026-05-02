@@ -40,3 +40,8 @@ export type PracticeRunResultView = {
   readonly xpGained: number;
   readonly mode: SaveMode;
 };
+
+export type PracticeRewardsView = {
+  readonly beforeSave: KeyQuestSave;
+  readonly afterSave: KeyQuestSave;
+};

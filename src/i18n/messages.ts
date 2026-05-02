@@ -54,6 +54,9 @@ const EN_MESSAGES = {
   "result.mistakes": "Mistakes: {mistakes}",
   "result.xpGained": "XP gained: {xp}",
   "result.devClear": "DEV MODE CLEAR - the bards refuse to sing about debug magic.",
+  "reward.heading": "Rewards",
+  "reward.skillXp": "{skill}: +{xp} XP (Lv.{level})",
+  "reward.levelUp": "Level up: {skill} Lv.{level}",
 } as const;
 
 const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, string>>>>> = {
@@ -105,6 +108,9 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "result.mistakes": "ミス: {mistakes}",
     "result.xpGained": "獲得XP: {xp}",
     "result.devClear": "DEV MODE CLEAR - デバッグ魔法なので少しだけ残念なクリアです。",
+    "reward.heading": "報酬",
+    "reward.skillXp": "{skill}: +{xp} XP (Lv.{level})",
+    "reward.levelUp": "レベルアップ: {skill} Lv.{level}",
   },
   "zh-CN": {
     ...EN_MESSAGES,

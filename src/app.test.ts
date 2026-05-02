@@ -38,6 +38,7 @@ describe("runApp", () => {
     expect(output.text()).toContain("Session Result");
     expect(output.text()).toContain("Time: 20.0s");
     expect(output.text()).toContain("XP gained");
+    expect(output.text()).toContain("Rewards");
   });
 
   it("warns when the terminal is below the recommended size", async () => {

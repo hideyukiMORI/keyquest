@@ -1,4 +1,5 @@
 import type {
+  PracticeRewardsView,
   PracticeResultView,
   PracticeRunResultView,
   Scene,
@@ -151,6 +152,45 @@ export function renderPracticeRunResult(
     t("result.xpGained", { xp: result.xpGained }),
     ...devLine,
   ];
+}
+
+export function renderPracticeRewards(
+  rewards: PracticeRewardsView,
+  translator: SceneContext["translator"],
+): readonly string[] {
+  const { t } = translator;
+  const rewardLines = rewards.afterSave.progress.skills.flatMap((afterSkill) => {
+    const beforeSkill = rewards.beforeSave.progress.skills.find(
+      (skill) => skill.id === afterSkill.id,
+    );
+    if (beforeSkill === undefined) {
+      return [];
+    }
+
+    const xpGained = afterSkill.xp - beforeSkill.xp;
+    if (xpGained <= 0) {
+      return [];
+    }
+
+    const skillLine = t("reward.skillXp", {
+      skill: afterSkill.id,
+      xp: xpGained,
+      level: afterSkill.level,
+    });
+    const levelLine =
+      afterSkill.level > beforeSkill.level
+        ? [
+            t("reward.levelUp", {
+              skill: afterSkill.id,
+              level: afterSkill.level,
+            }),
+          ]
+        : [];
+
+    return [skillLine, ...levelLine];
+  });
+
+  return [t("reward.heading"), ...rewardLines];
 }
 
 function formatElapsedSeconds(elapsedSeconds: number): string {
