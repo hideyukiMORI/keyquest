@@ -10,7 +10,10 @@
       review.
 - [x] Clarify title menu semantics for current `Start` and future `Continue`,
       `New Game`, and `Load Game`.
-- [ ] Keep `main` green with `npm run verify`.
+- [x] Keep `main` green with `npm run verify`.
+- [x] Add Novice Hall lessons for Day 2 through Day 5.
+- [x] Resolve the default lesson from the saved journey day.
+- [x] Advance journey day after completed sessions, capped at bundled lessons.
 
 ## Next
 
@@ -19,10 +22,15 @@
 - [x] Add terminal capability detection for size and color support.
 - [x] Add `--color`, `--no-color`, and reduced-motion option handling.
 - [x] Add five semantic color themes: classic, forest, arcane, ember, and mono.
+- [x] Connect semantic theme tokens to ANSI heading and warning rendering.
 - [x] Build a one-prompt raw-mode typing spike behind a testable state machine.
 - [x] Add safe terminal cleanup for Ctrl+C and interrupted raw-mode sessions.
 - [x] Add a first reward screen with skill XP and a simple level-up message.
 - [x] Draft the first 7-day training cycle.
+- [ ] Add Novice Hall Day 6 weak-finger review lesson.
+- [ ] Add Novice Hall Day 7 gatekeeper trial lesson.
+- [ ] Replace the bundled lesson cap with a lesson manifest.
+- [ ] Add a small screen message when the journey advances to the next day.
 
 ## Mid Term
 
