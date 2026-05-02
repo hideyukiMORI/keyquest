@@ -18,6 +18,15 @@ describe("parseCliArgs", () => {
     expect(parseCliArgs(["--lesson=lessons/day-1.json"]).lessonPath).toBe("lessons/day-1.json");
   });
 
+  it("parses lesson pack manifest path forms", () => {
+    expect(
+      parseCliArgs(["--lesson-pack", "packs/home-row/keyquest-pack.json"]).lessonPackPath,
+    ).toBe("packs/home-row/keyquest-pack.json");
+    expect(parseCliArgs(["--lesson-pack=packs/home-row/keyquest-pack.json"]).lessonPackPath).toBe(
+      "packs/home-row/keyquest-pack.json",
+    );
+  });
+
   it("parses terminal runtime flags", () => {
     expect(parseCliArgs(["--color", "always"]).colorMode).toBe("always");
     expect(parseCliArgs(["--color=never"]).colorMode).toBe("never");

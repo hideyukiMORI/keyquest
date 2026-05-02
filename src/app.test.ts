@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -196,6 +196,56 @@ describe("runApp", () => {
 
     expect(output.text()).toContain("Segment 4/4");
     expect(output.text()).toContain("Prompts: 4");
+  });
+
+  it("loads the current day lesson from an imported lesson pack", async () => {
+    const packDirectory = await createTempDirectory();
+    const lessonsDirectory = join(packDirectory, "lessons");
+    await mkdir(lessonsDirectory);
+    const lesson = {
+      ...createTestLesson(),
+      id: "pack-day-1",
+      title: "Pack Day 1",
+      prompts: createTestLesson().prompts.map((prompt, index) => ({
+        ...prompt,
+        id: `pack-prompt-${index + 1}`,
+        text: ["aa", "ss", "dd"][index] ?? prompt.text,
+      })),
+    };
+    await writeFile(join(lessonsDirectory, "day-1.json"), JSON.stringify(lesson), "utf8");
+    const manifestPath = join(packDirectory, "keyquest-pack.json");
+    await writeFile(
+      manifestPath,
+      JSON.stringify({
+        version: 1,
+        id: "test-pack",
+        title: "Test Pack",
+        lessons: [
+          {
+            day: 1,
+            path: "lessons/day-1.json",
+          },
+        ],
+      }),
+      "utf8",
+    );
+    const output = createMemoryOutput();
+
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "aa", "ss", "dd"]),
+      textOutput: output,
+      lesson: undefined,
+      lessonPath: undefined,
+      lessonPackPath: manifestPath,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Lesson: Pack Day 1");
+    expect(output.text()).toContain("Type: aa");
+    expect(output.text()).toContain("Session Result");
   });
 
   it("shows streak milestone messages after rewards", async () => {

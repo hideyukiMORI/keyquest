@@ -30,6 +30,7 @@ try {
       saveDirectory: options.saveDirectory,
       lesson: undefined,
       lessonPath: options.lessonPath,
+      ...(options.lessonPackPath === undefined ? {} : { lessonPackPath: options.lessonPackPath }),
       terminalRuntime,
       realtimeInput,
       textInput,
