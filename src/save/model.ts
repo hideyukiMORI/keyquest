@@ -1,3 +1,5 @@
+import type { LocaleId } from "../i18n/messages.js";
+
 export const SAVE_VERSION = 1;
 
 export type SaveMode = "normal" | "development";
@@ -34,7 +36,7 @@ export type KeyQuestSave = {
     readonly updatedAt: string;
   };
   readonly settings: {
-    readonly locale: string;
+    readonly locale: LocaleId;
     readonly colorMode: "auto" | "always" | "never";
     readonly theme: "classic" | "forest" | "arcane" | "ember" | "mono";
     readonly reducedMotion: boolean;
@@ -106,6 +108,20 @@ export function touchSave(save: KeyQuestSave, now: Date, mode: SaveMode): KeyQue
     development: {
       everUsedDevMode: save.development.everUsedDevMode || mode === "development",
       devSessions: save.development.devSessions,
+    },
+  };
+}
+
+export function updateLocale(save: KeyQuestSave, locale: LocaleId, now: Date): KeyQuestSave {
+  return {
+    ...save,
+    profile: {
+      ...save.profile,
+      updatedAt: now.toISOString(),
+    },
+    settings: {
+      ...save.settings,
+      locale,
     },
   };
 }

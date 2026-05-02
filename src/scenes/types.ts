@@ -1,4 +1,5 @@
 import type { Score } from "../core/scoring.js";
+import type { Translator } from "../i18n/messages.js";
 import type { Lesson } from "../lessons/schema.js";
 import type { PracticePrompt } from "../practice/session.js";
 import type { KeyQuestSave, SaveMode } from "../save/model.js";
@@ -9,6 +10,7 @@ export type SceneContext = {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
   readonly now: Date;
+  readonly translator: Translator;
   readonly lesson: Lesson;
   readonly practicePrompt: PracticePrompt;
 };

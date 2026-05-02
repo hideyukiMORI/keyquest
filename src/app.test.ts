@@ -21,7 +21,7 @@ describe("runApp", () => {
     await runApp({
       mode: "normal",
       saveDirectory: await createTempDirectory(),
-      textInput: createFixedTextInput("f j f j asdf jkl;"),
+      textInput: createQueuedTextInput(["1", "f j f j asdf jkl;"]),
       textOutput: output,
       lesson: createTestLesson(),
       lessonPath: undefined,
@@ -42,7 +42,7 @@ describe("runApp", () => {
     await runApp({
       mode: "development",
       saveDirectory: await createTempDirectory(),
-      textInput: createFixedTextInput("f j f j asdf jkl;"),
+      textInput: createQueuedTextInput(["1", "f j f j asdf jkl;"]),
       textOutput: output,
       lesson: createTestLesson(),
       lessonPath: undefined,
@@ -56,7 +56,14 @@ describe("runApp", () => {
 
   it("renders practice instructions before waiting for input", async () => {
     const output = createMemoryOutput();
+    let readCount = 0;
     const input = createAssertingTextInput(() => {
+      readCount += 1;
+      if (readCount === 1) {
+        expect(output.text()).toContain("Title");
+        return "1";
+      }
+
       expect(output.text()).toContain("Type: f j f j asdf jkl;");
       expect(output.text()).not.toContain("Result");
       return "f j f j asdf jkl;";
@@ -74,6 +81,25 @@ describe("runApp", () => {
     });
 
     expect(output.text()).toContain("Result");
+  });
+
+  it("lets the player change language before starting", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["2", "2", "1", "f j f j asdf jkl;"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("言語を 日本語 に設定しました。");
+    expect(output.text()).toContain("タイトル");
+    expect(output.text()).toContain("ストーリー");
+    expect(output.text()).toContain("結果");
   });
 });
 
@@ -103,9 +129,16 @@ function createTestLesson(): Lesson {
   };
 }
 
-function createFixedTextInput(input: string): TextInput {
+function createQueuedTextInput(inputs: readonly string[]): TextInput {
+  const queue = [...inputs];
+
   return {
     readLine(): Promise<string> {
+      const input = queue.shift();
+      if (input === undefined) {
+        return Promise.reject(new Error("No queued test input"));
+      }
+
       return Promise.resolve(input);
     },
     close(): void {},
