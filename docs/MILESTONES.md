@@ -174,6 +174,7 @@ Goal: publish a useful open-source CLI.
 - CLI help and version output
 - In-game help menu for first-time players
 - README with screenshots or terminal recording
+- README terminal transcript preview
 - npm package metadata
 - npm package smoke script and publishing checklist
 - Tarball install smoke for packaged CLI

@@ -7,6 +7,7 @@ drafts from git history.
 
 ## Unreleased
 
+- Added a README terminal transcript preview for the public CLI flow.
 - Strengthened `npm run package:smoke` to install the packed tarball and run the CLI.
 - Added an in-game Help screen from the title menu.
 - Added `--help` and `--version` CLI output for non-interactive discovery.
