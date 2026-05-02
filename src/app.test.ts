@@ -70,6 +70,36 @@ describe("runApp", () => {
     expect(output.text()).not.toContain("Next lesson:");
   });
 
+  it("uses lesson session prompt count overrides", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf", "f j"]),
+      textOutput: output,
+      lesson: {
+        ...createTestLesson(),
+        sessionPromptCount: 4,
+        prompts: [
+          ...createTestLesson().prompts,
+          {
+            id: "home-position-4",
+            text: "f j",
+            targetKeys: ["f", "j"],
+            skillIds: ["homePosition"],
+            fingerHints: ["leftIndex", "rightIndex"],
+          },
+        ],
+      },
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Segment 4/4");
+    expect(output.text()).toContain("Prompts: 4");
+  });
+
   it("styles headings when terminal color is enabled", async () => {
     const output = createMemoryOutput();
     await runApp({

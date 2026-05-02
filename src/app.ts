@@ -69,7 +69,10 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   const defaultLessonPath = getDefaultLessonPathForDay(menuSave.journey.day);
   const lesson =
     options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? defaultLessonPath));
-  const practicePrompts = selectPracticePrompts(lesson, DAILY_SESSION_PROMPT_COUNT);
+  const practicePrompts = selectPracticePrompts(
+    lesson,
+    lesson.sessionPromptCount ?? DAILY_SESSION_PROMPT_COUNT,
+  );
   const translator = createTranslator(menuSave.settings.locale);
   const attempts: PracticeAttempt[] = [];
   let promptStartedAt = now;

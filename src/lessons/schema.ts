@@ -35,6 +35,7 @@ export type Lesson = {
   readonly day: number;
   readonly locale: "en";
   readonly focus: readonly string[];
+  readonly sessionPromptCount?: number;
   readonly prompts: readonly LessonPrompt[];
 };
 
@@ -52,6 +53,8 @@ export function validateLesson(raw: unknown): Lesson {
     throw new Error("Lesson must include at least one prompt");
   }
 
+  const sessionPromptCount = optionalPositiveInteger(value, "sessionPromptCount");
+
   return {
     schemaVersion: LESSON_SCHEMA_VERSION,
     id: requireString(value, "id"),
@@ -59,6 +62,7 @@ export function validateLesson(raw: unknown): Lesson {
     day: requirePositiveInteger(value, "day"),
     locale: requireLiteral(value, "locale", "en"),
     focus: requireStringArray(value, "focus"),
+    ...(sessionPromptCount === undefined ? {} : { sessionPromptCount }),
     prompts,
   };
 }
@@ -121,6 +125,14 @@ function requirePositiveInteger(record: Record<string, unknown>, key: string): n
   }
 
   return value;
+}
+
+function optionalPositiveInteger(record: Record<string, unknown>, key: string): number | undefined {
+  if (record[key] === undefined) {
+    return undefined;
+  }
+
+  return requirePositiveInteger(record, key);
 }
 
 function requireArray(record: Record<string, unknown>, key: string): readonly unknown[] {

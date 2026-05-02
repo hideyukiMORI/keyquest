@@ -5,6 +5,7 @@
   "day": 7,
   "locale": "en",
   "focus": ["home row trial", "accuracy check", "calm recovery"],
+  "sessionPromptCount": 4,
   "prompts": [
     {
       "id": "gatekeeper-trial-1",
@@ -36,6 +37,20 @@
         "rightMiddle",
         "rightRing",
         "rightPinky"
+      ]
+    },
+    {
+      "id": "gatekeeper-trial-3",
+      "text": "ask sad lad fall",
+      "targetKeys": ["a", "s", "k", "d", "l", "f"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "rightMiddle",
+        "leftMiddle",
+        "rightRing",
+        "leftIndex"
       ]
     },
     {
