@@ -14,10 +14,21 @@ describe("scene manager", () => {
         save: createNewSave(now, "normal"),
         mode: "normal",
         now,
+        lesson: {
+          schemaVersion: 1,
+          id: "novice-hall-day-1",
+          title: "Novice Hall: Home Position",
+          day: 1,
+          locale: "en",
+          focus: ["home position"],
+          prompts: [],
+        },
         practicePrompt: {
           id: "home-row-1",
           text: prompt,
           skillIds: ["homePosition"],
+          targetKeys: ["f", "j"],
+          fingerHints: ["leftIndex", "rightIndex"],
         },
       },
     });

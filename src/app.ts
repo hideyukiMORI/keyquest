@@ -1,5 +1,7 @@
 import type { TextInput } from "./cli/text-input.js";
-import { completePracticeSession, type PracticePrompt } from "./practice/session.js";
+import { DEFAULT_LESSON_PATH, loadLessonFromFile, selectPracticePrompt } from "./lessons/loader.js";
+import type { Lesson } from "./lessons/schema.js";
+import { completePracticeSession } from "./practice/session.js";
 import type { SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
@@ -9,14 +11,10 @@ export type RunAppOptions = {
   readonly mode: SaveMode;
   readonly saveDirectory: string | undefined;
   readonly textInput: TextInput;
+  readonly lesson: Lesson | undefined;
+  readonly lessonPath: string | undefined;
   readonly now?: Date;
   readonly completedAt?: Date;
-};
-
-const FIRST_PRACTICE_PROMPT: PracticePrompt = {
-  id: "novice-hall-home-position-1",
-  text: "f j f j asdf jkl;",
-  skillIds: ["homePosition", "fingerResponsibility", "homeRow", "accuracy", "rhythm"],
 };
 
 export async function runApp(options: RunAppOptions): Promise<string> {
@@ -26,6 +24,9 @@ export async function runApp(options: RunAppOptions): Promise<string> {
     ...(options.saveDirectory === undefined ? {} : { directory: options.saveDirectory }),
   });
   const save = await saveStore.loadOrCreate(now);
+  const lesson =
+    options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? DEFAULT_LESSON_PATH));
+  const practicePrompt = selectPracticePrompt(lesson);
 
   const outputs = renderSceneSequence({
     scenes: defaultScenes,
@@ -33,7 +34,8 @@ export async function runApp(options: RunAppOptions): Promise<string> {
       save,
       mode: options.mode,
       now,
-      practicePrompt: FIRST_PRACTICE_PROMPT,
+      lesson,
+      practicePrompt,
     },
   });
   const introOutput = formatSceneSequence(outputs);
@@ -42,7 +44,7 @@ export async function runApp(options: RunAppOptions): Promise<string> {
   const result = completePracticeSession({
     save,
     mode: options.mode,
-    prompt: FIRST_PRACTICE_PROMPT,
+    prompt: practicePrompt,
     actual,
     startedAt: now,
     completedAt,

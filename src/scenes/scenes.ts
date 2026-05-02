@@ -22,7 +22,7 @@ export const storyScene: Scene = {
       id: "story",
       lines: [
         "Story",
-        `Day ${context.save.journey.day}: Novice Hall`,
+        `Day ${context.lesson.day}: ${context.lesson.title}`,
         "The old instructor points to the home row.",
         '"Before the blade, learn the stance."',
       ],
@@ -62,7 +62,10 @@ export const practiceIntroScene: Scene = {
       id: "practiceIntro",
       lines: [
         "Practice",
+        `Lesson: ${context.lesson.title}`,
         "Keep your fingers on the home position.",
+        `Keys: ${practicePrompt.targetKeys.join(" ")}`,
+        `Fingers: ${practicePrompt.fingerHints.join(" / ")}`,
         `Type: ${practicePrompt.text}`,
       ],
       next: "exit",

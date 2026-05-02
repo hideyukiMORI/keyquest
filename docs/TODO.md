@@ -3,14 +3,11 @@
 ## Now
 
 - [ ] Define [#7](https://github.com/hideyukiMORI/keyquest/issues/7): local save-file shape for session history, XP, streaks, and settings.
-- [ ] Design [#11](https://github.com/hideyukiMORI/keyquest/issues/11): first home-position and finger-usage lesson sequence.
 - [ ] Extend the first playable loop into a timed 10-minute daily session.
 - [ ] Keep `main` green with `npm run verify`.
 
 ## Next
 
-- [ ] Define [#3](https://github.com/hideyukiMORI/keyquest/issues/3): lesson data schema and loader.
-- [ ] Add a beginner lesson schema field for intended finger usage.
 - [ ] Separate English typing prompts from localized UI message keys.
 - [ ] Add terminal raw-mode input handling.
 - [ ] Add terminal capability detection for size and color support.

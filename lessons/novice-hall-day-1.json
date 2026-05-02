@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "novice-hall-day-1",
+  "title": "Novice Hall: Home Position",
+  "day": 1,
+  "locale": "en",
+  "focus": ["home position", "left index", "right index", "home row accuracy"],
+  "prompts": [
+    {
+      "id": "home-position-1",
+      "text": "f j",
+      "targetKeys": ["f", "j"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftIndex", "rightIndex"]
+    },
+    {
+      "id": "home-position-2",
+      "text": "ff jj",
+      "targetKeys": ["f", "j"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftIndex", "rightIndex"]
+    },
+    {
+      "id": "home-position-3",
+      "text": "fj jf",
+      "targetKeys": ["f", "j"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftIndex", "rightIndex"]
+    },
+    {
+      "id": "home-position-4",
+      "text": "asdf jkl;",
+      "targetKeys": ["a", "s", "d", "f", "j", "k", "l", ";"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": [
+        "leftPinky",
+        "leftRing",
+        "leftMiddle",
+        "leftIndex",
+        "rightIndex",
+        "rightMiddle",
+        "rightRing",
+        "rightPinky"
+      ]
+    }
+  ]
+}

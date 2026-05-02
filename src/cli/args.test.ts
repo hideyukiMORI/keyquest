@@ -13,6 +13,11 @@ describe("parseCliArgs", () => {
     expect(parseCliArgs(["--save-dir=/tmp/keyquest"]).saveDirectory).toBe("/tmp/keyquest");
   });
 
+  it("parses lesson path forms", () => {
+    expect(parseCliArgs(["--lesson", "lessons/day-1.json"]).lessonPath).toBe("lessons/day-1.json");
+    expect(parseCliArgs(["--lesson=lessons/day-1.json"]).lessonPath).toBe("lessons/day-1.json");
+  });
+
   it("rejects unknown options", () => {
     expect(() => parseCliArgs(["--mystery"])).toThrow("Unknown option");
   });
