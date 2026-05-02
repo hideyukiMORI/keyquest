@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createNewSave } from "../save/model.js";
 import {
+  advanceJourneyDay,
   calculatePracticeXp,
   collectCharacterMistakes,
   completePracticeRun,
@@ -32,6 +33,7 @@ describe("completePracticeSession", () => {
     expect(result.updatedSave.progress.sessions).toHaveLength(1);
     expect(result.updatedSave.progress.totalXp).toBe(result.xpGained);
     expect(result.updatedSave.journey.storyFlag).toBe("noviceHallStarted");
+    expect(result.updatedSave.journey.day).toBe(2);
     expect(result.updatedSave.progress.sessions[0]?.mistakes).toEqual([]);
   });
 
@@ -150,6 +152,14 @@ describe("completePracticeRun", () => {
         actual: null,
       },
     ]);
+  });
+});
+
+describe("advanceJourneyDay", () => {
+  it("advances through bundled lessons and caps at the latest available day", () => {
+    expect(advanceJourneyDay(1)).toBe(2);
+    expect(advanceJourneyDay(3)).toBe(4);
+    expect(advanceJourneyDay(4)).toBe(4);
   });
 });
 
