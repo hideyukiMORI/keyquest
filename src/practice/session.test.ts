@@ -159,7 +159,8 @@ describe("advanceJourneyDay", () => {
   it("advances through bundled lessons and caps at the latest available day", () => {
     expect(advanceJourneyDay(1)).toBe(2);
     expect(advanceJourneyDay(3)).toBe(4);
-    expect(advanceJourneyDay(4)).toBe(4);
+    expect(advanceJourneyDay(4)).toBe(5);
+    expect(advanceJourneyDay(5)).toBe(5);
   });
 });
 
