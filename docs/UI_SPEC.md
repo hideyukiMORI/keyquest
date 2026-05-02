@@ -8,6 +8,57 @@ plain, low-feature, or accessibility-sensitive environments.
 The UI should be readable before it is decorative. Color and layout must support
 typing practice instead of distracting from it.
 
+## Interface Personality
+
+KeyQuest should feel like a modern developer CLI: sparse, calm, and direct. The
+interface can be cool, but it should not become noisy.
+
+Use a Claude Code-like level of simplicity as the baseline:
+
+- Short headings
+- Clear status lines
+- Minimal borders
+- Strong whitespace
+- Few simultaneous UI regions
+- Text-first interactions
+
+The fantasy layer should appear through names, short messages, colors, and timing
+rather than heavy ASCII art or crowded dashboards.
+
+## Motion and Feedback
+
+Subtle terminal animation is allowed when it improves clarity or mood.
+
+Good uses:
+
+- Loading spinners for save/load, lesson validation, or quest preparation.
+- Progress bars for daily session time, boss HP, XP gain, and chapter progress.
+- Short reveal animations for rewards, achievements, and level ups.
+- Gentle pulse or symbol changes for active focus states.
+
+Avoid:
+
+- Constant animation while the user is typing.
+- Long unskippable sequences.
+- Effects that make the prompt move unexpectedly.
+- Flicker-heavy rendering.
+- Animation that is required to understand the state.
+
+Typing screens should stay especially stable. Most animation belongs before a
+prompt starts or after a segment ends.
+
+## Progressive Disclosure
+
+Show only what the player needs now.
+
+- During typing: prompt, current input, minimal status, and essential hints.
+- Between prompts: quick accuracy and mistake feedback.
+- After a segment: rewards, XP, items, achievements, and story.
+- In menus: deeper stats and configuration.
+
+This keeps the interface clean while still allowing satisfying RPG and
+incremental feedback.
+
 ## Terminal Size
 
 Recommended minimum terminal size:
@@ -146,6 +197,24 @@ No-color mode should still communicate state through text and symbols:
 Do not rely on color alone to communicate mistakes, low HP, active dev mode, or
 important state changes.
 
+## Reduced Motion
+
+Support a reduced-motion direction for users or environments where animation is
+unwanted.
+
+Suggested CLI option:
+
+```text
+--reduced-motion
+```
+
+In reduced-motion mode:
+
+- Replace spinners with static status text.
+- Render progress bars as final or periodically updated text.
+- Skip reward reveal animation.
+- Keep all information available.
+
 ## Implementation Direction
 
 Keep terminal rendering behind small modules:
@@ -153,6 +222,8 @@ Keep terminal rendering behind small modules:
 - Terminal size detection
 - Color capability detection
 - Theme resolution
+- Motion policy
+- Spinner and progress rendering
 - ANSI output
 - Plain-text fallback
 

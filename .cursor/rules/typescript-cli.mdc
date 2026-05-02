@@ -12,4 +12,5 @@ alwaysApply: false
 - Use deterministic clocks or injected values in tests.
 - Wrap raw-mode input, ANSI output, and filesystem behavior behind small modules.
 - Follow `docs/UI_SPEC.md` for size detection, color modes, themes, and no-color fallback.
+- Keep typing screens stable; avoid continuous animation while the player is typing.
 - Add focused Vitest coverage for scoring, parsing, validation, and progression.
