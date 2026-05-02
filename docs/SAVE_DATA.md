@@ -66,7 +66,7 @@ The save model should support:
 - 90-day journey progress
 - XP and skill tracks
 - HP, MP, items, weapons, magic, and materials
-- Weak-key statistics
+- Per-character mistake records for later weak-key statistics
 - Achievement unlocks
 - Dev-mode marker for sessions generated in development mode
 

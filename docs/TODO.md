@@ -6,7 +6,7 @@
       breakpoints, and result timing.
 - [x] Add a session runner that can process multiple prompts before the final
       result screen.
-- [ ] Record per-character mistakes in session results for future weak-key
+- [x] Record per-character mistakes in session results for future weak-key
       review.
 - [ ] Clarify title menu semantics for current `Start` and future `Continue`,
       `New Game`, and `Load Game`.

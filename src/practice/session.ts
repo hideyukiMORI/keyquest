@@ -1,5 +1,11 @@
 import { scoreTypingResult, type Score } from "../core/scoring.js";
-import type { KeyQuestSave, SaveMode, SessionRecord, SkillTrack } from "../save/model.js";
+import type {
+  CharacterMistakeRecord,
+  KeyQuestSave,
+  SaveMode,
+  SessionRecord,
+  SkillTrack,
+} from "../save/model.js";
 import type { FingerId } from "../lessons/schema.js";
 
 export type PracticePrompt = {
@@ -14,6 +20,7 @@ export type PracticeSessionResult = {
   readonly prompt: PracticePrompt;
   readonly actual: string;
   readonly score: Score;
+  readonly mistakes: readonly CharacterMistakeRecord[];
   readonly xpGained: number;
   readonly updatedSave: KeyQuestSave;
 };
@@ -29,6 +36,7 @@ export type PracticeAttemptResult = {
   readonly prompt: PracticePrompt;
   readonly actual: string;
   readonly score: Score;
+  readonly mistakes: readonly CharacterMistakeRecord[];
   readonly xpGained: number;
 };
 
@@ -53,6 +61,7 @@ export function completePracticeSession(options: {
     startedAt: options.startedAt,
     completedAt: options.completedAt,
   });
+  const mistakes = collectCharacterMistakes(options.prompt, options.actual);
   const xpGained = calculatePracticeXp(score);
   const session: SessionRecord = {
     id: createSessionId(options.completedAt),
@@ -63,12 +72,14 @@ export function completePracticeSession(options: {
     accuracy: score.accuracy,
     wordsPerMinute: score.wordsPerMinute,
     xpGained,
+    mistakes,
   };
 
   return {
     prompt: options.prompt,
     actual: options.actual,
     score,
+    mistakes,
     xpGained,
     updatedSave: applyPracticeResult({
       save: options.save,
@@ -101,6 +112,7 @@ export function completePracticeRun(options: {
       prompt: attempt.prompt,
       actual: attempt.actual,
       score,
+      mistakes: collectCharacterMistakes(attempt.prompt, attempt.actual),
       xpGained: calculatePracticeXp(score),
     };
   });
@@ -121,6 +133,7 @@ export function completePracticeRun(options: {
     accuracy: score.accuracy,
     wordsPerMinute: score.wordsPerMinute,
     xpGained,
+    mistakes: attemptResults.flatMap((result) => result.mistakes),
   };
 
   return {
@@ -143,6 +156,32 @@ export function calculatePracticeXp(score: Score): number {
   const perfectBonus = score.mistakes === 0 && score.totalCharacters > 0 ? 10 : 0;
 
   return characterXp + accuracyBonus + perfectBonus;
+}
+
+export function collectCharacterMistakes(
+  prompt: PracticePrompt,
+  actual: string,
+): readonly CharacterMistakeRecord[] {
+  const mistakes: CharacterMistakeRecord[] = [];
+  const comparableLength = Math.max(prompt.text.length, actual.length);
+
+  for (let index = 0; index < comparableLength; index += 1) {
+    const expected = prompt.text[index];
+    const actualCharacter = actual[index];
+
+    if (expected === actualCharacter) {
+      continue;
+    }
+
+    mistakes.push({
+      promptId: prompt.id,
+      index,
+      expected: expected ?? null,
+      actual: actualCharacter ?? null,
+    });
+  }
+
+  return mistakes;
 }
 
 function applyPracticeResult(options: {
