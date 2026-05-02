@@ -7,6 +7,18 @@ export type RawModeStream = {
   readonly pause?: () => void;
 };
 
+export class RawModeUnavailableError extends Error {
+  constructor(cause: unknown) {
+    const message = cause instanceof Error ? cause.message : String(cause);
+    super(`Raw mode is unavailable: ${message}`);
+    this.name = "RawModeUnavailableError";
+  }
+}
+
+export function isRawModeUnavailableError(error: unknown): error is RawModeUnavailableError {
+  return error instanceof RawModeUnavailableError;
+}
+
 export async function withRawMode<T>(stream: RawModeStream, run: () => Promise<T> | T): Promise<T> {
   const setRawMode = stream.setRawMode;
   const shouldUseRawMode = stream.isTTY === true && setRawMode !== undefined;
@@ -15,7 +27,11 @@ export async function withRawMode<T>(stream: RawModeStream, run: () => Promise<T
     return run();
   }
 
-  setRawMode(true);
+  try {
+    setRawMode(true);
+  } catch (error) {
+    throw new RawModeUnavailableError(error);
+  }
   stream.resume?.();
 
   try {

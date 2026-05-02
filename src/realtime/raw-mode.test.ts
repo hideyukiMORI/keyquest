@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { toTypingInputFromKey, withRawMode, type RawModeStream } from "./raw-mode.js";
+import {
+  isRawModeUnavailableError,
+  toTypingInputFromKey,
+  withRawMode,
+  type RawModeStream,
+} from "./raw-mode.js";
 
 describe("raw mode helpers", () => {
   it("restores raw mode after successful runs", async () => {
@@ -37,6 +42,19 @@ describe("raw mode helpers", () => {
     await withRawMode(stream, () => "ok");
 
     expect(calls).toEqual([]);
+  });
+
+  it("reports raw-mode startup failures as unavailable", async () => {
+    const stream: RawModeStream = {
+      isTTY: true,
+      setRawMode(): void {
+        throw new TypeError("Cannot read properties of undefined (reading '_handle')");
+      },
+    };
+
+    await expect(withRawMode(stream, () => "ok")).rejects.toSatisfy((error: unknown) =>
+      isRawModeUnavailableError(error),
+    );
   });
 
   it("maps terminal keys to typing inputs", () => {
