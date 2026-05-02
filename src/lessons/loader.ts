@@ -4,7 +4,16 @@ import { join } from "node:path";
 import type { PracticePrompt } from "../practice/session.js";
 import { validateLesson, type Lesson, type LessonPrompt } from "./schema.js";
 
-export const DEFAULT_LESSON_PATH = join(process.cwd(), "lessons", "novice-hall-day-1.json");
+export const DEFAULT_LESSON_DIRECTORY = join(process.cwd(), "lessons");
+export const DEFAULT_LESSON_PATH = getDefaultLessonPathForDay(1);
+
+export function getDefaultLessonPathForDay(day: number): string {
+  if (!Number.isInteger(day) || day < 1) {
+    throw new Error(`Lesson day must be a positive integer: ${day}`);
+  }
+
+  return join(DEFAULT_LESSON_DIRECTORY, `novice-hall-day-${day}.json`);
+}
 
 export async function loadLessonFromFile(path: string): Promise<Lesson> {
   const content = await readFile(path, "utf8");
