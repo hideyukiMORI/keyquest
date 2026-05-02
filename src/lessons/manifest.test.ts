@@ -36,10 +36,16 @@ describe("bundled lesson manifest", () => {
 
   it("selects the gatekeeper boss prompt in the current Day 7 session", async () => {
     const lesson = await loadLessonFromFile(getDefaultLessonPathForDay(7));
+    const sessionPromptCount = lesson.sessionPromptCount;
+    if (sessionPromptCount === undefined) {
+      throw new Error("Day 7 must define a session prompt count");
+    }
 
-    expect(selectPracticePrompts(lesson, 3).map((prompt) => prompt.id)).toEqual([
+    expect(lesson.sessionPromptCount).toBe(4);
+    expect(selectPracticePrompts(lesson, sessionPromptCount).map((prompt) => prompt.id)).toEqual([
       "gatekeeper-trial-1",
       "gatekeeper-trial-2",
+      "gatekeeper-trial-3",
       "gatekeeper-trial-boss",
     ]);
   });

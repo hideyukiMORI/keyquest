@@ -26,6 +26,52 @@ describe("validateLesson", () => {
     expect(lesson.prompts[0]?.text).toBe("f j");
   });
 
+  it("accepts a session prompt count override", () => {
+    const lesson = validateLesson({
+      schemaVersion: 1,
+      id: "boss",
+      title: "Boss",
+      day: 7,
+      locale: "en",
+      focus: ["trial"],
+      sessionPromptCount: 4,
+      prompts: [
+        {
+          id: "boss-1",
+          text: "f j",
+          targetKeys: ["f", "j"],
+          skillIds: ["homePosition"],
+          fingerHints: ["leftIndex", "rightIndex"],
+        },
+      ],
+    });
+
+    expect(lesson.sessionPromptCount).toBe(4);
+  });
+
+  it("rejects invalid session prompt count overrides", () => {
+    expect(() =>
+      validateLesson({
+        schemaVersion: 1,
+        id: "bad-count",
+        title: "Bad Count",
+        day: 1,
+        locale: "en",
+        focus: ["bad"],
+        sessionPromptCount: 0,
+        prompts: [
+          {
+            id: "bad-count-1",
+            text: "f j",
+            targetKeys: ["f", "j"],
+            skillIds: ["homePosition"],
+            fingerHints: ["leftIndex", "rightIndex"],
+          },
+        ],
+      }),
+    ).toThrow("sessionPromptCount must be a positive integer");
+  });
+
   it("rejects empty prompt lists", () => {
     expect(() =>
       validateLesson({
