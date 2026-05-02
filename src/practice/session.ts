@@ -1,10 +1,13 @@
 import { scoreTypingResult, type Score } from "../core/scoring.js";
 import type { KeyQuestSave, SaveMode, SessionRecord, SkillTrack } from "../save/model.js";
+import type { FingerId } from "../lessons/schema.js";
 
 export type PracticePrompt = {
   readonly id: string;
   readonly text: string;
   readonly skillIds: readonly SkillTrack["id"][];
+  readonly targetKeys: readonly string[];
+  readonly fingerHints: readonly FingerId[];
 };
 
 export type PracticeSessionResult = {

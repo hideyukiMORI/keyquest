@@ -14,6 +14,8 @@ try {
     const output = await runApp({
       mode: options.devMode ? "development" : "normal",
       saveDirectory: options.saveDirectory,
+      lesson: undefined,
+      lessonPath: options.lessonPath,
       textInput,
     });
 
