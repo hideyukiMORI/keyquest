@@ -1,9 +1,17 @@
 import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
+import { createTranslator, localeDisplayName } from "./i18n/messages.js";
 import { DEFAULT_LESSON_PATH, loadLessonFromFile, selectPracticePrompt } from "./lessons/loader.js";
 import type { Lesson } from "./lessons/schema.js";
+import {
+  createMenuTranslator,
+  parseLocaleChoice,
+  parseTitleMenuAction,
+  renderLanguageOptions,
+  renderTitleMenu,
+} from "./menu/title-menu.js";
 import { completePracticeSession } from "./practice/session.js";
-import type { SaveMode } from "./save/model.js";
+import { updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 import { formatSceneSequence, renderSceneSequence } from "./scenes/manager.js";
 import { defaultScenes, renderPracticeResult } from "./scenes/scenes.js";
@@ -26,16 +34,27 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     ...(options.saveDirectory === undefined ? {} : { directory: options.saveDirectory }),
   });
   const save = await saveStore.loadOrCreate(now);
+  const menuSave = await runTitleMenu({
+    save,
+    mode: options.mode,
+    now,
+    textInput: options.textInput,
+    textOutput: options.textOutput,
+    writeSave: saveStore.write,
+  });
   const lesson =
     options.lesson ?? (await loadLessonFromFile(options.lessonPath ?? DEFAULT_LESSON_PATH));
   const practicePrompt = selectPracticePrompt(lesson);
+  const translator = createTranslator(menuSave.settings.locale);
 
   const outputs = renderSceneSequence({
     scenes: defaultScenes,
+    startAt: "story",
     context: {
-      save,
+      save: menuSave,
       mode: options.mode,
       now,
+      translator,
       lesson,
       practicePrompt,
     },
@@ -46,7 +65,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   const actual = await options.textInput.readLine("> ");
   const completedAt = options.completedAt ?? new Date();
   const result = completePracticeSession({
-    save,
+    save: menuSave,
     mode: options.mode,
     prompt: practicePrompt,
     actual,
@@ -57,5 +76,65 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   await saveStore.write(result.updatedSave);
 
   options.textOutput.writeLine("");
-  options.textOutput.writeLine(renderPracticeResult({ ...result, mode: options.mode }).join("\n"));
+  options.textOutput.writeLine(
+    renderPracticeResult({ ...result, mode: options.mode }, translator).join("\n"),
+  );
+}
+
+async function runTitleMenu(options: {
+  readonly save: KeyQuestSave;
+  readonly mode: SaveMode;
+  readonly now: Date;
+  readonly textInput: TextInput;
+  readonly textOutput: TextOutput;
+  readonly writeSave: (save: KeyQuestSave) => Promise<void>;
+}): Promise<KeyQuestSave> {
+  let save = options.save;
+
+  for (;;) {
+    const translator = createMenuTranslator(save);
+    options.textOutput.writeLine(renderTitleMenu(save, translator).join("\n"));
+    if (options.mode === "development") {
+      options.textOutput.writeLine(translator.t("dev.banner"));
+    }
+
+    const action = parseTitleMenuAction(
+      await options.textInput.readLine(translator.t("title.menu.prompt")),
+    );
+    if (action === "start") {
+      options.textOutput.writeLine("");
+      return save;
+    }
+
+    const selectedLocale = await runLanguageOptions({
+      save,
+      textInput: options.textInput,
+      textOutput: options.textOutput,
+    });
+    save = updateLocale(save, selectedLocale, options.now);
+    await options.writeSave(save);
+  }
+}
+
+async function runLanguageOptions(options: {
+  readonly save: KeyQuestSave;
+  readonly textInput: TextInput;
+  readonly textOutput: TextOutput;
+}): Promise<KeyQuestSave["settings"]["locale"]> {
+  const translator = createMenuTranslator(options.save);
+  options.textOutput.writeLine("");
+  options.textOutput.writeLine(
+    renderLanguageOptions(options.save.settings.locale, translator).join("\n"),
+  );
+  const selectedLocale = parseLocaleChoice(
+    await options.textInput.readLine(translator.t("options.prompt")),
+    options.save.settings.locale,
+  );
+  const nextTranslator = createTranslator(selectedLocale);
+  options.textOutput.writeLine(
+    nextTranslator.t("options.saved", { language: localeDisplayName(selectedLocale) }),
+  );
+  options.textOutput.writeLine("");
+
+  return selectedLocale;
 }

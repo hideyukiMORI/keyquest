@@ -44,3 +44,14 @@ Suggested shape:
 
 The source locale should be English. Tests should verify that required keys exist
 for every supported locale before release.
+
+## Current Foundation
+
+- `src/i18n/messages.ts` owns supported locale IDs, display names, and the
+  message catalog.
+- Title and options UI use saved locale settings before the practice session
+  starts.
+- Language changes are persisted in the local save file.
+- English typing prompts stay in lesson files and are not localized.
+- `NEW GAME` and `LOAD GAME` are visible as planned title menu slots so the menu
+  can grow without changing the basic navigation shape.

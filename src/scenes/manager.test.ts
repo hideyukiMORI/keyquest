@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { createTranslator } from "../i18n/messages.js";
 import { createNewSave } from "../save/model.js";
 import { formatSceneSequence, renderSceneSequence } from "./manager.js";
 import { defaultScenes } from "./scenes.js";
@@ -14,6 +15,7 @@ describe("scene manager", () => {
         save: createNewSave(now, "normal"),
         mode: "normal",
         now,
+        translator: createTranslator("en"),
         lesson: {
           schemaVersion: 1,
           id: "novice-hall-day-1",
