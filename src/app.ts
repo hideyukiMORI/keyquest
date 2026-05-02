@@ -22,6 +22,7 @@ import {
   defaultScenes,
   practiceIntroScene,
   renderPracticeRunResult,
+  renderPracticeRewards,
   renderPracticeSegmentResult,
 } from "./scenes/scenes.js";
 import type { TerminalRuntime } from "./terminal/runtime.js";
@@ -135,6 +136,16 @@ export async function runApp(options: RunAppOptions): Promise<void> {
         score: result.score,
         xpGained: result.xpGained,
         mode: options.mode,
+      },
+      translator,
+    ).join("\n"),
+  );
+  options.textOutput.writeLine("");
+  options.textOutput.writeLine(
+    renderPracticeRewards(
+      {
+        beforeSave: menuSave,
+        afterSave: result.updatedSave,
       },
       translator,
     ).join("\n"),
