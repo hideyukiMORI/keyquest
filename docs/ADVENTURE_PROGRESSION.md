@@ -94,7 +94,8 @@ trainer's core purpose.
 
 ## Quest Map Model
 
-A future quest map can be represented as data:
+The first implemented quest map is represented as data for the current bundled
+arcs:
 
 - `arcId`: stable weekly arc identifier.
 - `dayRange`: inclusive start and end day.
@@ -107,11 +108,15 @@ A future quest map can be represented as data:
 The map should reference lessons and rewards by ID rather than embedding lesson
 content. Lesson files stay focused on typing prompts.
 
+The implemented weekly trial rule currently uses four prompts for Day 7, Day 14,
+Day 21, and Day 28. Normal days can still use the lesson default or the daily
+session default.
+
 ## Follow-Up Implementation Issues
 
 The next implementation work should be split:
 
-- Add a typed quest map model for weekly arcs.
+- Add future arcs to the typed quest map as content reaches those days.
 - Render a compact "today's quest" and "current arc" status view.
 - Add weekly boss quest rules on top of `sessionPromptCount`.
 - Add dynamic Day 6 review selection when mistake history is available.

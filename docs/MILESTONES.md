@@ -135,6 +135,7 @@ Goal: make lessons easy to write, review, and improve.
 Goal: shape daily practice into a 90-day fantasy journey.
 
 - 7-day training cycle with weekly boss quests
+- Typed quest arc map and weekly trial rules for implemented arcs
 - 90-day story map and ending
 - Quest map and progression
 - Documented adventure progression model for daily quests, weekly arcs, and
