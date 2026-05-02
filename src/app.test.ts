@@ -8,6 +8,7 @@ import { runApp } from "./app.js";
 import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
 import type { Lesson } from "./lessons/schema.js";
+import { createNewSave } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
 
 const tempDirectories: string[] = [];
@@ -39,6 +40,34 @@ describe("runApp", () => {
     expect(output.text()).toContain("Time: 20.0s");
     expect(output.text()).toContain("XP gained");
     expect(output.text()).toContain("Rewards");
+    expect(output.text()).toContain("Next lesson: Day 2 is ready for next time.");
+  });
+
+  it("does not show journey advancement when already at the latest bundled day", async () => {
+    const directory = await createTempDirectory();
+    const now = new Date("2026-01-01T00:00:00.000Z");
+    await createSaveStore({ mode: "development", directory }).write({
+      ...createNewSave(now, "development"),
+      journey: {
+        day: 7,
+        chapter: 1,
+        storyFlag: "noviceHallStarted",
+      },
+    });
+    const output = createMemoryOutput();
+
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now,
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).not.toContain("Next lesson:");
   });
 
   it("styles headings when terminal color is enabled", async () => {

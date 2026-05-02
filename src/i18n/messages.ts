@@ -57,6 +57,8 @@ const EN_MESSAGES = {
   "reward.heading": "Rewards",
   "reward.skillXp": "{skill}: +{xp} XP (Lv.{level})",
   "reward.levelUp": "Level up: {skill} Lv.{level}",
+  "journey.heading": "Journey",
+  "journey.nextDay": "Next lesson: Day {day} is ready for next time.",
 } as const;
 
 const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, string>>>>> = {
@@ -111,6 +113,8 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "reward.heading": "報酬",
     "reward.skillXp": "{skill}: +{xp} XP (Lv.{level})",
     "reward.levelUp": "レベルアップ: {skill} Lv.{level}",
+    "journey.heading": "旅路",
+    "journey.nextDay": "次回は Day {day} のレッスンに進めます。",
   },
   "zh-CN": {
     ...EN_MESSAGES,
