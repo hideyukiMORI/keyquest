@@ -50,6 +50,12 @@ export const BUNDLED_LESSON_MANIFEST = [
     filename: "novice-hall-day-7.json",
     title: "Novice Hall: Gatekeeper Trial",
   },
+  {
+    day: 8,
+    id: "meadow-road-day-8",
+    filename: "meadow-road-day-8.json",
+    title: "Meadow Road: First Steps Beyond Home",
+  },
 ] as const satisfies readonly BundledLessonManifestEntry[];
 
 export function getBundledLessonForDay(day: number): BundledLessonManifestEntry {

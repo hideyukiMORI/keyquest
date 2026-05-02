@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "meadow-road-day-8",
+  "title": "Meadow Road: First Steps Beyond Home",
+  "day": 8,
+  "locale": "en",
+  "focus": ["vertical movement", "nearby top row keys", "return to home"],
+  "prompts": [
+    {
+      "id": "meadow-road-1",
+      "text": "fr ju fr ju",
+      "targetKeys": ["f", "r", "j", "u"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftIndex", "leftIndex", "rightIndex", "rightIndex"]
+    },
+    {
+      "id": "meadow-road-2",
+      "text": "de ki de ki",
+      "targetKeys": ["d", "e", "k", "i"],
+      "skillIds": ["homePosition", "fingerResponsibility", "accuracy"],
+      "fingerHints": ["leftMiddle", "leftMiddle", "rightMiddle", "rightMiddle"]
+    },
+    {
+      "id": "meadow-road-3",
+      "text": "red kid ride",
+      "targetKeys": ["r", "e", "d", "k", "i"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "accuracy"],
+      "fingerHints": ["leftIndex", "leftMiddle", "leftMiddle", "rightMiddle"]
+    },
+    {
+      "id": "meadow-road-4",
+      "text": "rude deer ride",
+      "targetKeys": ["r", "u", "d", "e", "i"],
+      "skillIds": ["homePosition", "fingerResponsibility", "homeRow", "rhythm"],
+      "fingerHints": ["leftIndex", "rightIndex", "leftMiddle", "leftMiddle", "rightMiddle"]
+    }
+  ]
+}
