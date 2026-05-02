@@ -8,6 +8,7 @@ import { runApp } from "./app.js";
 import type { TextInput } from "./cli/text-input.js";
 import type { TextOutput } from "./cli/text-output.js";
 import type { Lesson } from "./lessons/schema.js";
+import { createSaveStore } from "./save/store.js";
 
 const tempDirectories: string[] = [];
 
@@ -103,6 +104,53 @@ describe("runApp", () => {
     expect(output.text()).toContain("ストーリー");
     expect(output.text()).toContain("時間: 20.0秒");
     expect(output.text()).toContain("セッション結果");
+  });
+
+  it("explains that load game is planned and returns to the title menu", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createQueuedTextInput(["4", "1", "f j", "ff jj", "fj jf"]),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("Load Game will open save slots later");
+    expect(output.text()).toContain("Session Result");
+  });
+
+  it("starts a new save when New Game is selected", async () => {
+    const directory = await createTempDirectory();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: createMemoryOutput(),
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["3", "f j", "ff jj", "fj jf"]),
+      textOutput: createMemoryOutput(),
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-02T00:00:00.000Z"),
+      completedAt: new Date("2026-01-02T00:00:20.000Z"),
+    });
+
+    const save = await createSaveStore({ mode: "development", directory }).loadOrCreate(
+      new Date("2026-01-02T00:01:00.000Z"),
+    );
+    expect(save.progress.sessions).toHaveLength(1);
+    expect(save.profile.createdAt).toBe("2026-01-02T00:00:00.000Z");
   });
 });
 

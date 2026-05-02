@@ -21,6 +21,7 @@ const EN_MESSAGES = {
   "title.menu.start": "Start",
   "title.menu.prompt": "Choose: ",
   "title.menu.planned": "planned",
+  "title.menu.loadUnavailable": "Load Game will open save slots later. Use Continue for now.",
   "options.heading": "Options",
   "options.language": "Language",
   "options.back": "Back",
@@ -68,6 +69,8 @@ const CATALOGS: Readonly<Record<LocaleId, Readonly<Partial<Record<MessageKey, st
     "title.menu.start": "スタート",
     "title.menu.prompt": "選択: ",
     "title.menu.planned": "予定",
+    "title.menu.loadUnavailable":
+      "ロードゲームは今後セーブスロットに対応します。今は「つづきから」を使ってください。",
     "options.heading": "オプション",
     "options.language": "言語",
     "options.back": "戻る",
