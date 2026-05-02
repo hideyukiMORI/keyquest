@@ -85,6 +85,8 @@ Weak-key review is part of adventure progression, not a separate mini-game.
 - Mistakes become "curses" attached to keys.
 - Review quests target the most frequent recent weak keys.
 - Review results should explain which keys were trained.
+- Review quests carry their own metadata and do not advance the main journey by
+  default.
 - Weekly Day 6 lessons can eventually be replaced or augmented by dynamic review
   when enough history exists.
 - Clearing review should reward accuracy and recovery, not speed.

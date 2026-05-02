@@ -145,6 +145,8 @@ Goal: shape daily practice into a 90-day fantasy journey.
 - Documented achievement trigger model, reward policy, and first full
   achievement set
 - Review mode for weak keys
+- Typed weak-key review quest boundary with target-key metadata and no journey
+  advancement
 - HP, MP, weapons, magic, items, and curses mapped to typing behavior
 - First save-backed resource model for quest HP, focus MP, materials, inventory,
   magic, weapons, and curses
