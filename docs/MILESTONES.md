@@ -1,6 +1,6 @@
 # Milestones
 
-## M0: Development Foundation
+## Completed: Development Foundation
 
 Goal: make the repository ready for Issue-based development.
 
@@ -9,16 +9,18 @@ Goal: make the repository ready for Issue-based development.
 - Project policy docs and Cursor rules
 - GitHub Issue templates
 
-## M1: Playable Prototype
+## Short Term: Playable Daily Loop
 
-Goal: make `keyquest` playable in a terminal.
+Goal: make `keyquest` playable as a 10-minute daily terminal practice session.
 
 - Interactive prompt loop
 - Lesson loading from structured data
 - Accuracy, WPM, and mistake summary
+- Local save file for session history and basic progress
+- First reward screen with XP and simple items
 - Keyboard-only flow that works on Linux, macOS, and Windows terminals
 
-## M2: Lesson Design System
+## Short Term: Lesson Design System
 
 Goal: make lessons easy to write, review, and improve.
 
@@ -26,21 +28,39 @@ Goal: make lessons easy to write, review, and improve.
 - Beginner home-row lessons
 - Programmer symbol lessons
 - Lesson validation command
+- English-only typing prompts separated from localized UI strings
 
-## M3: Adventure Layer
+## Mid Term: 90-Day Adventure Layer
 
-Goal: add the fun layer without hiding the practice value.
+Goal: shape daily practice into a 90-day fantasy journey.
 
+- 7-day training cycle with weekly boss quests
+- 90-day story map and ending
 - Quest map and progression
 - Short story beats
 - Achievements based on accuracy and consistency
 - Review mode for weak keys
+- HP, MP, weapons, magic, items, and curses mapped to typing behavior
+- Incremental upgrade curves that reward practice without hiding weaknesses
 
-## M4: Public Release
+## Long Term: Depth and Retention
+
+Goal: make KeyQuest rewarding beyond the first month and after the ending.
+
+- Roguelite quest modifiers
+- Crafting materials and equipment upgrades
+- Post-ending practice goals
+- Optional new-game-plus style progression
+- Importable lesson packs
+- Accessibility and localization polish
+
+## Release: Public CLI
 
 Goal: publish a useful open-source CLI.
 
+- `npx keyquest` smoke test
 - README with screenshots or terminal recording
 - npm package metadata
-- `npx keyquest` smoke test
+- Supported locales validated
 - Release checklist and changelog
+- First public release notes

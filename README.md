@@ -37,7 +37,12 @@ npm run verify
 
 This project is managed with GitHub Issues and local Markdown planning docs.
 
-- Roadmap: `docs/MILESTONES.md`
+- Product direction: `docs/PRODUCT_DIRECTION.md`
+- Roadmap: `docs/ROADMAP.md`
+- Milestones: `docs/MILESTONES.md`
 - Active TODOs: `docs/TODO.md`
+- Progression design: `docs/PROGRESSION_DESIGN.md`
+- Achievements: `docs/ACHIEVEMENTS.md`
+- Localization: `docs/LOCALIZATION.md`
 - Development philosophy and policy: `docs/DEVELOPMENT.md`
 - Coding standards: `docs/CODING_STANDARDS.md`
