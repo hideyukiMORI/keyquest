@@ -17,7 +17,15 @@ export type SkillTrack = {
   readonly xp: number;
 };
 
-export type AchievementId = "firstSession" | "perfectSession";
+export type AchievementId =
+  | "firstSession"
+  | "perfectSession"
+  | "threeDaysPact"
+  | "unbrokenSeven"
+  | "moonCycle"
+  | "longWatch"
+  | "deepDive"
+  | "dungeonMarathon";
 
 export type AchievementRecord = {
   readonly id: AchievementId;
