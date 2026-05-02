@@ -1,6 +1,6 @@
-export type TerminalColorMode = "auto" | "always" | "never";
+import { resolveTerminalTheme, type TerminalThemeId } from "./theme.js";
 
-export type TerminalThemeId = "classic" | "forest" | "arcane" | "ember" | "mono";
+export type TerminalColorMode = "auto" | "always" | "never";
 
 export type TerminalSize = {
   readonly columns: number | undefined;
@@ -31,11 +31,12 @@ const MINIMUM_ROWS = 24;
 
 export function resolveTerminalRuntime(options: TerminalRuntimeOptions): TerminalRuntime {
   const colorMode = options.colorMode ?? "auto";
+  const theme = resolveTerminalTheme(options.theme);
 
   return {
     colorMode,
     colorEnabled: resolveColorEnabled(colorMode, options),
-    theme: options.theme ?? "classic",
+    theme: theme.id,
     reducedMotion: options.reducedMotion || options.env["KEYQUEST_REDUCED_MOTION"] === "1",
     size: {
       columns: options.columns,
