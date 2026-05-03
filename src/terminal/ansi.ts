@@ -1,7 +1,7 @@
 import type { TerminalRuntime } from "./runtime.js";
 import { resolveTerminalTheme, type TerminalColorName, type TerminalColorToken } from "./theme.js";
 
-const RESET = "\u001b[0m";
+export const ANSI_RESET = "\u001b[0m";
 
 const ANSI_CODES: Readonly<Record<TerminalColorName, number | undefined>> = {
   black: 30,
@@ -39,5 +39,5 @@ export function styleText(
     return text;
   }
 
-  return `\u001b[${code}m${text}${RESET}`;
+  return `\u001b[${code}m${text}${ANSI_RESET}`;
 }

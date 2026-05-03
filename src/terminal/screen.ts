@@ -1,4 +1,5 @@
 import type { TextOutput } from "../cli/text-output.js";
+import { ANSI_RESET } from "./ansi.js";
 import { fitScreenLines } from "./layout.js";
 import type { TerminalRuntime } from "./runtime.js";
 
@@ -15,10 +16,14 @@ export function createScreenRenderer(options: {
   return {
     render(lines: readonly string[] | string): void {
       const renderedLines = normalizeLines(lines);
-      const body =
+      const formattedBody =
         options.runtime?.screenEnabled === true
           ? formatRedrawBody(renderedLines, options.runtime)
           : renderedLines.join("\n");
+      const body =
+        options.runtime?.colorEnabled === true
+          ? appendAnsiResetToLines(formattedBody)
+          : formattedBody;
 
       if (options.runtime?.screenEnabled === true) {
         options.textOutput.write(`${CLEAR_SCREEN_AND_HOME}${body}\n`);
@@ -35,6 +40,13 @@ export function formatRedrawBody(
   runtime: TerminalRuntime | undefined,
 ): string {
   return fitScreenLines(lines, { runtime }).join("\n");
+}
+
+function appendAnsiResetToLines(text: string): string {
+  return text
+    .split("\n")
+    .map((line) => `${line}${ANSI_RESET}`)
+    .join("\n");
 }
 
 function normalizeLines(lines: readonly string[] | string): readonly string[] {

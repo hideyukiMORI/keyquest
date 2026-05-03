@@ -30,15 +30,26 @@ describe("screen renderer", () => {
       formatRedrawBody(["a", "b", "c", "d"], createRuntime({ screenEnabled: true, rows: 3 })),
     ).toBe("a\n... 3 more lines");
   });
+
+  it("resets terminal styles at every rendered line when color is enabled", () => {
+    const output = createMemoryOutput();
+    createScreenRenderer({
+      textOutput: output,
+      runtime: createRuntime({ screenEnabled: true, rows: 24, colorEnabled: true }),
+    }).render(["\u001b[32mGreen", "Plain"]);
+
+    expect(output.text()).toBe("\u001b[2J\u001b[H\u001b[32mGreen\u001b[0m\nPlain\u001b[0m\n");
+  });
 });
 
 function createRuntime(options: {
   readonly screenEnabled: boolean;
   readonly rows: number;
+  readonly colorEnabled?: boolean;
 }): TerminalRuntime {
   return {
-    colorMode: "never",
-    colorEnabled: false,
+    colorMode: options.colorEnabled === true ? "always" : "never",
+    colorEnabled: options.colorEnabled === true,
     screenEnabled: options.screenEnabled,
     theme: "classic",
     reducedMotion: false,

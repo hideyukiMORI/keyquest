@@ -11,6 +11,7 @@ import { createNodeTextInput } from "./cli/text-input.js";
 import { createNodeTextOutput } from "./cli/text-output.js";
 import type { RawModeController } from "./realtime/raw-mode.js";
 import { createNodeRealtimeTypingInput, type RealtimeInputStream } from "./realtime/input.js";
+import { ANSI_RESET } from "./terminal/ansi.js";
 import { resolveTerminalRuntime } from "./terminal/runtime.js";
 
 try {
@@ -58,11 +59,13 @@ try {
         textOutput,
       });
     } finally {
+      resetTerminalStyles();
       textInput.close();
       realtimeStream.close();
     }
   }
 } catch (error) {
+  resetTerminalStyles();
   const message = error instanceof Error ? error.message : String(error);
   console.error(`KeyQuest failed: ${message}`);
   process.exitCode = 1;
@@ -73,6 +76,15 @@ function readPackageVersion(): string {
   const packageJson = JSON.parse(content) as { readonly version?: unknown };
 
   return typeof packageJson.version === "string" ? packageJson.version : "0.0.0";
+}
+
+function resetTerminalStyles(): void {
+  try {
+    process.stdout.write(ANSI_RESET);
+    process.stderr.write(ANSI_RESET);
+  } catch {
+    // Best-effort cleanup so terminal prompts do not inherit game colors.
+  }
 }
 
 function createRealtimeInputStream(options: { readonly forceTty: boolean }): {
