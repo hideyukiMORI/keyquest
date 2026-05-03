@@ -12,7 +12,8 @@ Goal: make the core loop playable and measurable.
 - Normal save file for local progress with tamper friction.
 - Development save mode using readable JSON and visible `DEV MODE` markers.
 - Terminal size handling, no-color mode, and initial color themes.
-- Minimal modern CLI presentation with subtle loading, progress, and reward motion.
+- Modern fixed-screen TUI direction with stable practice regions, restrained
+  color, and ASCII feedback.
 - Basic localization infrastructure.
 - Real-time practice spike after the line-based daily loop has clear boundaries.
 
@@ -24,6 +25,8 @@ Exit criteria:
 - Small or no-color terminals fail gracefully.
 - The real-time typing path has a tested state model before it becomes the main
   practice screen.
+- The main flow feels like a deliberate terminal game UI, not a scrolling command
+  transcript.
 
 ## Mid Term: 90-Day Training Structure
 
@@ -71,6 +74,9 @@ Goal: make KeyQuest easy to try and trustworthy as an open-source CLI.
 
 - `npx keyquest` works cleanly.
 - README explains the 90-day premise and shows the CLI flow.
+- The title, practice, result, help, and record screens share a polished
+  fixed-screen TUI style.
+- The public preview shows the intended text-only, geeky, modern interface.
 - Release checklist exists.
 - A single release check command verifies the package before publishing.
 - Package metadata is ready for npm.
@@ -81,3 +87,5 @@ Exit criteria:
 
 - A new user can install, run, and understand the game in under five minutes.
 - The repository clearly communicates how development is managed.
+- Screenshots, transcripts, or recordings communicate the visual identity without
+  requiring a desktop GUI.

@@ -7,6 +7,15 @@ alwaysApply: true
 
 - Work Issue-first. Link meaningful changes to GitHub Issues.
 - Keep `docs/MILESTONES.md` and `docs/TODO.md` aligned with active work.
+- Treat GitHub Issues, local milestones, and local TODOs as one work system:
+  Issues track reviewable units, milestones explain direction, and TODO tracks
+  immediate execution order.
+- When work is clearly delegated for an active Issue or release task, proceed
+  agentically through implementation, verification, commit, push, PR creation,
+  and merge readiness without asking for redundant confirmation at each step.
+- Do not leave completed work uncommitted at handoff. After finishing any
+  requested code, docs, or project-configuration change, create an appropriate
+  git commit before ending the task so local updates do not become ambiguous.
 - Keep product decisions aligned with `docs/PRODUCT_DIRECTION.md` and
   `docs/PROGRESSION_DESIGN.md`.
 - Keep onboarding lesson decisions aligned with `docs/ONBOARDING_TRAINING.md`.
@@ -14,6 +23,8 @@ alwaysApply: true
 - Keep persistence decisions aligned with `docs/SAVE_DATA.md`.
 - Keep `main` releasable; run `npm run verify` before pushing.
 - Prefer small PRs with clear acceptance criteria and test plans.
+- Before merging, confirm CI is green, required review state is satisfied, docs
+  are aligned, and `main` remains releasable.
 - Preserve terminal portability across Linux, macOS, and Windows.
 - Favor practice effectiveness over decorative game mechanics.
 - Localize UI and story messages, but keep typing prompts in English.

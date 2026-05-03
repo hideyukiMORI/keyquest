@@ -1,6 +1,67 @@
 # TODO
 
-## Now
+## Now: Fixed-Screen Terminal Interface Polish
+
+### Discovery
+
+- [ ] Audit current interactive screens against `docs/UI_SPEC.md`: title,
+      practice intro, raw-mode practice, segment result, final result, help,
+      options, Journey, Resources, Achievements, Titles, warnings, New Game, and
+      Load Game.
+- [ ] Capture where the current flow still feels like a scrolling conversation:
+      appended output, repeated headings, unstable input placement, or overly
+      verbose story/status text.
+- [ ] Identify shared rendering gaps: line width handling, truncation, padding,
+      panel composition, hint rows, progress bars, and no-color symbols.
+
+### Layout Foundation
+
+- [ ] Define reusable fixed-screen layout primitives for 80x24 terminals:
+      header, primary panel, status strip, hint row, footer message, and compact
+      warning panel.
+- [ ] Add rendering helpers for bounded content width, stable row counts,
+      truncation, alignment, and plain ASCII dividers.
+- [ ] Make the layout contract explicit in tests so major screens do not exceed
+      terminal height or rely on color to communicate state.
+
+### Main Flow Screens
+
+- [ ] Redesign the title screen with a compact quest summary, saved progress,
+      menu, and keyboard hints.
+- [ ] Redesign the practice screen with stable regions for quest status, prompt,
+      typed input, progress, mistakes, and controls.
+- [ ] Redesign segment and final result screens so score, weak keys, rewards,
+      achievements, titles, and next-day messaging read as panels instead of log
+      lines.
+- [ ] Redesign Help, Options, Journey, Resources, Achievements, and Titles using
+      the same fixed-screen composition and concise copy.
+- [ ] Add compact handling for small or unsupported terminals without crashing or
+      producing unreadable output.
+
+### Style Pass
+
+- [ ] Apply semantic theme colors consistently to menus, story panels, stats,
+      resources, achievements, titles, HP, MP, XP, warnings, and typed character
+      states.
+- [ ] Add restrained ASCII mood elements for quest preparation, boss/trial
+      screens, reward reveals, achievement unlocks, level ups, and journey
+      advancement.
+- [ ] Verify no-color equivalents for every color-coded state: selected menu
+      item, warning, danger, success, typed correct, typed wrong, HP, MP, XP, and
+      reward unlocks.
+- [ ] Verify reduced-motion equivalents for spinners, progress changes, reward
+      reveals, and achievement flashes.
+
+### Verification and Public Preview
+
+- [ ] Add or update focused tests for screen layout, no-color rendering,
+      reduced-motion rendering, and raw-mode typing screen state.
+- [ ] Add manual TTY smoke instructions for Linux, macOS, Windows Terminal,
+      narrow terminals, and no-color output.
+- [ ] Update README terminal preview after the fixed-screen TUI pass lands.
+- [ ] Add a terminal recording or screenshot set before the first public release.
+
+## Completed: Daily Loop and Lesson Content
 
 - [x] Define the short multi-prompt session model: session length, prompt count,
       breakpoints, and result timing.
@@ -19,7 +80,7 @@
 - [x] Resolve the default lesson from the saved journey day.
 - [x] Advance journey day after completed sessions, capped at bundled lessons.
 
-## Next
+## Completed: Terminal Runtime and Rewards
 
 - [x] Design the terminal UI runtime boundary for screen rendering, color, size,
       and motion.

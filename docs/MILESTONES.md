@@ -112,6 +112,38 @@ Exit criteria:
 - Rewards are data-driven enough to extend without rewriting the session result
   screen.
 
+### ST-6: Fixed-Screen Terminal Interface Polish
+
+Goal: move the playable flow from a conversation-style terminal transcript toward
+a stable, fixed-screen TUI that feels simple, geeky, and cool. This milestone
+defines the public visual identity of KeyQuest before the first release.
+
+- Screen composition guide and ASCII sketches in `docs/UI_SPEC.md`
+- gtypist-like fixed-screen layout for title, practice, segment result, final
+  result, records, and help screens
+- Stable regions for prompt text, typed input, progress, controls, and current
+  quest status
+- Compact ASCII frames, dividers, progress glyphs, and reward flashes that fit
+  the fantasy mood without becoming noisy
+- Theme pass that applies semantic colors consistently across menus, typing,
+  stats, warnings, resources, achievements, titles, and story panels
+- Visual regression-friendly rendering helpers for line width, truncation,
+  spacing, and no-color symbols
+- Reduced-motion and no-color variants for every polished screen
+- Manual TTY smoke pass for Linux, macOS, Windows Terminal, narrow terminals, and
+  no-color output
+- README transcript or terminal recording updated to show the polished interface
+
+Exit criteria:
+
+- A new player can understand the app as a deliberate terminal game UI rather
+  than a command-line conversation.
+- Major interactive screens redraw in place and stay readable at 80x24.
+- The UI looks appealing in color while preserving the same information in
+  no-color mode.
+- The public preview makes the game feel like a crafted terminal product, not
+  only a working prototype.
+
 ## Short Term: Lesson Design System
 
 Goal: make lessons easy to write, review, and improve.
@@ -174,6 +206,7 @@ Goal: publish a useful open-source CLI.
 - `npx keyquest` smoke test
 - CLI help and version output
 - In-game help menu for first-time players
+- Fixed-screen TUI polish for the main public flow
 - Journey progress screen from the title menu
 - Resources record screen from the title menu
 - Achievements record screen from the title menu
