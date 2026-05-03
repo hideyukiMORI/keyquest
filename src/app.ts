@@ -24,7 +24,7 @@ import {
   renderTitleRecords,
   renderTitleMenu,
 } from "./menu/title-menu.js";
-import { renderSelectableItems, runInteractiveMenu } from "./menu/interactive-menu.js";
+import { runInteractiveMenu } from "./menu/interactive-menu.js";
 import {
   completePracticeRun,
   type PracticeAttempt,
@@ -395,18 +395,12 @@ async function readLanguageMenuAction(options: {
     (item) => item.value === options.save.settings.locale,
   );
   const renderMenu = (selectedIndex: number | undefined): readonly string[] => {
-    if (selectedIndex === undefined) {
-      return renderLanguageOptions(options.save.settings.locale, translator);
-    }
-
-    return [
-      translator.t("options.heading"),
-      `${translator.t("options.language")}: ${localeDisplayName(options.save.settings.locale)}`,
-      "",
-      ...renderSelectableItems({ items, selectedIndex }),
-      "",
-      translator.t("menu.controls"),
-    ];
+    return renderLanguageOptions(
+      options.save.settings.locale,
+      translator,
+      options.terminalRuntime,
+      selectedIndex,
+    );
   };
 
   if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
@@ -503,31 +497,31 @@ async function runTitleMenu(options: {
     }
 
     if (action === "help") {
-      options.screen.render(renderInGameHelp(translator));
+      options.screen.render(renderInGameHelp(translator, options.terminalRuntime));
       await options.textInput.readLine(translator.t("help.prompt"));
       continue;
     }
 
     if (action === "journey") {
-      options.screen.render(renderJourneyProgress(save, translator));
+      options.screen.render(renderJourneyProgress(save, translator, options.terminalRuntime));
       await options.textInput.readLine(translator.t("journeyProgress.prompt"));
       continue;
     }
 
     if (action === "resources") {
-      options.screen.render(renderResourceRecords(save, translator));
+      options.screen.render(renderResourceRecords(save, translator, options.terminalRuntime));
       await options.textInput.readLine(translator.t("records.prompt"));
       continue;
     }
 
     if (action === "achievements") {
-      options.screen.render(renderAchievementRecords(save, translator));
+      options.screen.render(renderAchievementRecords(save, translator, options.terminalRuntime));
       await options.textInput.readLine(translator.t("records.prompt"));
       continue;
     }
 
     if (action === "titles") {
-      options.screen.render(renderTitleRecords(save, translator));
+      options.screen.render(renderTitleRecords(save, translator, options.terminalRuntime));
       await options.textInput.readLine(translator.t("records.prompt"));
       continue;
     }

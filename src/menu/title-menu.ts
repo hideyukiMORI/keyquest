@@ -155,22 +155,34 @@ export function parseTitleMenuAction(input: string): TitleMenuAction {
   return "start";
 }
 
-export function renderInGameHelp(translator: Translator): readonly string[] {
-  return [
-    translator.t("help.heading"),
-    "",
-    translator.t("help.daily"),
-    translator.t("help.review"),
-    translator.t("help.progression"),
-    translator.t("help.options"),
-    "",
-    translator.t("help.back"),
-  ];
+export function renderInGameHelp(
+  translator: Translator,
+  runtime?: TerminalRuntime,
+): readonly string[] {
+  return renderFixedScreenLayout({
+    runtime,
+    title: translator.t("help.heading"),
+    body: [
+      "Daily",
+      `  ${translator.t("help.daily")}`,
+      "",
+      "Review",
+      `  ${translator.t("help.review")}`,
+      "",
+      "Progression",
+      `  ${translator.t("help.progression")}`,
+      "",
+      "Options",
+      `  ${translator.t("help.options")}`,
+    ],
+    hints: [translator.t("help.back")],
+  });
 }
 
 export function renderJourneyProgress(
   save: KeyQuestSave,
   translator: Translator,
+  runtime?: TerminalRuntime,
 ): readonly string[] {
   const arc = getDisplayQuestArcForDay(save.journey.day);
   const endingState = getJourneyEndingState(save);
@@ -194,29 +206,32 @@ export function renderJourneyProgress(
         )
       : [];
 
-  return [
-    translator.t("journeyProgress.heading"),
-    "",
-    translator.t("journeyProgress.day", {
-      day: save.journey.day,
-      total: JOURNEY_ENDING_DAY,
-    }),
-    translator.t("journeyProgress.arc", { arc: arc.title }),
-    translator.t("journeyProgress.theme", { theme: arc.theme }),
-    translator.t("journeyProgress.trial", {
-      trial: arc.trial.title,
-      day: arc.trial.day,
-    }),
-    endingLine,
-    ...postGameLines,
-    "",
-    translator.t("journeyProgress.back"),
-  ];
+  return renderFixedScreenLayout({
+    runtime,
+    title: translator.t("journeyProgress.heading"),
+    status: [`Day ${save.journey.day}/${JOURNEY_ENDING_DAY}`],
+    body: [
+      translator.t("journeyProgress.day", {
+        day: save.journey.day,
+        total: JOURNEY_ENDING_DAY,
+      }),
+      translator.t("journeyProgress.arc", { arc: arc.title }),
+      translator.t("journeyProgress.theme", { theme: arc.theme }),
+      translator.t("journeyProgress.trial", {
+        trial: arc.trial.title,
+        day: arc.trial.day,
+      }),
+      endingLine,
+      ...postGameLines,
+    ],
+    hints: [translator.t("journeyProgress.back")],
+  });
 }
 
 export function renderResourceRecords(
   save: KeyQuestSave,
   translator: Translator,
+  runtime?: TerminalRuntime,
 ): readonly string[] {
   const resources = save.progress.resources ?? createInitialQuestResources();
   const upgradeLines = resources.equipmentUpgrades.map((upgrade) =>
@@ -226,38 +241,40 @@ export function renderResourceRecords(
     }),
   );
 
-  return [
-    translator.t("records.resources.heading"),
-    "",
-    translator.t("status.resources", {
-      hp: resources.hp,
-      maxHp: resources.maxHp,
-      mp: resources.mp,
-      maxMp: resources.maxMp,
-    }),
-    translator.t("records.resources.materials", {
-      focusCrystal: resources.materials.focusCrystal,
-      repairShard: resources.materials.repairShard,
-    }),
-    translator.t("records.resources.weapons", {
-      weapons:
-        resources.weapons.length === 0
-          ? translator.t("records.none")
-          : resources.weapons.join(", "),
-    }),
-    translator.t("records.resources.magic", {
-      magic:
-        resources.magic.length === 0 ? translator.t("records.none") : resources.magic.join(", "),
-    }),
-    ...upgradeLines,
-    "",
-    translator.t("records.back"),
-  ];
+  return renderFixedScreenLayout({
+    runtime,
+    title: translator.t("records.resources.heading"),
+    body: [
+      translator.t("status.resources", {
+        hp: resources.hp,
+        maxHp: resources.maxHp,
+        mp: resources.mp,
+        maxMp: resources.maxMp,
+      }),
+      translator.t("records.resources.materials", {
+        focusCrystal: resources.materials.focusCrystal,
+        repairShard: resources.materials.repairShard,
+      }),
+      translator.t("records.resources.weapons", {
+        weapons:
+          resources.weapons.length === 0
+            ? translator.t("records.none")
+            : resources.weapons.join(", "),
+      }),
+      translator.t("records.resources.magic", {
+        magic:
+          resources.magic.length === 0 ? translator.t("records.none") : resources.magic.join(", "),
+      }),
+      ...upgradeLines,
+    ],
+    hints: [translator.t("records.back")],
+  });
 }
 
 export function renderAchievementRecords(
   save: KeyQuestSave,
   translator: Translator,
+  runtime?: TerminalRuntime,
 ): readonly string[] {
   const unlockedIds = new Set(
     (save.progress.achievements ?? []).map((achievement) => achievement.id),
@@ -273,16 +290,19 @@ export function renderAchievementRecords(
     ),
   );
 
-  return [
-    translator.t("records.achievements.heading"),
-    "",
-    ...lines,
-    "",
-    translator.t("records.back"),
-  ];
+  return renderFixedScreenLayout({
+    runtime,
+    title: translator.t("records.achievements.heading"),
+    body: lines,
+    hints: [translator.t("records.back")],
+  });
 }
 
-export function renderTitleRecords(save: KeyQuestSave, translator: Translator): readonly string[] {
+export function renderTitleRecords(
+  save: KeyQuestSave,
+  translator: Translator,
+  runtime?: TerminalRuntime,
+): readonly string[] {
   const unlockedIds = new Set((save.progress.titles ?? []).map((title) => title.id));
   const lines = Object.values(TITLE_REWARDS).map((title) =>
     translator.t(unlockedIds.has(title.id) ? "records.title.unlocked" : "records.title.locked", {
@@ -290,20 +310,42 @@ export function renderTitleRecords(save: KeyQuestSave, translator: Translator): 
     }),
   );
 
-  return [translator.t("records.titles.heading"), "", ...lines, "", translator.t("records.back")];
+  return renderFixedScreenLayout({
+    runtime,
+    title: translator.t("records.titles.heading"),
+    body: lines,
+    hints: [translator.t("records.back")],
+  });
 }
 
 export function renderLanguageOptions(
   currentLocale: LocaleId,
   translator: Translator,
+  runtime?: TerminalRuntime,
+  selectedIndex?: number,
 ): readonly string[] {
-  return [
-    translator.t("options.heading"),
-    `${translator.t("options.language")}: ${localeDisplayName(currentLocale)}`,
-    "",
-    ...SUPPORTED_LOCALES.map((locale, index) => `${index + 1}. ${localeDisplayName(locale)}`),
-    `0. ${translator.t("options.back")}`,
+  const optionLabels = [
+    ...SUPPORTED_LOCALES.map((locale) => localeDisplayName(locale)),
+    translator.t("options.back"),
   ];
+  const body =
+    selectedIndex === undefined
+      ? [
+          ...SUPPORTED_LOCALES.map((locale, index) => `${index + 1}. ${localeDisplayName(locale)}`),
+          `0. ${translator.t("options.back")}`,
+        ]
+      : optionLabels.map((label, index) => `${index === selectedIndex ? ">" : " "} ${label}`);
+
+  return renderFixedScreenLayout({
+    runtime,
+    title: translator.t("options.heading"),
+    subtitle: `${translator.t("options.language")}: ${localeDisplayName(currentLocale)}`,
+    body,
+    hints:
+      selectedIndex === undefined
+        ? [translator.t("options.prompt").trim()]
+        : [translator.t("menu.controls")],
+  });
 }
 
 export type LanguageMenuAction = LocaleId | "back";

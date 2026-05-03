@@ -33,7 +33,7 @@
 - [x] Redesign segment and final result screens so score, weak keys, rewards,
       achievements, titles, and next-day messaging read as panels instead of log
       lines.
-- [ ] Redesign Help, Options, Journey, Resources, Achievements, and Titles using
+- [x] Redesign Help, Options, Journey, Resources, Achievements, and Titles using
       the same fixed-screen composition and concise copy.
 - [ ] Add compact handling for small or unsupported terminals without crashing or
       producing unreadable output.
