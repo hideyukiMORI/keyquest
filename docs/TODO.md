@@ -4,50 +4,50 @@
 
 ### Input Model Audit
 
-- [ ] Audit every remaining `readLine` call and classify it as TTY interaction,
+- [x] Audit every remaining `readLine` call and classify it as TTY interaction,
       non-TTY fallback, test helper, or CLI-only input.
-- [ ] Document the target TTY transition map: title, records, options, New Game
+- [x] Document the target TTY transition map: title, records, options, New Game
       confirmation, Load Game unavailable, practice, pause, segment result, final
       result, and quit.
-- [ ] Identify which current screens can share a generic key-wait, confirm, or
+- [x] Identify which current screens can share a generic key-wait, confirm, or
       menu loop before adding screen-specific logic.
 
 ### Raw-Key Screen Loops
 
-- [ ] Add a shared raw-key `waitForKey` helper for informational screens such as
+- [x] Add a shared raw-key `waitForKey` helper for informational screens such as
       Help, Journey, Resources, Achievements, Titles, segment result, and final
       result.
-- [ ] Add a shared raw-key confirmation helper for New Game, quit, and future
+- [x] Add a shared raw-key confirmation helper for New Game, quit, and future
       destructive actions with non-TTY `readLine` fallback.
-- [ ] Add a screen-loop result type for `continue`, `back`, `confirm`, `cancel`,
+- [x] Add a screen-loop result type for `continue`, `back`, `confirm`, `cancel`,
       `options`, and `quit` so app flow does not depend on free-form strings.
-- [ ] Keep raw-mode setup and cleanup centralized so Ctrl+C, Escape, and thrown
+- [x] Keep raw-mode setup and cleanup centralized so Ctrl+C, Escape, and thrown
       errors always restore the terminal.
 
 ### TTY Flow Conversion
 
-- [ ] Convert Help, Journey, Resources, Achievements, and Titles return prompts
+- [x] Convert Help, Journey, Resources, Achievements, and Titles return prompts
       from `readLine` to raw-key waits in TTY mode.
-- [ ] Convert Options to use the fixed-screen interactive menu in TTY mode and
+- [x] Convert Options to use the fixed-screen interactive menu in TTY mode and
       keep numbered line input only for non-TTY fallback.
-- [ ] Convert New Game confirmation from typing `yes` to a fixed-screen
+- [x] Convert New Game confirmation from typing `yes` to a fixed-screen
       yes/no/cancel confirmation in TTY mode.
-- [ ] Convert Load Game unavailable and weak-key-review unavailable notices into
+- [x] Convert Load Game unavailable and weak-key-review unavailable notices into
       fixed-screen notice states instead of appended prompt text.
-- [ ] Convert segment result and final result continuation to raw-key waits in
+- [x] Convert segment result and final result continuation to raw-key waits in
       TTY mode.
-- [ ] Add a practice pause/options state so `Esc` or a documented key can pause
+- [x] Add a practice pause/options state so `Esc` or a documented key can pause
       without leaving the fixed-screen loop.
 
 ### Fallback and Verification
 
-- [ ] Preserve readable append-only line-input behavior for non-TTY output and
+- [x] Preserve readable append-only line-input behavior for non-TTY output and
       raw-mode-unavailable terminals.
-- [ ] Add deterministic tests for key event transitions without requiring a real
+- [x] Add deterministic tests for key event transitions without requiring a real
       TTY.
-- [ ] Add regression tests proving new TTY paths do not call `readLine` for
+- [x] Add regression tests proving new TTY paths do not call `readLine` for
       supported fixed-screen interactions.
-- [ ] Add manual smoke instructions for full keyboard-only TTY play: start,
+- [x] Add manual smoke instructions for full keyboard-only TTY play: start,
       records, options, New Game cancel, practice, segment result, final result,
       and Ctrl+C cleanup.
 

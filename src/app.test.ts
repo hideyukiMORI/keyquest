@@ -466,17 +466,21 @@ describe("runApp", () => {
         " ",
         "j",
         "\r",
+        "\r",
         "f",
         "f",
         " ",
         "j",
         "j",
         "\r",
+        "\r",
         "f",
         "j",
         " ",
         "j",
         "f",
+        "\r",
+        "\r",
         "\r",
       ]),
       terminalRuntime: {
@@ -501,6 +505,62 @@ describe("runApp", () => {
     expect(output.text()).toContain("Unlocked: Flawless Focus");
   });
 
+  it("does not use line input for supported fixed-screen TTY interactions", async () => {
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "normal",
+      saveDirectory: await createTempDirectory(),
+      textInput: createAssertingTextInput(() => {
+        throw new Error("line input should not be used for TTY interactions");
+      }),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      realtimeInput: createQueuedRealtimeInput([
+        "6",
+        "\r",
+        "\r",
+        "f",
+        " ",
+        "j",
+        "\r",
+        "\r",
+        "f",
+        "f",
+        " ",
+        "j",
+        "j",
+        "\r",
+        "\r",
+        "f",
+        "j",
+        " ",
+        "j",
+        "f",
+        "\r",
+        "\r",
+        "\r",
+      ]),
+      terminalRuntime: {
+        colorMode: "never",
+        colorEnabled: false,
+        screenEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    expect(output.text()).toContain("How to Play");
+    expect(output.text()).toContain("Session Result");
+  });
+
   it("uses interactive title and language menus with realtime input", async () => {
     const output = createMemoryOutput();
     await runApp({
@@ -521,17 +581,21 @@ describe("runApp", () => {
         " ",
         "j",
         "\r",
+        "\r",
         "f",
         "f",
         " ",
         "j",
         "j",
         "\r",
+        "\r",
         "f",
         "j",
         " ",
         "j",
         "f",
+        "\r",
+        "\r",
         "\r",
       ]),
       terminalRuntime: {
@@ -895,6 +959,78 @@ describe("runApp", () => {
       textOutput: output,
       lesson: createTestLesson(),
       lessonPath: undefined,
+      now: new Date("2026-01-02T00:00:00.000Z"),
+      completedAt: new Date("2026-01-02T00:00:20.000Z"),
+    });
+
+    const save = await createSaveStore({ mode: "development", directory }).loadOrCreate(
+      new Date("2026-01-02T00:01:00.000Z"),
+    );
+    expect(output.text()).toContain("New Game cancelled");
+    expect(save.profile.createdAt).toBe("2026-01-01T00:00:00.000Z");
+    expect(save.progress.sessions).toHaveLength(2);
+  });
+
+  it("uses raw-key confirmation for New Game in TTY mode", async () => {
+    const directory = await createTempDirectory();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+      textOutput: createMemoryOutput(),
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      now: new Date("2026-01-01T00:00:00.000Z"),
+      completedAt: new Date("2026-01-01T00:00:20.000Z"),
+    });
+
+    const output = createMemoryOutput();
+    await runApp({
+      mode: "development",
+      saveDirectory: directory,
+      textInput: createAssertingTextInput(() => {
+        throw new Error("line input should not be used for TTY confirmation");
+      }),
+      textOutput: output,
+      lesson: createTestLesson(),
+      lessonPath: undefined,
+      realtimeInput: createQueuedRealtimeInput([
+        "4",
+        "n",
+        "5",
+        "f",
+        " ",
+        "j",
+        "\r",
+        "\r",
+        "f",
+        "f",
+        " ",
+        "j",
+        "j",
+        "\r",
+        "\r",
+        "f",
+        "j",
+        " ",
+        "j",
+        "f",
+        "\r",
+        "\r",
+        "\r",
+      ]),
+      terminalRuntime: {
+        colorMode: "never",
+        colorEnabled: false,
+        screenEnabled: true,
+        theme: "classic",
+        reducedMotion: false,
+        size: {
+          columns: 100,
+          rows: 30,
+          isBelowMinimum: false,
+        },
+      },
       now: new Date("2026-01-02T00:00:00.000Z"),
       completedAt: new Date("2026-01-02T00:00:20.000Z"),
     });

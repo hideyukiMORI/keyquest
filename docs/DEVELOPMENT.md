@@ -39,3 +39,39 @@ a Pull Request unless the change is a small repository-maintenance update.
 - User-facing behavior is documented in `README.md` or `docs/` when relevant.
 - New behavior has focused tests where the risk justifies it.
 - Follow-up work is tracked in Issues or `docs/TODO.md`.
+
+## Raw-Key TTY Workflow
+
+Supported TTY flows should use raw key events and fixed-screen redraws. `readLine`
+is reserved for non-TTY fallback, raw-mode-unavailable fallback, CLI-only prompts,
+and tests that intentionally exercise line input.
+
+Current `readLine` boundaries:
+
+- Title and options selection fallback when raw-mode menus are unavailable.
+- Practice input fallback when raw-mode typing is unavailable.
+- New Game confirmation fallback outside supported TTY mode.
+- Test helpers that simulate queued line input.
+
+Do not add new `readLine` calls to supported TTY screen paths. Add a raw-key
+state transition first, then keep line input only as the fallback.
+
+## Manual TTY Smoke
+
+Before a public release or substantial TUI change, run `npm run dev` in a real
+terminal and verify:
+
+- Start from the title menu with `j`/`k`, arrows, number shortcuts, Enter, and
+  Space.
+- Open Help, Journey, Resources, Achievements, and Titles, then return with
+  Enter, Space, Escape, or `q` without a printed prompt line.
+- Open Options from the title menu, change language with the fixed-screen menu,
+  and return to Start.
+- Try New Game with an existing save, cancel with `n` or Escape, then confirm
+  with `y` or Enter.
+- Complete a practice session using real-time typing, continue through segment
+  results with Enter, and return from the final result with Enter.
+- During practice, press `Ctrl+O` or Escape to open options, then continue.
+- Press Ctrl+C from a menu, confirmation, and typing screen; the terminal should
+  leave raw mode cleanly.
+- Repeat with `--no-color` and a narrow terminal close to 80x24.

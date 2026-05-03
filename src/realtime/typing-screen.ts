@@ -41,7 +41,7 @@ export async function runRealtimeTypingPrompt(options: {
 
     while (state.status === "active") {
       const rawKey = await options.input.readKey();
-      if (rawKey === "\u000f") {
+      if (rawKey === "\u000f" || rawKey === "\u001b") {
         throw new PracticeOptionsRequestedError();
       }
 

@@ -88,6 +88,20 @@ describe("realtime typing screen", () => {
     ).rejects.toThrow("Practice options requested");
     expect(input.rawCalls).toEqual(["start", "end"]);
   });
+
+  it("requests options from escape", async () => {
+    const input = createQueuedRealtimeInput(["\u001b"]);
+
+    await expect(
+      runRealtimeTypingPrompt({
+        prompt: createPrompt("f j"),
+        input,
+        screen: createMemoryScreen(),
+        translator: createTranslator("en"),
+      }),
+    ).rejects.toThrow("Practice options requested");
+    expect(input.rawCalls).toEqual(["start", "end"]);
+  });
 });
 
 function createPrompt(text: string): PracticePrompt {

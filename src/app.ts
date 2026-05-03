@@ -24,6 +24,7 @@ import {
   renderTitleRecords,
   renderTitleMenu,
 } from "./menu/title-menu.js";
+import { confirmWithScreenKeys, waitForScreenKey } from "./menu/key-screen.js";
 import { runInteractiveMenu } from "./menu/interactive-menu.js";
 import {
   completePracticeRun,
@@ -49,6 +50,7 @@ import {
 } from "./scenes/scenes.js";
 import type { SceneContext } from "./scenes/types.js";
 import { styleText } from "./terminal/ansi.js";
+import { renderFixedScreenLayout } from "./terminal/layout.js";
 import type { TerminalRuntime } from "./terminal/runtime.js";
 import { createScreenRenderer, type ScreenRenderer } from "./terminal/screen.js";
 import type { RealtimeTypingInput } from "./realtime/input.js";
@@ -194,18 +196,18 @@ export async function runApp(options: RunAppOptions): Promise<void> {
 
     attempts.push(attempt);
     promptStartedAt = completedAt;
-    screen.render(
-      renderPracticeSegmentResult(
-        {
-          ...segmentResult,
-          mode: options.mode,
-          current: index + 1,
-          total: practicePrompts.length,
-        },
-        translator,
-        options.terminalRuntime,
-      ),
-    );
+    await renderSegmentResultScreen({
+      result: {
+        ...segmentResult,
+        mode: options.mode,
+        current: index + 1,
+        total: practicePrompts.length,
+      },
+      translator,
+      screen,
+      realtimeInput: options.realtimeInput,
+      terminalRuntime: options.terminalRuntime,
+    });
     index += 1;
   }
 
@@ -297,7 +299,12 @@ export async function runApp(options: RunAppOptions): Promise<void> {
   if (endingProgressLines.length > 0) {
     finalScreenSections.push(endingProgressLines);
   }
-  screen.render(joinScreenSections(finalScreenSections));
+  await renderFinalResultScreen({
+    lines: joinScreenSections(finalScreenSections),
+    screen,
+    realtimeInput: options.realtimeInput,
+    terminalRuntime: options.terminalRuntime,
+  });
 }
 
 async function readPracticeInput(options: {
@@ -339,6 +346,64 @@ async function readPracticeInput(options: {
     kind: "attempt",
     actual,
   };
+}
+
+async function renderSegmentResultScreen(options: {
+  readonly result: Parameters<typeof renderPracticeSegmentResult>[0];
+  readonly translator: ReturnType<typeof createTranslator>;
+  readonly screen: ScreenRenderer;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+}): Promise<void> {
+  const render = (): readonly string[] =>
+    renderPracticeSegmentResult(options.result, options.translator, options.terminalRuntime);
+
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    try {
+      const result = await waitForScreenKey({
+        input: options.realtimeInput,
+        screen: options.screen,
+        render,
+      });
+      if (result === "quit") {
+        throw new Error("Practice segment cancelled");
+      }
+      return;
+    } catch (error) {
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  options.screen.render(render());
+}
+
+async function renderFinalResultScreen(options: {
+  readonly lines: readonly string[];
+  readonly screen: ScreenRenderer;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+}): Promise<void> {
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    try {
+      const result = await waitForScreenKey({
+        input: options.realtimeInput,
+        screen: options.screen,
+        render: () => options.lines,
+      });
+      if (result === "quit") {
+        throw new Error("Practice result cancelled");
+      }
+      return;
+    } catch (error) {
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  options.screen.render(options.lines);
 }
 
 async function readTitleMenuAction(options: {
@@ -426,6 +491,36 @@ async function readLanguageMenuAction(options: {
   );
 }
 
+async function waitForReturnScreen(options: {
+  readonly textInput: TextInput;
+  readonly screen: ScreenRenderer;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly render: () => readonly string[];
+  readonly fallbackPrompt: string;
+}): Promise<void> {
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    try {
+      const result = await waitForScreenKey({
+        input: options.realtimeInput,
+        screen: options.screen,
+        render: options.render,
+      });
+      if (result === "quit") {
+        throw new Error("Screen cancelled");
+      }
+      return;
+    } catch (error) {
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  options.screen.render(options.render());
+  await options.textInput.readLine(options.fallbackPrompt);
+}
+
 async function runTitleMenu(options: {
   readonly save: KeyQuestSave;
   readonly mode: SaveMode;
@@ -470,10 +565,15 @@ async function runTitleMenu(options: {
 
     if (action === "newGame") {
       if (save.progress.sessions.length > 0) {
-        const confirmation = await options.textInput.readLine(
-          translator.t("title.menu.newGameConfirm"),
-        );
-        if (confirmation.trim().toLowerCase() !== "yes") {
+        const confirmed = await confirmNewGameReplacement({
+          save,
+          translator,
+          textInput: options.textInput,
+          screen: options.screen,
+          realtimeInput: options.realtimeInput,
+          terminalRuntime: options.terminalRuntime,
+        });
+        if (!confirmed) {
           notice = translator.t("title.menu.newGameCancelled");
           continue;
         }
@@ -497,32 +597,62 @@ async function runTitleMenu(options: {
     }
 
     if (action === "help") {
-      options.screen.render(renderInGameHelp(translator, options.terminalRuntime));
-      await options.textInput.readLine(translator.t("help.prompt"));
+      await waitForReturnScreen({
+        textInput: options.textInput,
+        screen: options.screen,
+        realtimeInput: options.realtimeInput,
+        terminalRuntime: options.terminalRuntime,
+        render: () => renderInGameHelp(translator, options.terminalRuntime),
+        fallbackPrompt: translator.t("help.prompt"),
+      });
       continue;
     }
 
     if (action === "journey") {
-      options.screen.render(renderJourneyProgress(save, translator, options.terminalRuntime));
-      await options.textInput.readLine(translator.t("journeyProgress.prompt"));
+      await waitForReturnScreen({
+        textInput: options.textInput,
+        screen: options.screen,
+        realtimeInput: options.realtimeInput,
+        terminalRuntime: options.terminalRuntime,
+        render: () => renderJourneyProgress(save, translator, options.terminalRuntime),
+        fallbackPrompt: translator.t("journeyProgress.prompt"),
+      });
       continue;
     }
 
     if (action === "resources") {
-      options.screen.render(renderResourceRecords(save, translator, options.terminalRuntime));
-      await options.textInput.readLine(translator.t("records.prompt"));
+      await waitForReturnScreen({
+        textInput: options.textInput,
+        screen: options.screen,
+        realtimeInput: options.realtimeInput,
+        terminalRuntime: options.terminalRuntime,
+        render: () => renderResourceRecords(save, translator, options.terminalRuntime),
+        fallbackPrompt: translator.t("records.prompt"),
+      });
       continue;
     }
 
     if (action === "achievements") {
-      options.screen.render(renderAchievementRecords(save, translator, options.terminalRuntime));
-      await options.textInput.readLine(translator.t("records.prompt"));
+      await waitForReturnScreen({
+        textInput: options.textInput,
+        screen: options.screen,
+        realtimeInput: options.realtimeInput,
+        terminalRuntime: options.terminalRuntime,
+        render: () => renderAchievementRecords(save, translator, options.terminalRuntime),
+        fallbackPrompt: translator.t("records.prompt"),
+      });
       continue;
     }
 
     if (action === "titles") {
-      options.screen.render(renderTitleRecords(save, translator, options.terminalRuntime));
-      await options.textInput.readLine(translator.t("records.prompt"));
+      await waitForReturnScreen({
+        textInput: options.textInput,
+        screen: options.screen,
+        realtimeInput: options.realtimeInput,
+        terminalRuntime: options.terminalRuntime,
+        render: () => renderTitleRecords(save, translator, options.terminalRuntime),
+        fallbackPrompt: translator.t("records.prompt"),
+      });
       continue;
     }
 
@@ -573,6 +703,47 @@ function createReviewLesson(day: number, title: string, practicePrompt: Practice
       },
     ],
   };
+}
+
+async function confirmNewGameReplacement(options: {
+  readonly save: KeyQuestSave;
+  readonly translator: ReturnType<typeof createTranslator>;
+  readonly textInput: TextInput;
+  readonly screen: ScreenRenderer;
+  readonly realtimeInput: RealtimeTypingInput | undefined;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+}): Promise<boolean> {
+  if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
+    try {
+      const result = await confirmWithScreenKeys({
+        input: options.realtimeInput,
+        screen: options.screen,
+        render: () =>
+          renderFixedScreenLayout({
+            runtime: options.terminalRuntime,
+            title: options.translator.t("title.menu.newGame"),
+            status: [`Day ${options.save.journey.day}`, `XP ${options.save.progress.totalXp}`],
+            body: [options.translator.t("title.menu.newGameConfirm").trim()],
+            hints: ["[y/enter] confirm  [n/esc] cancel"],
+          }),
+      });
+
+      if (result === "quit") {
+        throw new Error("New Game confirmation cancelled");
+      }
+
+      return result === "confirm";
+    } catch (error) {
+      if (!isRawModeUnavailableError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  const confirmation = await options.textInput.readLine(
+    options.translator.t("title.menu.newGameConfirm"),
+  );
+  return confirmation.trim().toLowerCase() === "yes";
 }
 
 function joinScreenSections(sections: readonly (readonly string[])[]): readonly string[] {
