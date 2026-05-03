@@ -94,7 +94,7 @@ function createRealtimeInputStream(options: { readonly forceTty: boolean }): {
   }).trim();
   const rawModeController: RawModeController = {
     enable(): void {
-      execFileSync("sh", ["-c", "stty raw -echo < /dev/tty"]);
+      execFileSync("sh", ["-c", "stty -echo -icanon min 1 time 0 < /dev/tty"]);
     },
     disable(): void {
       execFileSync("sh", ["-c", `stty ${savedMode} < /dev/tty`]);
