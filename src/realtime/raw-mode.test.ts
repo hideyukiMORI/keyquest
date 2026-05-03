@@ -65,6 +65,52 @@ describe("raw mode helpers", () => {
     expect(calls).toEqual(["raw:true", "resume", "raw:false", "pause"]);
   });
 
+  it("can use an explicit raw-mode controller", async () => {
+    const calls: string[] = [];
+    const stream: RawModeStream = {
+      isTTY: false,
+    };
+
+    await expect(
+      withRawMode(stream, () => "ok", {
+        force: true,
+        controller: {
+          enable(): void {
+            calls.push("enable");
+          },
+          disable(): void {
+            calls.push("disable");
+          },
+          resume(): void {
+            calls.push("resume");
+          },
+          pause(): void {
+            calls.push("pause");
+          },
+        },
+      }),
+    ).resolves.toBe("ok");
+
+    expect(calls).toEqual(["enable", "resume", "disable", "pause"]);
+  });
+
+  it("reports controller startup failures as unavailable", async () => {
+    const stream: RawModeStream = {
+      isTTY: false,
+    };
+
+    await expect(
+      withRawMode(stream, () => "ok", {
+        controller: {
+          enable(): void {
+            throw new TypeError("stty failed");
+          },
+          disable(): void {},
+        },
+      }),
+    ).rejects.toSatisfy((error: unknown) => isRawModeUnavailableError(error));
+  });
+
   it("reports forced streams without raw support as unavailable", async () => {
     const stream: RawModeStream = {
       isTTY: false,

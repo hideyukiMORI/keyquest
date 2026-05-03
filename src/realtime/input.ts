@@ -1,6 +1,6 @@
 import type { Readable } from "node:stream";
 
-import { withRawMode, type RawModeStream } from "./raw-mode.js";
+import { withRawMode, type RawModeController, type RawModeStream } from "./raw-mode.js";
 
 export type RealtimeTypingInput = {
   readonly readKey: () => Promise<string>;
@@ -11,7 +11,10 @@ export type RealtimeInputStream = Readable & RawModeStream;
 
 export function createNodeRealtimeTypingInput(
   stream: RealtimeInputStream,
-  options: { readonly forceRawMode?: boolean } = {},
+  options: {
+    readonly forceRawMode?: boolean;
+    readonly rawModeController?: RawModeController;
+  } = {},
 ): RealtimeTypingInput {
   return {
     readKey(): Promise<string> {
@@ -34,11 +37,12 @@ export function createNodeRealtimeTypingInput(
       });
     },
     withRawMode<T>(run: () => Promise<T> | T): Promise<T> {
-      return withRawMode(
-        stream,
-        run,
-        options.forceRawMode === undefined ? {} : { force: options.forceRawMode },
-      );
+      return withRawMode(stream, run, {
+        ...(options.forceRawMode === undefined ? {} : { force: options.forceRawMode }),
+        ...(options.rawModeController === undefined
+          ? {}
+          : { controller: options.rawModeController }),
+      });
     },
   };
 }

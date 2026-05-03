@@ -7,6 +7,13 @@ export type RawModeStream = {
   readonly pause?: () => void;
 };
 
+export type RawModeController = {
+  readonly enable: () => void;
+  readonly disable: () => void;
+  readonly resume?: () => void;
+  readonly pause?: () => void;
+};
+
 export class RawModeUnavailableError extends Error {
   constructor(cause: unknown) {
     const message = cause instanceof Error ? cause.message : String(cause);
@@ -22,8 +29,12 @@ export function isRawModeUnavailableError(error: unknown): error is RawModeUnava
 export async function withRawMode<T>(
   stream: RawModeStream,
   run: () => Promise<T> | T,
-  options: { readonly force?: boolean } = {},
+  options: { readonly force?: boolean; readonly controller?: RawModeController } = {},
 ): Promise<T> {
+  if (options.controller !== undefined) {
+    return withRawModeController(options.controller, run);
+  }
+
   const setRawMode = stream.setRawMode;
   const shouldUseRawMode =
     (stream.isTTY === true || options.force === true) && setRawMode !== undefined;
@@ -44,6 +55,25 @@ export async function withRawMode<T>(
   } finally {
     setRawMode(false);
     stream.pause?.();
+  }
+}
+
+async function withRawModeController<T>(
+  controller: RawModeController,
+  run: () => Promise<T> | T,
+): Promise<T> {
+  try {
+    controller.enable();
+  } catch (error) {
+    throw new RawModeUnavailableError(error);
+  }
+  controller.resume?.();
+
+  try {
+    return await run();
+  } finally {
+    controller.disable();
+    controller.pause?.();
   }
 }
 

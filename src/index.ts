@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { openSync, readFileSync } from "node:fs";
-import { ReadStream as TtyReadStream } from "node:tty";
+import { execFileSync } from "node:child_process";
+import { createReadStream, openSync, readFileSync } from "node:fs";
 import { URL } from "node:url";
 
 import { runApp } from "./app.js";
@@ -9,6 +9,7 @@ import { parseCliArgs } from "./cli/args.js";
 import { renderCliHelp, renderCliVersion } from "./cli/help.js";
 import { createNodeTextInput } from "./cli/text-input.js";
 import { createNodeTextOutput } from "./cli/text-output.js";
+import type { RawModeController } from "./realtime/raw-mode.js";
 import { createNodeRealtimeTypingInput, type RealtimeInputStream } from "./realtime/input.js";
 import { resolveTerminalRuntime } from "./terminal/runtime.js";
 
@@ -30,6 +31,9 @@ try {
     const textOutput = createNodeTextOutput(process.stdout);
     const realtimeInput = createNodeRealtimeTypingInput(realtimeStream.stream, {
       forceRawMode: forceTty,
+      ...(realtimeStream.rawModeController === undefined
+        ? {}
+        : { rawModeController: realtimeStream.rawModeController }),
     });
     const terminalRuntime = resolveTerminalRuntime({
       colorMode: options.colorMode,
@@ -73,6 +77,7 @@ function readPackageVersion(): string {
 
 function createRealtimeInputStream(options: { readonly forceTty: boolean }): {
   readonly stream: RealtimeInputStream;
+  readonly rawModeController?: RawModeController;
   readonly close: () => void;
 } {
   if (!options.forceTty) {
@@ -83,10 +88,28 @@ function createRealtimeInputStream(options: { readonly forceTty: boolean }): {
   }
 
   const fd = openSync("/dev/tty", "r");
-  const stream = new TtyReadStream(fd) as RealtimeInputStream;
+  const stream = createReadStream("/dev/tty", { fd, autoClose: true }) as RealtimeInputStream;
+  const savedMode = execFileSync("sh", ["-c", "stty -g < /dev/tty"], {
+    encoding: "utf8",
+  }).trim();
+  const rawModeController: RawModeController = {
+    enable(): void {
+      execFileSync("sh", ["-c", "stty raw -echo < /dev/tty"]);
+    },
+    disable(): void {
+      execFileSync("sh", ["-c", `stty ${savedMode} < /dev/tty`]);
+    },
+    resume(): void {
+      stream.resume();
+    },
+    pause(): void {
+      stream.pause();
+    },
+  };
 
   return {
     stream,
+    rawModeController,
     close(): void {
       stream.destroy();
     },
