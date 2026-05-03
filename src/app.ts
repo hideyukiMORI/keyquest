@@ -350,24 +350,12 @@ async function readTitleMenuAction(options: {
 }): Promise<TitleMenuAction> {
   const items = getTitleMenuItems(options.save, options.translator);
   const renderMenu = (selectedIndex: number | undefined): readonly string[] => {
-    const menuLines =
-      selectedIndex === undefined
-        ? renderTitleMenu(options.save, options.translator)
-        : [
-            options.translator.t("app.title"),
-            options.translator.t("app.subtitle"),
-            "",
-            options.translator.t("title.menu.heading"),
-            ...renderSelectableItems({ items, selectedIndex }),
-            "",
-            options.translator.t("menu.controls"),
-          ];
-
-    return [
-      ...menuLines,
-      ...(options.mode === "development" ? [options.translator.t("dev.banner")] : []),
-      ...(options.notice === undefined ? [] : ["", options.notice]),
-    ];
+    return renderTitleMenu(options.save, options.translator, {
+      runtime: options.terminalRuntime,
+      selectedIndex,
+      mode: options.mode,
+      notice: options.notice,
+    });
   };
 
   if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createInitialQuestResources, createNewSave } from "../save/model.js";
 import { createTranslator } from "../i18n/messages.js";
+import type { TerminalRuntime } from "../terminal/runtime.js";
 import {
   parseLocaleChoice,
   parseTitleMenuAction,
@@ -29,6 +30,22 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("Resources");
     expect(lines.join("\n")).toContain("Achievements");
     expect(lines.join("\n")).toContain("Titles");
+  });
+
+  it("renders a fixed-screen title summary with quest and controls", () => {
+    const save = createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal");
+    const lines = renderTitleMenu(save, createTranslator("en"), {
+      runtime: createRuntime({ columns: 80, rows: 24 }),
+      selectedIndex: 0,
+    });
+
+    expect(lines[0]).toContain("KeyQuest");
+    expect(lines[0]).toContain("Day 1");
+    expect(lines.join("\n")).toContain("Quest");
+    expect(lines.join("\n")).toContain("Novice Hall");
+    expect(lines.join("\n")).toContain("> Start");
+    expect(lines.join("\n")).toContain("j/k or arrows");
+    expect(lines.length).toBeLessThanOrEqual(23);
   });
 
   it("parses title actions", () => {
@@ -160,3 +177,21 @@ describe("title menu", () => {
     expect(parseLocaleChoice("0", "ja")).toBe("ja");
   });
 });
+
+function createRuntime(options: {
+  readonly columns: number;
+  readonly rows: number;
+}): TerminalRuntime {
+  return {
+    colorMode: "never",
+    colorEnabled: false,
+    screenEnabled: true,
+    theme: "classic",
+    reducedMotion: false,
+    size: {
+      columns: options.columns,
+      rows: options.rows,
+      isBelowMinimum: false,
+    },
+  };
+}

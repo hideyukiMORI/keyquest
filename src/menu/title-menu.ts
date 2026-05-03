@@ -14,7 +14,10 @@ import {
   createInitialQuestResources,
   type EquipmentUpgradeRecord,
   type KeyQuestSave,
+  type SaveMode,
 } from "../save/model.js";
+import { renderFixedScreenLayout } from "../terminal/layout.js";
+import type { TerminalRuntime } from "../terminal/runtime.js";
 import type { InteractiveMenuItem } from "./interactive-menu.js";
 
 export type TitleMenuAction =
@@ -28,6 +31,13 @@ export type TitleMenuAction =
   | "resources"
   | "achievements"
   | "titles";
+
+export type RenderTitleMenuOptions = {
+  readonly runtime?: TerminalRuntime | undefined;
+  readonly selectedIndex?: number | undefined;
+  readonly mode?: SaveMode | undefined;
+  readonly notice?: string | undefined;
+};
 
 export function getTitleMenuItems(
   save: KeyQuestSave,
@@ -52,16 +62,46 @@ export function getTitleMenuItems(
   ];
 }
 
-export function renderTitleMenu(save: KeyQuestSave, translator: Translator): readonly string[] {
+export function renderTitleMenu(
+  save: KeyQuestSave,
+  translator: Translator,
+  options: RenderTitleMenuOptions = {},
+): readonly string[] {
   const items = getTitleMenuItems(save, translator);
-
-  return [
-    translator.t("app.title"),
-    translator.t("app.subtitle"),
-    "",
-    translator.t("title.menu.heading"),
-    ...items.map((item, index) => `${index + 1}. ${item.label}`),
+  const arc = getDisplayQuestArcForDay(save.journey.day);
+  const menuLines = items.map((item, index) =>
+    options.selectedIndex === undefined
+      ? `${index + 1}. ${item.label}`
+      : `${index === options.selectedIndex ? ">" : " "} ${item.label}`,
+  );
+  const extraLines = [
+    ...(options.mode === "development" ? [translator.t("dev.banner")] : []),
+    ...(options.notice === undefined ? [] : [options.notice]),
   ];
+
+  return renderFixedScreenLayout({
+    runtime: options.runtime,
+    title: translator.t("app.title"),
+    subtitle: translator.t("app.subtitle"),
+    status: [
+      `Day ${save.journey.day}`,
+      `XP ${save.progress.totalXp}`,
+      `Streak ${save.progress.streakDays}`,
+    ],
+    body: [
+      "Quest",
+      `  ${arc.title}`,
+      `  ${arc.theme}`,
+      "",
+      translator.t("title.menu.heading"),
+      ...menuLines,
+      ...extraLines,
+    ],
+    hints:
+      options.selectedIndex === undefined
+        ? [translator.t("title.menu.prompt").trim()]
+        : [translator.t("menu.controls")],
+  });
 }
 
 export function parseTitleMenuAction(input: string): TitleMenuAction {

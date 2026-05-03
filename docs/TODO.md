@@ -26,7 +26,7 @@
 
 ### Main Flow Screens
 
-- [ ] Redesign the title screen with a compact quest summary, saved progress,
+- [x] Redesign the title screen with a compact quest summary, saved progress,
       menu, and keyboard hints.
 - [ ] Redesign the practice screen with stable regions for quest status, prompt,
       typed input, progress, mistakes, and controls.
