@@ -1,5 +1,6 @@
 import type { Translator } from "../i18n/messages.js";
 import type { PracticePrompt } from "../practice/session.js";
+import { styleText } from "../terminal/ansi.js";
 import { renderFixedScreenLayout } from "../terminal/layout.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
 import type { ScreenRenderer } from "../terminal/screen.js";
@@ -70,6 +71,7 @@ export function renderRealtimeTypingScreen(
   translator: Translator,
   runtime?: TerminalRuntime,
 ): readonly string[] {
+  const views = deriveTypingCharacterViews(state);
   return renderFixedScreenLayout({
     runtime,
     title: translator.t("realtime.heading"),
@@ -78,34 +80,78 @@ export function renderRealtimeTypingScreen(
       `Typed ${state.actual.length}/${prompt.text.length}`,
     ],
     body: [
-      "Type",
-      `  ${prompt.text}`,
+      "Target",
+      `  ${formatTargetText(views, state, runtime)}`,
+      `  ${formatTargetCursor(state)}`,
       "",
-      "Input",
-      `  ${state.actual.length === 0 ? "_" : state.actual}`,
+      "Typed",
+      `  ${formatTypedText(state, runtime)}`,
       "",
       "Progress",
-      `  ${formatCharacterProgress(deriveTypingCharacterViews(state))}`,
+      `  ${formatCharacterProgress(views, runtime)}`,
     ],
     hints: [translator.t("realtime.controls")],
   });
 }
 
-function formatCharacterProgress(views: readonly TypingCharacterView[]): string {
+function formatTargetText(
+  views: readonly TypingCharacterView[],
+  state: TypingState,
+  runtime: TerminalRuntime | undefined,
+): string {
+  return views
+    .filter((view) => view.expected !== null)
+    .map((view) => {
+      const expected = view.expected ?? "";
+      if (view.index === state.actual.length && state.status === "active") {
+        return styleText(expected, "cursor", runtime);
+      }
+      if (view.state === "correct") {
+        return styleText(expected, "typedCorrect", runtime);
+      }
+      if (view.state === "wrong") {
+        return styleText(expected, "typedWrong", runtime);
+      }
+
+      return expected;
+    })
+    .join("");
+}
+
+function formatTargetCursor(state: TypingState): string {
+  if (state.status !== "active" || state.actual.length >= state.expected.length) {
+    return "";
+  }
+
+  return `${" ".repeat(state.actual.length)}^`;
+}
+
+function formatTypedText(state: TypingState, runtime: TerminalRuntime | undefined): string {
+  if (state.actual.length === 0) {
+    return styleText("_", "cursor", runtime);
+  }
+
+  return state.actual;
+}
+
+function formatCharacterProgress(
+  views: readonly TypingCharacterView[],
+  runtime: TerminalRuntime | undefined,
+): string {
   return views
     .map((view) => {
       const shown = view.actual ?? view.expected ?? " ";
       if (view.state === "correct") {
-        return shown;
+        return styleText(shown, "typedCorrect", runtime);
       }
       if (view.state === "wrong") {
-        return "^";
+        return styleText("^", "typedWrong", runtime);
       }
       if (view.state === "extra") {
-        return "+";
+        return styleText("+", "warning", runtime);
       }
 
-      return ".";
+      return styleText(".", "muted", runtime);
     })
     .join("");
 }

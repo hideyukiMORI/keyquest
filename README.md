@@ -38,51 +38,52 @@ screens so progress is visible outside a practice session.
 ## Terminal Preview
 
 ```text
-KeyQuest
+KeyQuest                                      Day 1  XP 0  Streak 0
 A terminal typing adventure for steady hands.
+--------------------------------------------------------------------------------
+Quest
+  Novice Hall
+  home position and finger ownership
 
 Title
-1. Start
-2. Review Weak Keys
-3. Options
-4. New Game
-5. Load Game
-6. Help
-7. Journey
-8. Resources
-9. Achievements
-10. Titles
+> Start
+  Review Weak Keys
+  Options
+  New Game
+  Load Game
+  Help
+  Journey
+  Resources
+  Achievements
+  Titles
+--------------------------------------------------------------------------------
+j/k or arrows to move. Enter/Space to choose.
 
-Story
-Day 1: Novice Hall: Home Position
-The old instructor points to the home row.
-"Before the blade, learn the stance."
+Real-time Practice                           Keys f j  Typed 0/7
+--------------------------------------------------------------------------------
+Target
+  f j f j
+  ^
 
-Status
-Hero: Apprentice
-XP: 0
-Streak: 0 days
-Arc: Novice Hall
-Modifier: Steady Torch - High accuracy adds a Focus Crystal.
-HP: 20/20  MP: 0/10
-Training: homePosition Lv.1 / fingerResponsibility Lv.1 / homeRow Lv.1
+Typed
+  _
 
-Practice
-Lesson: Novice Hall: Home Position
-Keep your fingers on the home position.
-Keys: f j
-Type: f j f j
+Progress
+  .......
+--------------------------------------------------------------------------------
+Enter to submit. Backspace edits. Ctrl+O opens options. Ctrl+C cancels.
 
-Session Result
-Prompts: 3
-Accuracy: 100%
-WPM: 24.0
-XP gained: 42
+Session Result                               XP +42
+--------------------------------------------------------------------------------
+Score
+  Prompts: 3
+  Accuracy: 100%
+  WPM: 24.0
 
 Rewards
-homePosition: +14 XP (Lv.1)
-Unlocked: First Steps
-Next lesson: Day 2 is ready for next time.
+  homePosition: +14 XP (Lv.1)
+  Unlocked: First Steps
+  Next lesson: Day 2 is ready for next time.
 ```
 
 ## Vision

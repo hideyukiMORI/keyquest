@@ -24,7 +24,7 @@ export async function withRawMode<T>(stream: RawModeStream, run: () => Promise<T
   const shouldUseRawMode = stream.isTTY === true && setRawMode !== undefined;
 
   if (!shouldUseRawMode) {
-    return run();
+    throw new RawModeUnavailableError("stream is not a TTY");
   }
 
   try {

@@ -32,7 +32,7 @@ try {
       reducedMotion: options.reducedMotion,
       columns: process.stdout.columns,
       rows: process.stdout.rows,
-      isTty: process.stdout.isTTY === true,
+      isTty: process.stdin.isTTY === true || process.stdout.isTTY === true,
       env: process.env,
     });
     try {

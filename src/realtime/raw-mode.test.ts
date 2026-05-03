@@ -30,7 +30,7 @@ describe("raw mode helpers", () => {
     expect(calls).toEqual(["raw:true", "resume", "raw:false", "pause"]);
   });
 
-  it("ignores non-TTY streams", async () => {
+  it("reports non-TTY streams as unavailable", async () => {
     const calls: string[] = [];
     const stream: RawModeStream = {
       isTTY: false,
@@ -39,7 +39,9 @@ describe("raw mode helpers", () => {
       },
     };
 
-    await withRawMode(stream, () => "ok");
+    await expect(withRawMode(stream, () => "ok")).rejects.toSatisfy((error: unknown) =>
+      isRawModeUnavailableError(error),
+    );
 
     expect(calls).toEqual([]);
   });

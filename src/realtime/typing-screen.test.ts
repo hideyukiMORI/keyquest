@@ -17,10 +17,11 @@ describe("realtime typing screen", () => {
     ).toEqual([
       "Real-time Practice                                           Keys f j  Typed 0/3",
       "--------------------------------------------------------------------------------",
-      "Type",
+      "Target",
       "  f j",
+      "  ^",
       "",
-      "Input",
+      "Typed",
       "  _",
       "",
       "Progress",
@@ -41,7 +42,7 @@ describe("realtime typing screen", () => {
 
     expect(lines).toHaveLength(9);
     expect(lines.every((line) => line.length <= 40)).toBe(true);
-    expect(lines.at(-1)).toBe("... 4 more lines");
+    expect(lines.at(-1)).toBe("... 5 more lines");
   });
 
   it("collects character input until submit", async () => {
@@ -57,8 +58,9 @@ describe("realtime typing screen", () => {
 
     expect(actual).toBe("f j");
     expect(input.rawCalls).toEqual(["start", "end"]);
-    expect(screen.renders.join("\n")).toContain("Input\n  fx");
-    expect(screen.renders.at(-1)).toContain("Input\n  f j");
+    expect(screen.renders.join("\n")).toContain("Typed\n  fx");
+    expect(screen.renders.at(-1)).toContain("Target\n  f j\n  ");
+    expect(screen.renders.at(-1)).toContain("Typed\n  f j");
   });
 
   it("throws when cancelled", async () => {
