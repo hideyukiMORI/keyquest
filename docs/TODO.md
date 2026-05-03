@@ -16,7 +16,7 @@
 
 ### Layout Foundation
 
-- [ ] Define reusable fixed-screen layout primitives for 80x24 terminals:
+- [x] Define reusable fixed-screen layout primitives for 80x24 terminals:
       header, primary panel, status strip, hint row, footer message, and compact
       warning panel.
 - [x] Add rendering helpers for bounded content width, stable row counts,
