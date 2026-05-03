@@ -203,6 +203,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
           total: practicePrompts.length,
         },
         translator,
+        options.terminalRuntime,
       ),
     );
     index += 1;
@@ -226,6 +227,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
         mode: options.mode,
       },
       translator,
+      options.terminalRuntime,
     ),
     ...(reviewQuest === undefined
       ? []

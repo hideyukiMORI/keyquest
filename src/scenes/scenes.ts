@@ -24,6 +24,8 @@ import { getDisplayQuestArcForDay } from "../quest/map.js";
 import { getQuestModifierForDay } from "../quest/modifiers.js";
 import { createInitialQuestResources } from "../save/model.js";
 import { styleText } from "../terminal/ansi.js";
+import { renderFixedScreenLayout } from "../terminal/layout.js";
+import type { TerminalRuntime } from "../terminal/runtime.js";
 
 export const titleScene: Scene = {
   id: "title",
@@ -154,38 +156,52 @@ export function renderPracticeSegmentResult(
     readonly total: number;
   },
   translator: SceneContext["translator"],
+  runtime?: TerminalRuntime,
 ): readonly string[] {
   const accuracy = Math.round(result.score.accuracy * 100);
   const { t } = translator;
 
-  return [
-    t("session.segmentHeading", { current: result.current, total: result.total }),
-    t("result.accuracy", { accuracy }),
-    t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
-    t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) }),
-    t("result.mistakes", { mistakes: result.score.mistakes }),
-    t("result.xpGained", { xp: result.xpGained }),
-  ];
+  return renderFixedScreenLayout({
+    runtime,
+    title: t("session.segmentHeading", { current: result.current, total: result.total }),
+    status: [`XP +${result.xpGained}`],
+    body: [
+      "Score",
+      `  ${t("result.accuracy", { accuracy })}`,
+      `  ${t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) })}`,
+      `  ${t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) })}`,
+      `  ${t("result.mistakes", { mistakes: result.score.mistakes })}`,
+      `  ${t("result.xpGained", { xp: result.xpGained })}`,
+    ],
+    hints: ["[enter] continue"],
+  });
 }
 
 export function renderPracticeRunResult(
   result: PracticeRunResultView,
   translator: SceneContext["translator"],
+  runtime?: TerminalRuntime,
 ): readonly string[] {
   const accuracy = Math.round(result.score.accuracy * 100);
   const { t } = translator;
   const devLine = result.mode === "development" ? [t("result.devClear")] : [];
 
-  return [
-    t("session.finalHeading"),
-    t("session.promptCount", { count: result.promptCount }),
-    t("result.accuracy", { accuracy }),
-    t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) }),
-    t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) }),
-    t("result.mistakes", { mistakes: result.score.mistakes }),
-    t("result.xpGained", { xp: result.xpGained }),
-    ...devLine,
-  ];
+  return renderFixedScreenLayout({
+    runtime,
+    title: t("session.finalHeading"),
+    status: [`XP +${result.xpGained}`],
+    body: [
+      "Score",
+      `  ${t("session.promptCount", { count: result.promptCount })}`,
+      `  ${t("result.accuracy", { accuracy })}`,
+      `  ${t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) })}`,
+      `  ${t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) })}`,
+      `  ${t("result.mistakes", { mistakes: result.score.mistakes })}`,
+      `  ${t("result.xpGained", { xp: result.xpGained })}`,
+      ...devLine,
+    ],
+    hints: ["[enter] return"],
+  });
 }
 
 export function renderPracticeRewards(

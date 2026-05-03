@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 
 import { createTranslator } from "../i18n/messages.js";
+import type { PracticePrompt } from "../practice/session.js";
 import { createInitialQuestResources, createNewSave } from "../save/model.js";
+import type { TerminalRuntime } from "../terminal/runtime.js";
 import {
   renderPracticeAchievements,
   renderPracticeEndingProgress,
   renderPracticeJourneyProgress,
+  renderPracticeRunResult,
+  renderPracticeSegmentResult,
   renderPracticeReviewResult,
   renderPracticeRewards,
   renderPracticeStreakProgress,
@@ -13,6 +17,49 @@ import {
 } from "./scenes.js";
 
 describe("scene rendering", () => {
+  it("renders segment results as a fixed-screen panel", () => {
+    const lines = renderPracticeSegmentResult(
+      {
+        prompt: createPrompt("f j"),
+        actual: "f j",
+        score: createScore(),
+        xpGained: 14,
+        mode: "normal",
+        current: 2,
+        total: 3,
+      },
+      createTranslator("en"),
+      createRuntime({ columns: 60, rows: 24 }),
+    );
+
+    expect(lines[0]).toContain("Segment 2/3");
+    expect(lines[0]).toContain("XP +14");
+    expect(lines.join("\n")).toContain("Score");
+    expect(lines.join("\n")).toContain("Accuracy: 96%");
+    expect(lines.join("\n")).toContain("[enter] continue");
+    expect(lines.length).toBeLessThanOrEqual(23);
+  });
+
+  it("renders final session results as a fixed-screen panel", () => {
+    const lines = renderPracticeRunResult(
+      {
+        promptCount: 3,
+        score: createScore(),
+        xpGained: 42,
+        mode: "normal",
+      },
+      createTranslator("en"),
+      createRuntime({ columns: 60, rows: 24 }),
+    );
+
+    expect(lines[0]).toContain("Session Result");
+    expect(lines[0]).toContain("XP +42");
+    expect(lines.join("\n")).toContain("Prompts: 3");
+    expect(lines.join("\n")).toContain("WPM: 32.0");
+    expect(lines.join("\n")).toContain("[enter] return");
+    expect(lines.length).toBeLessThanOrEqual(23);
+  });
+
   it("renders skill XP and level-up rewards", () => {
     const beforeSave = createNewSave(new Date("2026-01-01T00:00:00.000Z"), "normal");
     const afterSave = {
@@ -361,3 +408,42 @@ describe("scene rendering", () => {
     ]);
   });
 });
+
+function createPrompt(text: string): PracticePrompt {
+  return {
+    id: "prompt-1",
+    text,
+    targetKeys: ["f", "j"],
+    skillIds: ["homePosition" as const],
+    fingerHints: ["leftIndex", "rightIndex"],
+  };
+}
+
+function createScore() {
+  return {
+    totalCharacters: 25,
+    correctCharacters: 24,
+    mistakes: 1,
+    accuracy: 0.96,
+    wordsPerMinute: 32,
+    elapsedSeconds: 9.4,
+  };
+}
+
+function createRuntime(options: {
+  readonly columns: number;
+  readonly rows: number;
+}): TerminalRuntime {
+  return {
+    colorMode: "never",
+    colorEnabled: false,
+    screenEnabled: true,
+    theme: "classic",
+    reducedMotion: false,
+    size: {
+      columns: options.columns,
+      rows: options.rows,
+      isBelowMinimum: false,
+    },
+  };
+}

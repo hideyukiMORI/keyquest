@@ -30,7 +30,7 @@
       menu, and keyboard hints.
 - [x] Redesign the practice screen with stable regions for quest status, prompt,
       typed input, progress, mistakes, and controls.
-- [ ] Redesign segment and final result screens so score, weak keys, rewards,
+- [x] Redesign segment and final result screens so score, weak keys, rewards,
       achievements, titles, and next-day messaging read as panels instead of log
       lines.
 - [ ] Redesign Help, Options, Journey, Resources, Achievements, and Titles using
