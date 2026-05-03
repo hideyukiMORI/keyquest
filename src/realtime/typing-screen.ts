@@ -1,7 +1,7 @@
 import type { Translator } from "../i18n/messages.js";
 import type { PracticePrompt } from "../practice/session.js";
 import { styleText } from "../terminal/ansi.js";
-import { renderFixedScreenLayout } from "../terminal/layout.js";
+import { renderFixedScreenLayout, resolveLayoutSize } from "../terminal/layout.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
 import type { ScreenRenderer } from "../terminal/screen.js";
 import type { RealtimeTypingInput } from "./input.js";
@@ -72,6 +72,7 @@ export function renderRealtimeTypingScreen(
   runtime?: TerminalRuntime,
 ): readonly string[] {
   const views = deriveTypingCharacterViews(state);
+  const viewport = resolveTypingViewport(state, runtime);
   return renderFixedScreenLayout({
     runtime,
     title: translator.t("realtime.heading"),
@@ -81,14 +82,14 @@ export function renderRealtimeTypingScreen(
     ],
     body: [
       "Target",
-      `  ${formatTargetText(views, state, runtime)}`,
-      `  ${formatTargetCursor(state)}`,
+      `  ${formatTargetText(views, state, viewport, runtime)}`,
+      `  ${formatTargetCursor(state, viewport)}`,
       "",
       "Typed",
-      `  ${formatTypedText(state, runtime)}`,
+      `  ${formatTypedText(state, viewport, runtime)}`,
       "",
       "Progress",
-      `  ${formatCharacterProgress(views, runtime)}`,
+      `  ${formatCharacterProgress(views, viewport, runtime)}`,
     ],
     hints: [translator.t("realtime.controls")],
   });
@@ -97,9 +98,11 @@ export function renderRealtimeTypingScreen(
 function formatTargetText(
   views: readonly TypingCharacterView[],
   state: TypingState,
+  viewport: TypingViewport,
   runtime: TerminalRuntime | undefined,
 ): string {
   return views
+    .filter((view) => view.index >= viewport.start && view.index < viewport.end)
     .filter((view) => view.expected !== null)
     .map((view) => {
       const expected = view.expected ?? "";
@@ -118,27 +121,33 @@ function formatTargetText(
     .join("");
 }
 
-function formatTargetCursor(state: TypingState): string {
+function formatTargetCursor(state: TypingState, viewport: TypingViewport): string {
   if (state.status !== "active" || state.actual.length >= state.expected.length) {
     return "";
   }
 
-  return `${" ".repeat(state.actual.length)}^`;
+  return `${" ".repeat(Math.max(0, state.actual.length - viewport.start))}^`;
 }
 
-function formatTypedText(state: TypingState, runtime: TerminalRuntime | undefined): string {
+function formatTypedText(
+  state: TypingState,
+  viewport: TypingViewport,
+  runtime: TerminalRuntime | undefined,
+): string {
   if (state.actual.length === 0) {
     return styleText("_", "cursor", runtime);
   }
 
-  return state.actual;
+  return state.actual.slice(viewport.start, viewport.end);
 }
 
 function formatCharacterProgress(
   views: readonly TypingCharacterView[],
+  viewport: TypingViewport,
   runtime: TerminalRuntime | undefined,
 ): string {
   return views
+    .filter((view) => view.index >= viewport.start && view.index < viewport.end)
     .map((view) => {
       const shown = view.actual ?? view.expected ?? " ";
       if (view.state === "correct") {
@@ -154,4 +163,32 @@ function formatCharacterProgress(
       return styleText(".", "muted", runtime);
     })
     .join("");
+}
+
+type TypingViewport = {
+  readonly start: number;
+  readonly end: number;
+};
+
+function resolveTypingViewport(
+  state: TypingState,
+  runtime: TerminalRuntime | undefined,
+): TypingViewport {
+  const contentWidth = Math.max(1, resolveLayoutSize(runtime).columns - 2);
+  const contentLength = Math.max(state.expected.length, state.actual.length);
+  if (contentLength <= contentWidth) {
+    return {
+      start: 0,
+      end: contentLength,
+    };
+  }
+
+  const cursor = Math.min(state.actual.length, Math.max(0, contentLength - 1));
+  const preferredStart = cursor - Math.floor(contentWidth * 0.65);
+  const start = Math.min(Math.max(0, preferredStart), contentLength - contentWidth);
+
+  return {
+    start,
+    end: start + contentWidth,
+  };
 }

@@ -45,6 +45,29 @@ describe("realtime typing screen", () => {
     expect(lines.at(-1)).toBe("... 5 more lines");
   });
 
+  it("keeps long typing prompts focused around the cursor instead of ellipsizing text", () => {
+    const translator = createTranslator("en");
+    const expected = "abcdefghijklmnopqrstuvwxyz";
+    const lines = renderRealtimeTypingScreen(
+      {
+        expected,
+        actual: expected.slice(0, 20),
+        status: "active",
+      },
+      createPrompt(expected),
+      translator,
+      createRuntime({ columns: 20, rows: 20 }),
+    );
+    const targetLine = lines[lines.indexOf("Target") + 1];
+    const cursorLine = lines[lines.indexOf("Target") + 2];
+    const typedLine = lines[lines.indexOf("Typed") + 1];
+
+    expect(targetLine).toBe("  ijklmnopqrstuvwxyz");
+    expect(cursorLine).toBe("              ^");
+    expect(typedLine).toBe("  ijklmnopqrst");
+    expect([targetLine, cursorLine, typedLine].some((line) => line?.includes("..."))).toBe(false);
+  });
+
   it("collects character input until submit", async () => {
     const screen = createMemoryScreen();
     const input = createQueuedRealtimeInput(["f", "x", "\u007f", " ", "j", "\r"]);

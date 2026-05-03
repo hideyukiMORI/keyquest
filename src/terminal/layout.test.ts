@@ -32,6 +32,11 @@ describe("terminal layout helpers", () => {
     expect(truncateLine("abcdef", 2)).toBe("..");
   });
 
+  it("measures ANSI color sequences as zero-width while truncating", () => {
+    expect(truncateLine("\u001b[32mabcdef\u001b[0m", 4)).toBe("\u001b[32ma\u001b[0m...");
+    expect(padLine("\u001b[32mHP\u001b[0m", 4)).toBe("\u001b[32mHP\u001b[0m  ");
+  });
+
   it("pads lines after truncating them", () => {
     expect(padLine("HP", 5)).toBe("HP   ");
     expect(padLine("accuracy", 6)).toBe("acc...");

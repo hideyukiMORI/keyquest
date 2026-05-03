@@ -1,3 +1,4 @@
+import { ANSI_RESET } from "./ansi.js";
 import type { TerminalRuntime } from "./runtime.js";
 
 export type TerminalLayoutSize = {
@@ -41,7 +42,7 @@ export function resolveLayoutSize(
 export function truncateLine(line: string, columns: number): string {
   const width = Math.max(0, columns);
 
-  if (line.length <= width) {
+  if (visibleLength(line) <= width) {
     return line;
   }
 
@@ -49,13 +50,15 @@ export function truncateLine(line: string, columns: number): string {
     return TRUNCATION_MARKER.slice(0, width);
   }
 
-  return `${line.slice(0, width - TRUNCATION_MARKER.length)}${TRUNCATION_MARKER}`;
+  const truncated = sliceByVisibleWidth(line, width - TRUNCATION_MARKER.length);
+
+  return `${truncated}${line.includes("\u001b[") ? ANSI_RESET : ""}${TRUNCATION_MARKER}`;
 }
 
 export function padLine(line: string, columns: number): string {
   const truncated = truncateLine(line, columns);
 
-  return truncated.padEnd(Math.max(0, columns), " ");
+  return `${truncated}${" ".repeat(Math.max(0, columns - visibleLength(truncated)))}`;
 }
 
 export function divider(columns: number, glyph = "-"): string {
@@ -72,13 +75,14 @@ export function alignLine(left: string, right: string, columns: number): string 
   }
 
   const truncatedRight = truncateLine(right, width);
-  const gapWidth = width - left.length - truncatedRight.length;
+  const gapWidth = width - visibleLength(left) - visibleLength(truncatedRight);
 
   if (gapWidth < 1) {
-    return truncateLine(left, Math.max(0, width - truncatedRight.length - 1))
+    const line = truncateLine(left, Math.max(0, width - visibleLength(truncatedRight) - 1))
       .concat(" ")
-      .concat(truncatedRight)
-      .slice(0, width);
+      .concat(truncatedRight);
+
+    return truncateLine(line, width);
   }
 
   return `${left}${" ".repeat(gapWidth)}${truncatedRight}`;
@@ -135,4 +139,54 @@ export function fitScreenLines(
   const overflowLine = truncateLine(`... ${hiddenLineCount} more lines`, size.columns);
 
   return [...fittedLines.slice(0, size.rows - 1), overflowLine];
+}
+
+function visibleLength(text: string): number {
+  let length = 0;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const ansiEnd = readAnsiSequenceEnd(text, index);
+    if (ansiEnd !== undefined) {
+      index = ansiEnd;
+      continue;
+    }
+
+    length += 1;
+  }
+
+  return length;
+}
+
+function sliceByVisibleWidth(text: string, width: number): string {
+  let visible = 0;
+  let sliced = "";
+
+  for (let index = 0; index < text.length && visible < width; index += 1) {
+    const ansiEnd = readAnsiSequenceEnd(text, index);
+    if (ansiEnd !== undefined) {
+      sliced += text.slice(index, ansiEnd + 1);
+      index = ansiEnd;
+      continue;
+    }
+
+    sliced += text[index] ?? "";
+    visible += 1;
+  }
+
+  return sliced;
+}
+
+function readAnsiSequenceEnd(text: string, start: number): number | undefined {
+  if (text[start] !== "\u001b" || text[start + 1] !== "[") {
+    return undefined;
+  }
+
+  for (let index = start + 2; index < text.length; index += 1) {
+    const code = text.charCodeAt(index);
+    if (code >= 0x40 && code <= 0x7e) {
+      return index;
+    }
+  }
+
+  return undefined;
 }
