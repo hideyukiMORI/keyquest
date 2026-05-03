@@ -2,6 +2,7 @@ import type { Score } from "../core/scoring.js";
 import type { Translator } from "../i18n/messages.js";
 import type { Lesson } from "../lessons/schema.js";
 import type { PracticePrompt } from "../practice/session.js";
+import type { TimePressureResult } from "../practice/time-pressure.js";
 import type { KeyQuestSave, SaveMode } from "../save/model.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
 
@@ -34,6 +35,7 @@ export type PracticeResultView = {
   readonly score: Score;
   readonly xpGained: number;
   readonly mode: SaveMode;
+  readonly timePressure?: TimePressureResult;
 };
 
 export type PracticeRunResultView = {

@@ -72,14 +72,14 @@ describe("realtime typing screen", () => {
     const screen = createMemoryScreen();
     const input = createQueuedRealtimeInput(["f", "x", "\u007f", " ", "j", "\r"]);
 
-    const actual = await runRealtimeTypingPrompt({
+    const result = await runRealtimeTypingPrompt({
       prompt: createPrompt("f j"),
       input,
       screen,
       translator: createTranslator("en"),
     });
 
-    expect(actual).toBe("f j");
+    expect(result.actual).toBe("f j");
     expect(input.rawCalls).toEqual(["start", "end"]);
     expect(screen.renders.join("\n")).toContain("Typed\n  fx");
     expect(screen.renders.at(-1)).toContain("Target\n  f j\n  ");
@@ -98,6 +98,32 @@ describe("realtime typing screen", () => {
       }),
     ).rejects.toThrow("Practice cancelled");
     expect(input.rawCalls).toEqual(["start", "end"]);
+  });
+
+  it("renders countdown timing and reports overtime", async () => {
+    let now = 0;
+    const screen = createMemoryScreen();
+    const input = createQueuedRealtimeInput(["f", " ", "j", "\r"], () => {
+      now += 600;
+    });
+
+    const result = await runRealtimeTypingPrompt({
+      prompt: createPrompt("f j"),
+      input,
+      screen,
+      translator: createTranslator("en"),
+      timePressure: { limitSeconds: 1, kind: "soft" },
+      now: () => now,
+      tickMs: 1,
+    });
+
+    expect(result.timePressure).toEqual({
+      limitSeconds: 1,
+      kind: "soft",
+      expired: true,
+      completedWithinLimit: false,
+    });
+    expect(screen.renders.at(0)).toContain("Time 1s");
   });
 
   it("requests options from the realtime prompt", async () => {
@@ -159,6 +185,7 @@ function createRuntime(options: {
 
 function createQueuedRealtimeInput(
   keys: readonly string[],
+  onRead: () => void = () => {},
 ): RealtimeTypingInput & { readonly rawCalls: readonly string[] } {
   const queue = [...keys];
   const rawCalls: string[] = [];
@@ -169,6 +196,15 @@ function createQueuedRealtimeInput(
       const key = queue.shift();
       if (key === undefined) {
         return Promise.reject(new Error("No queued realtime key"));
+      }
+
+      onRead();
+      return Promise.resolve(key);
+    },
+    readKeyWithin(): Promise<string | undefined> {
+      const key = queue.shift();
+      if (key !== undefined) {
+        onRead();
       }
 
       return Promise.resolve(key);

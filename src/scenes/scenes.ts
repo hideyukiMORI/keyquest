@@ -160,6 +160,20 @@ export function renderPracticeSegmentResult(
 ): readonly string[] {
   const accuracy = Math.round(result.score.accuracy * 100);
   const { t } = translator;
+  const timePressureLines =
+    result.timePressure === undefined
+      ? []
+      : [
+          result.timePressure.expired
+            ? t("result.timeExpired", {
+                seconds: result.timePressure.limitSeconds,
+                kind: result.timePressure.kind,
+              })
+            : t("result.timeClear", {
+                seconds: result.timePressure.limitSeconds,
+                kind: result.timePressure.kind,
+              }),
+        ];
 
   return renderFixedScreenLayout({
     runtime,
@@ -171,6 +185,7 @@ export function renderPracticeSegmentResult(
       `  ${t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) })}`,
       `  ${t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) })}`,
       `  ${t("result.mistakes", { mistakes: result.score.mistakes })}`,
+      ...timePressureLines.map((line) => `  ${line}`),
       `  ${t("result.xpGained", { xp: result.xpGained })}`,
     ],
     hints: ["[enter] continue"],

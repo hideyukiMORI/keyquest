@@ -1151,6 +1151,9 @@ function createQueuedRealtimeInput(keys: readonly string[]): RealtimeTypingInput
 
       return Promise.resolve(key);
     },
+    readKeyWithin(): Promise<string | undefined> {
+      return Promise.resolve(queue.shift());
+    },
     async withRawMode<T>(run: () => Promise<T> | T): Promise<T> {
       return run();
     },
@@ -1160,6 +1163,9 @@ function createQueuedRealtimeInput(keys: readonly string[]): RealtimeTypingInput
 function createUnavailableRealtimeInput(): RealtimeTypingInput {
   return {
     readKey(): Promise<string> {
+      return Promise.reject(new Error("raw key should not be read"));
+    },
+    readKeyWithin(): Promise<string | undefined> {
       return Promise.reject(new Error("raw key should not be read"));
     },
     withRawMode(): Promise<never> {

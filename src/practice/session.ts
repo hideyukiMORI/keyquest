@@ -4,6 +4,12 @@ import { resolveEquipmentUpgrades } from "../quest/equipment.js";
 import { getLatestBundledLessonDay } from "../lessons/manifest.js";
 import { resolveQuestResources } from "../quest/resources.js";
 import { unlockSessionTitles } from "../rewards/titles.js";
+import {
+  applyTimePressureXp,
+  resolveTimePressureResult,
+  type TimePressure,
+  type TimePressureResult,
+} from "./time-pressure.js";
 import type {
   CharacterMistakeRecord,
   KeyQuestSave,
@@ -35,6 +41,8 @@ export type PracticeAttempt = {
   readonly actual: string;
   readonly startedAt: Date;
   readonly completedAt: Date;
+  readonly timePressure?: TimePressure;
+  readonly timePressureResult?: TimePressureResult;
 };
 
 export type PracticeAttemptResult = {
@@ -43,6 +51,7 @@ export type PracticeAttemptResult = {
   readonly score: Score;
   readonly mistakes: readonly CharacterMistakeRecord[];
   readonly xpGained: number;
+  readonly timePressure?: TimePressureResult;
 };
 
 export type PracticeRunResult = {
@@ -116,13 +125,21 @@ export function completePracticeRun(options: {
       startedAt: attempt.startedAt,
       completedAt: attempt.completedAt,
     });
+    const timePressure =
+      attempt.timePressureResult ??
+      resolveTimePressureResult({
+        pressure: attempt.timePressure,
+        elapsedSeconds: score.elapsedSeconds,
+      });
+    const xpGained = applyTimePressureXp(calculatePracticeXp(score), timePressure);
 
     return {
       prompt: attempt.prompt,
       actual: attempt.actual,
       score,
       mistakes: collectCharacterMistakes(attempt.prompt, attempt.actual),
-      xpGained: calculatePracticeXp(score),
+      xpGained,
+      ...(timePressure === undefined ? {} : { timePressure }),
     };
   });
   const score = aggregateScores(attemptResults.map((result) => result.score));

@@ -31,6 +31,11 @@ import {
   type PracticeAttempt,
   type PracticePrompt,
 } from "./practice/session.js";
+import {
+  resolveTimePressure,
+  type TimePressure,
+  type TimePressureResult,
+} from "./practice/time-pressure.js";
 import { createWeakKeyReviewQuest } from "./quest/review-quest.js";
 import { createNewSave, updateLocale, type KeyQuestSave, type SaveMode } from "./save/model.js";
 import { createSaveStore } from "./save/store.js";
@@ -50,6 +55,7 @@ import {
 } from "./scenes/scenes.js";
 import type { SceneContext } from "./scenes/types.js";
 import { styleText } from "./terminal/ansi.js";
+import { runLoadingTextAnimation } from "./terminal/animation.js";
 import { renderFixedScreenLayout } from "./terminal/layout.js";
 import type { TerminalRuntime } from "./terminal/runtime.js";
 import { createScreenRenderer, type ScreenRenderer } from "./terminal/screen.js";
@@ -80,6 +86,7 @@ type PracticeInputResult =
   | {
       readonly kind: "attempt";
       readonly actual: string;
+      readonly timePressure?: TimePressureResult;
     }
   | {
       readonly kind: "options";
@@ -155,6 +162,24 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     });
     const introOutput = formatSceneSequence(outputs);
     screen.render(introOutput);
+    const timePressure = resolveTimePressure({
+      save: activeSave,
+      prompt: practicePrompt,
+      isReview: reviewQuest !== undefined,
+    });
+    await runPracticeLoadingAnimation({
+      screen,
+      terminalRuntime: options.terminalRuntime,
+      title: translator.t("loading.quest.title"),
+      message: translator.t("loading.prompt", {
+        current: index + 1,
+        total: practicePrompts.length,
+      }),
+      detail: translator.t("loading.timer", {
+        seconds: timePressure.limitSeconds,
+        kind: timePressure.kind,
+      }),
+    });
     const inputResult = await readPracticeInput({
       practicePrompt,
       textInput: options.textInput,
@@ -162,6 +187,7 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       screen,
       translator,
       terminalRuntime: options.terminalRuntime,
+      timePressure,
     });
     if (inputResult.kind === "options") {
       const selectedLocale = await runLanguageOptions({
@@ -183,6 +209,9 @@ export async function runApp(options: RunAppOptions): Promise<void> {
       actual: inputResult.actual,
       startedAt: promptStartedAt,
       completedAt,
+      ...(inputResult.timePressure === undefined
+        ? {}
+        : { timePressureResult: inputResult.timePressure }),
     };
     const segmentResult = completePracticeRun({
       save: activeSave,
@@ -196,6 +225,16 @@ export async function runApp(options: RunAppOptions): Promise<void> {
 
     attempts.push(attempt);
     promptStartedAt = completedAt;
+    await runPracticeLoadingAnimation({
+      screen,
+      terminalRuntime: options.terminalRuntime,
+      title: translator.t("loading.result.title"),
+      message: translator.t("loading.result"),
+      detail: translator.t("loading.segment", {
+        current: index + 1,
+        total: practicePrompts.length,
+      }),
+    });
     await renderSegmentResultScreen({
       result: {
         ...segmentResult,
@@ -218,6 +257,13 @@ export async function runApp(options: RunAppOptions): Promise<void> {
     advancesJourney,
   });
 
+  await runPracticeLoadingAnimation({
+    screen,
+    terminalRuntime: options.terminalRuntime,
+    title: translator.t("loading.rewards.title"),
+    message: translator.t("loading.rewards"),
+    detail: translator.t("loading.save"),
+  });
   await saveStore.write(result.updatedSave);
 
   const finalScreenSections = [
@@ -314,18 +360,20 @@ async function readPracticeInput(options: {
   readonly screen: ScreenRenderer;
   readonly translator: ReturnType<typeof createTranslator>;
   readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly timePressure: TimePressure;
 }): Promise<PracticeInputResult> {
   if (options.terminalRuntime?.screenEnabled === true && options.realtimeInput !== undefined) {
     try {
       return {
         kind: "attempt",
-        actual: await runRealtimeTypingPrompt({
+        ...(await runRealtimeTypingPrompt({
           prompt: options.practicePrompt,
           input: options.realtimeInput,
           screen: options.screen,
           translator: options.translator,
           runtime: options.terminalRuntime,
-        }),
+          timePressure: options.timePressure,
+        })),
       };
     } catch (error) {
       if (isPracticeOptionsRequestedError(error)) {
@@ -346,6 +394,29 @@ async function readPracticeInput(options: {
     kind: "attempt",
     actual,
   };
+}
+
+async function runPracticeLoadingAnimation(options: {
+  readonly screen: ScreenRenderer;
+  readonly terminalRuntime: TerminalRuntime | undefined;
+  readonly title: string;
+  readonly message: string;
+  readonly detail: string;
+}): Promise<void> {
+  if (options.terminalRuntime?.screenEnabled !== true) {
+    return;
+  }
+
+  await runLoadingTextAnimation({
+    screen: options.screen,
+    runtime: options.terminalRuntime,
+    title: options.title,
+    message: options.message,
+    detail: options.detail,
+    frames: [".  ", ".. ", "...", " ..", "  .", "   "],
+    intervalMs: 70,
+    cycleCount: 1,
+  });
 }
 
 async function renderSegmentResultScreen(options: {

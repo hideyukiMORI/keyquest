@@ -64,6 +64,9 @@ function createQueuedRealtimeInput(
 
       return Promise.resolve(key);
     },
+    readKeyWithin(): Promise<string | undefined> {
+      return Promise.resolve(queue.shift());
+    },
     async withRawMode<T>(run: () => Promise<T> | T): Promise<T> {
       rawCalls.push("start");
       try {

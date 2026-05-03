@@ -1,5 +1,6 @@
 import type { Translator } from "../i18n/messages.js";
 import type { PracticePrompt } from "../practice/session.js";
+import type { TimePressure, TimePressureResult } from "../practice/time-pressure.js";
 import { styleText } from "../terminal/ansi.js";
 import { renderFixedScreenLayout, resolveLayoutSize } from "../terminal/layout.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
@@ -27,21 +28,58 @@ export function isPracticeOptionsRequestedError(
   return error instanceof PracticeOptionsRequestedError;
 }
 
+export type RealtimeTypingPromptResult = {
+  readonly actual: string;
+  readonly timePressure?: TimePressureResult;
+};
+
 export async function runRealtimeTypingPrompt(options: {
   readonly prompt: PracticePrompt;
   readonly input: RealtimeTypingInput;
   readonly screen: ScreenRenderer;
   readonly translator: Translator;
   readonly runtime?: TerminalRuntime | undefined;
-}): Promise<string> {
+  readonly timePressure?: TimePressure;
+  readonly now?: () => number;
+  readonly tickMs?: number;
+}): Promise<RealtimeTypingPromptResult> {
   return options.input.withRawMode(async () => {
     let state = createTypingState(options.prompt.text);
-    options.screen.render(
-      renderRealtimeTypingScreen(state, options.prompt, options.translator, options.runtime),
-    );
+    const now = options.now ?? Date.now;
+    const tickMs = options.tickMs ?? 250;
+    const startedAtMs = now();
+    let lastRenderedSecond = -1;
+    const getTiming = (): RealtimeTypingTiming | undefined =>
+      resolveRealtimeTypingTiming({
+        pressure: options.timePressure,
+        elapsedMs: now() - startedAtMs,
+      });
+    const render = (): void => {
+      const timing = getTiming();
+      options.screen.render(
+        renderRealtimeTypingScreen(
+          state,
+          options.prompt,
+          options.translator,
+          options.runtime,
+          timing === undefined ? {} : { timing },
+        ),
+      );
+    };
+
+    render();
 
     while (state.status === "active") {
-      const rawKey = await options.input.readKey();
+      const timing = getTiming();
+      if (timing !== undefined && timing.remainingSeconds !== lastRenderedSecond) {
+        lastRenderedSecond = timing.remainingSeconds;
+        render();
+      }
+
+      const rawKey = await options.input.readKeyWithin(tickMs);
+      if (rawKey === undefined) {
+        continue;
+      }
       if (rawKey === "\u000f" || rawKey === "\u001b") {
         throw new PracticeOptionsRequestedError();
       }
@@ -52,16 +90,28 @@ export async function runRealtimeTypingPrompt(options: {
       }
 
       state = applyTypingInput(state, typingInput);
-      options.screen.render(
-        renderRealtimeTypingScreen(state, options.prompt, options.translator, options.runtime),
-      );
+      render();
     }
 
     if (state.status === "cancelled") {
       throw new Error("Practice cancelled");
     }
 
-    return state.actual;
+    const finalTiming = getTiming();
+
+    return {
+      actual: state.actual,
+      ...(finalTiming === undefined
+        ? {}
+        : {
+            timePressure: {
+              limitSeconds: finalTiming.limitSeconds,
+              kind: finalTiming.kind,
+              expired: finalTiming.expired,
+              completedWithinLimit: !finalTiming.expired,
+            },
+          }),
+    };
   });
 }
 
@@ -70,6 +120,7 @@ export function renderRealtimeTypingScreen(
   prompt: PracticePrompt,
   translator: Translator,
   runtime?: TerminalRuntime,
+  options: { readonly timing?: RealtimeTypingTiming } = {},
 ): readonly string[] {
   const views = deriveTypingCharacterViews(state);
   const viewport = resolveTypingViewport(state, runtime);
@@ -79,6 +130,7 @@ export function renderRealtimeTypingScreen(
     status: [
       `Keys ${prompt.targetKeys.join(" ")}`,
       `Typed ${state.actual.length}/${prompt.text.length}`,
+      ...(options.timing === undefined ? [] : [formatTimeStatus(options.timing, runtime)]),
     ],
     body: [
       "Target",
@@ -93,6 +145,46 @@ export function renderRealtimeTypingScreen(
     ],
     hints: [translator.t("realtime.controls")],
   });
+}
+
+type RealtimeTypingTiming = TimePressure & {
+  readonly remainingSeconds: number;
+  readonly elapsedSeconds: number;
+  readonly expired: boolean;
+};
+
+function resolveRealtimeTypingTiming(options: {
+  readonly pressure: TimePressure | undefined;
+  readonly elapsedMs: number;
+}): RealtimeTypingTiming | undefined {
+  if (options.pressure === undefined) {
+    return undefined;
+  }
+
+  const elapsedSeconds = Math.max(0, Math.floor(options.elapsedMs / 1000));
+  const remainingSeconds = Math.max(0, options.pressure.limitSeconds - elapsedSeconds);
+
+  return {
+    ...options.pressure,
+    elapsedSeconds,
+    remainingSeconds,
+    expired: elapsedSeconds > options.pressure.limitSeconds,
+  };
+}
+
+function formatTimeStatus(
+  timing: RealtimeTypingTiming,
+  runtime: TerminalRuntime | undefined,
+): string {
+  const label = timing.expired ? "Overtime" : `Time ${timing.remainingSeconds}s`;
+  if (timing.expired) {
+    return styleText(label, "danger", runtime);
+  }
+  if (timing.remainingSeconds <= 5) {
+    return styleText(label, "warning", runtime);
+  }
+
+  return label;
 }
 
 function formatTargetText(

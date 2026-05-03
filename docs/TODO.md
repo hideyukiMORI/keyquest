@@ -1,5 +1,26 @@
 # TODO
 
+## Now: TUI Entertainment Pass
+
+### Countdown Pressure
+
+- [x] Design hybrid time-pressure rules from journey day, prompt length, skill
+      level, and weak-key review mode.
+- [x] Add a fixed-screen countdown display to raw-key practice without moving the
+      typing prompt or input region.
+- [x] Keep early lessons soft: overtime continues the prompt but marks the
+      segment result.
+- [x] Make later days, high-skill prompts, long prompts, and weak-key review use
+      stricter time pressure and XP tempering when overtime happens.
+
+### Text Animation Flair
+
+- [x] Add a reusable reduced-motion-aware text loading animation helper.
+- [x] Add short quest-prep, result-sync, and reward-forge animations around the
+      practice flow.
+- [x] Keep active typing stable: no constant decorative animation while the user
+      is typing.
+
 ## Now: Raw-Key Fixed-Screen TUI Completion
 
 ### Input Model Audit

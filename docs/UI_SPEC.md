@@ -208,6 +208,35 @@ Avoid:
 Typing screens should stay especially stable. Most animation belongs before a
 prompt starts or after a segment ends.
 
+### Countdown Pressure
+
+Typing practice may show a compact countdown in the status strip. The timer is a
+game-pressure signal, not a layout effect:
+
+- The target text, typed input, cursor, and progress rows must stay in the same
+  position while the timer changes.
+- Early lessons should use soft pressure. Reaching zero may mark the segment as
+  overtime and temper XP, but it should not abruptly end the prompt.
+- Later days, higher skill levels, long prompts, and weak-key review may use
+  stricter pressure. The result screen should explain when overtime affected the
+  reward.
+- Timer warnings must have no-color equivalents in text, such as `Time 4s` or
+  `Overtime`.
+- Countdown updates should be steady and low-frequency; do not animate the prompt
+  itself while the user is typing.
+
+### Loading Text Flair
+
+Short loading-style text animations are encouraged for transition moments:
+
+- Quest preparation before a prompt.
+- Result synchronization after a prompt.
+- Reward forging before XP, resources, achievements, or title reveals.
+
+These should feel like modern developer tools: terse, playful, and skippable in
+spirit. They must respect reduced-motion settings by collapsing to a single
+static frame.
+
 ## Progressive Disclosure
 
 Show only what the player needs now.
