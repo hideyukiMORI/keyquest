@@ -45,6 +45,8 @@ describe("title menu", () => {
     expect(lines.join("\n")).toContain("Novice Hall");
     expect(lines.join("\n")).toContain("> Start");
     expect(lines.join("\n")).toContain("j/k or arrows");
+    expect(lines.join("\n")).toContain("Enter/Space");
+    expect(lines.join("\n")).not.toContain("Choose:");
     expect(lines.length).toBeLessThanOrEqual(23);
   });
 

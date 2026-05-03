@@ -1,4 +1,4 @@
-import { createInterface } from "node:readline";
+import { createInterface, type Interface } from "node:readline";
 import type { Readable, Writable } from "node:stream";
 
 export type TextInput = {
@@ -10,47 +10,58 @@ export function createNodeTextInput(options: {
   readonly input: Readable;
   readonly output: Writable;
 }): TextInput {
-  const readline = createInterface({
-    input: options.input,
-    output: options.output,
-    terminal: false,
-  });
   const queuedLines: string[] = [];
   let pendingRead: ((line: string) => void) | undefined;
   let pendingReject: ((error: Error) => void) | undefined;
   let isClosed = false;
+  let readline: Interface | undefined;
 
-  readline.on("line", (line) => {
-    if (pendingRead !== undefined) {
-      const resolve = pendingRead;
-      pendingRead = undefined;
-      pendingReject = undefined;
-      resolve(line);
-      return;
+  const ensureReadline = (): Interface => {
+    if (readline !== undefined) {
+      return readline;
     }
 
-    queuedLines.push(line);
-  });
-  readline.on("close", () => {
-    isClosed = true;
-    if (pendingReject !== undefined) {
-      const reject = pendingReject;
-      pendingRead = undefined;
-      pendingReject = undefined;
-      reject(new Error("No input received"));
-    }
-  });
-  readline.on("error", (error) => {
-    if (pendingReject !== undefined) {
-      const reject = pendingReject;
-      pendingRead = undefined;
-      pendingReject = undefined;
-      reject(error);
-    }
-  });
+    readline = createInterface({
+      input: options.input,
+      output: options.output,
+      terminal: false,
+    });
+
+    readline.on("line", (line) => {
+      if (pendingRead !== undefined) {
+        const resolve = pendingRead;
+        pendingRead = undefined;
+        pendingReject = undefined;
+        resolve(line);
+        return;
+      }
+
+      queuedLines.push(line);
+    });
+    readline.on("close", () => {
+      isClosed = true;
+      if (pendingReject !== undefined) {
+        const reject = pendingReject;
+        pendingRead = undefined;
+        pendingReject = undefined;
+        reject(new Error("No input received"));
+      }
+    });
+    readline.on("error", (error) => {
+      if (pendingReject !== undefined) {
+        const reject = pendingReject;
+        pendingRead = undefined;
+        pendingReject = undefined;
+        reject(error);
+      }
+    });
+
+    return readline;
+  };
 
   return {
     readLine(prompt: string): Promise<string> {
+      ensureReadline();
       options.output.write(prompt);
       const queuedLine = queuedLines.shift();
       if (queuedLine !== undefined) {
@@ -67,7 +78,7 @@ export function createNodeTextInput(options: {
       });
     },
     close(): void {
-      readline.close();
+      readline?.close();
     },
   };
 }
