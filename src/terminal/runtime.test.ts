@@ -89,6 +89,23 @@ describe("terminal runtime", () => {
     ).toBe(false);
   });
 
+  it("can force TTY screen behavior for terminals hidden behind npm", () => {
+    const runtime = resolveTerminalRuntime({
+      colorMode: undefined,
+      theme: undefined,
+      reducedMotion: false,
+      columns: 100,
+      rows: 30,
+      isTty: false,
+      forceTty: true,
+      env: {},
+    });
+
+    expect(runtime.screenEnabled).toBe(true);
+    expect(runtime.rawModeRequired).toBe(true);
+    expect(runtime.colorEnabled).toBe(true);
+  });
+
   it("parses supported color modes", () => {
     expect(parseTerminalColorMode("auto")).toBe("auto");
     expect(parseTerminalColorMode("always")).toBe("always");

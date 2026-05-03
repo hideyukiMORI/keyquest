@@ -674,6 +674,35 @@ describe("runApp", () => {
     expect(output.text()).toContain("Unlocked: Flawless Focus");
   });
 
+  it("does not fall back to line input when raw mode is required", async () => {
+    await expect(
+      runApp({
+        mode: "normal",
+        saveDirectory: await createTempDirectory(),
+        textInput: createQueuedTextInput(["1", "f j", "ff jj", "fj jf"]),
+        textOutput: createMemoryOutput(),
+        lesson: createTestLesson(),
+        lessonPath: undefined,
+        realtimeInput: createUnavailableRealtimeInput(),
+        terminalRuntime: {
+          colorMode: "never",
+          colorEnabled: false,
+          screenEnabled: true,
+          rawModeRequired: true,
+          theme: "classic",
+          reducedMotion: false,
+          size: {
+            columns: 100,
+            rows: 30,
+            isBelowMinimum: false,
+          },
+        },
+        now: new Date("2026-01-01T00:00:00.000Z"),
+        completedAt: new Date("2026-01-01T00:00:20.000Z"),
+      }),
+    ).rejects.toThrow("Raw mode is unavailable");
+  });
+
   it("warns when the terminal is below the recommended size", async () => {
     const output = createMemoryOutput();
     await runApp({

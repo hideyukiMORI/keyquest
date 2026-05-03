@@ -20,12 +20,13 @@ try {
     console.log(renderCliVersion(readPackageVersion()));
     process.exitCode = 0;
   } else {
+    const forceTty = options.forceTty || process.env["npm_config_force_tty"] === "true";
     const textInput = createNodeTextInput({
       input: process.stdin,
       output: process.stdout,
     });
     const textOutput = createNodeTextOutput(process.stdout);
-    const realtimeInput = createNodeRealtimeTypingInput(process.stdin);
+    const realtimeInput = createNodeRealtimeTypingInput(process.stdin, { forceRawMode: forceTty });
     const terminalRuntime = resolveTerminalRuntime({
       colorMode: options.colorMode,
       theme: undefined,
@@ -33,6 +34,7 @@ try {
       columns: process.stdout.columns,
       rows: process.stdout.rows,
       isTty: process.stdin.isTTY === true || process.stdout.isTTY === true,
+      forceTty,
       env: process.env,
     });
     try {

@@ -331,7 +331,7 @@ async function readPracticeInput(options: {
       if (isPracticeOptionsRequestedError(error)) {
         return { kind: "options" };
       }
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }
@@ -370,13 +370,20 @@ async function renderSegmentResultScreen(options: {
       }
       return;
     } catch (error) {
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }
   }
 
   options.screen.render(render());
+}
+
+function canFallbackFromRawMode(
+  error: unknown,
+  terminalRuntime: TerminalRuntime | undefined,
+): boolean {
+  return isRawModeUnavailableError(error) && terminalRuntime?.rawModeRequired !== true;
 }
 
 async function renderFinalResultScreen(options: {
@@ -397,7 +404,7 @@ async function renderFinalResultScreen(options: {
       }
       return;
     } catch (error) {
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }
@@ -435,7 +442,7 @@ async function readTitleMenuAction(options: {
         render: renderMenu,
       });
     } catch (error) {
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }
@@ -478,7 +485,7 @@ async function readLanguageMenuAction(options: {
         render: renderMenu,
       });
     } catch (error) {
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }
@@ -511,7 +518,7 @@ async function waitForReturnScreen(options: {
       }
       return;
     } catch (error) {
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }
@@ -734,7 +741,7 @@ async function confirmNewGameReplacement(options: {
 
       return result === "confirm";
     } catch (error) {
-      if (!isRawModeUnavailableError(error)) {
+      if (!canFallbackFromRawMode(error, options.terminalRuntime)) {
         throw error;
       }
     }

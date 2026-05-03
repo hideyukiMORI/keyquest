@@ -19,9 +19,14 @@ export function isRawModeUnavailableError(error: unknown): error is RawModeUnava
   return error instanceof RawModeUnavailableError;
 }
 
-export async function withRawMode<T>(stream: RawModeStream, run: () => Promise<T> | T): Promise<T> {
+export async function withRawMode<T>(
+  stream: RawModeStream,
+  run: () => Promise<T> | T,
+  options: { readonly force?: boolean } = {},
+): Promise<T> {
   const setRawMode = stream.setRawMode;
-  const shouldUseRawMode = stream.isTTY === true && setRawMode !== undefined;
+  const shouldUseRawMode =
+    (stream.isTTY === true || options.force === true) && setRawMode !== undefined;
 
   if (!shouldUseRawMode) {
     throw new RawModeUnavailableError("stream is not a TTY");

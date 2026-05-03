@@ -26,6 +26,13 @@ keyquest --lesson ./lessons/novice-hall-day-1.json
 keyquest --lesson-pack ./packs/home-row-extra/keyquest-pack.json
 keyquest --no-color
 keyquest --reduced-motion
+keyquest --force-tty
+```
+
+When running through npm, pass CLI flags after `--`:
+
+```bash
+npm run dev -- --force-tty
 ```
 
 Inside the title menu, choose `Help` for a short explanation of the daily loop,

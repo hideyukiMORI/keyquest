@@ -46,6 +46,35 @@ describe("raw mode helpers", () => {
     expect(calls).toEqual([]);
   });
 
+  it("can force raw mode when setRawMode is available", async () => {
+    const calls: string[] = [];
+    const stream: RawModeStream = {
+      isTTY: false,
+      setRawMode(enabled: boolean): void {
+        calls.push(`raw:${enabled}`);
+      },
+      resume(): void {
+        calls.push("resume");
+      },
+      pause(): void {
+        calls.push("pause");
+      },
+    };
+
+    await expect(withRawMode(stream, () => "ok", { force: true })).resolves.toBe("ok");
+    expect(calls).toEqual(["raw:true", "resume", "raw:false", "pause"]);
+  });
+
+  it("reports forced streams without raw support as unavailable", async () => {
+    const stream: RawModeStream = {
+      isTTY: false,
+    };
+
+    await expect(withRawMode(stream, () => "ok", { force: true })).rejects.toSatisfy(
+      (error: unknown) => isRawModeUnavailableError(error),
+    );
+  });
+
   it("reports raw-mode startup failures as unavailable", async () => {
     const stream: RawModeStream = {
       isTTY: true,

@@ -12,6 +12,7 @@ export type TerminalRuntime = {
   readonly colorMode: TerminalColorMode;
   readonly colorEnabled: boolean;
   readonly screenEnabled: boolean;
+  readonly rawModeRequired?: boolean;
   readonly theme: TerminalThemeId;
   readonly reducedMotion: boolean;
   readonly size: TerminalSize;
@@ -24,6 +25,7 @@ export type TerminalRuntimeOptions = {
   readonly columns: number | undefined;
   readonly rows: number | undefined;
   readonly isTty: boolean;
+  readonly forceTty?: boolean;
   readonly env: Readonly<Record<string, string | undefined>>;
 };
 
@@ -37,7 +39,8 @@ export function resolveTerminalRuntime(options: TerminalRuntimeOptions): Termina
   return {
     colorMode,
     colorEnabled: resolveColorEnabled(colorMode, options),
-    screenEnabled: options.isTty,
+    screenEnabled: options.isTty || options.forceTty === true,
+    rawModeRequired: options.forceTty === true,
     theme: theme.id,
     reducedMotion: options.reducedMotion || options.env["KEYQUEST_REDUCED_MOTION"] === "1",
     size: {
@@ -76,7 +79,7 @@ function resolveColorEnabled(
     return true;
   }
 
-  return options.isTty;
+  return options.isTty || options.forceTty === true;
 }
 
 function isBelowMinimumSize(columns: number | undefined, rows: number | undefined): boolean {

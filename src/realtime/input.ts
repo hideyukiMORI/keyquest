@@ -9,7 +9,10 @@ export type RealtimeTypingInput = {
 
 export type RealtimeInputStream = Readable & RawModeStream;
 
-export function createNodeRealtimeTypingInput(stream: RealtimeInputStream): RealtimeTypingInput {
+export function createNodeRealtimeTypingInput(
+  stream: RealtimeInputStream,
+  options: { readonly forceRawMode?: boolean } = {},
+): RealtimeTypingInput {
   return {
     readKey(): Promise<string> {
       return new Promise((resolve, reject) => {
@@ -31,7 +34,11 @@ export function createNodeRealtimeTypingInput(stream: RealtimeInputStream): Real
       });
     },
     withRawMode<T>(run: () => Promise<T> | T): Promise<T> {
-      return withRawMode(stream, run);
+      return withRawMode(
+        stream,
+        run,
+        options.forceRawMode === undefined ? {} : { force: options.forceRawMode },
+      );
     },
   };
 }

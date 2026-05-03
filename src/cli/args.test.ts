@@ -43,6 +43,7 @@ describe("parseCliArgs", () => {
     expect(parseCliArgs(["--color=never"]).colorMode).toBe("never");
     expect(parseCliArgs(["--no-color"]).colorMode).toBe("never");
     expect(parseCliArgs(["--reduced-motion"]).reducedMotion).toBe(true);
+    expect(parseCliArgs(["--force-tty"]).forceTty).toBe(true);
   });
 
   it("rejects unknown options", () => {

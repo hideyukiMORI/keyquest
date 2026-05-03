@@ -8,6 +8,7 @@ export type CliOptions = {
   readonly lessonPackPath: string | undefined;
   readonly colorMode: TerminalColorMode | undefined;
   readonly reducedMotion: boolean;
+  readonly forceTty: boolean;
 };
 
 export function parseCliArgs(args: readonly string[]): CliOptions {
@@ -18,6 +19,7 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
   let lessonPackPath: string | undefined;
   let colorMode: TerminalColorMode | undefined;
   let reducedMotion = false;
+  let forceTty = false;
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
@@ -42,6 +44,11 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
 
     if (arg === "--reduced-motion") {
       reducedMotion = true;
+      continue;
+    }
+
+    if (arg === "--force-tty") {
+      forceTty = true;
       continue;
     }
 
@@ -125,5 +132,6 @@ export function parseCliArgs(args: readonly string[]): CliOptions {
     lessonPackPath,
     colorMode,
     reducedMotion,
+    forceTty,
   };
 }
