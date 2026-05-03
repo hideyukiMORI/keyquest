@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { readFileSync } from "node:fs";
+import { openSync, readFileSync } from "node:fs";
+import { ReadStream as TtyReadStream } from "node:tty";
 import { URL } from "node:url";
 
 import { runApp } from "./app.js";
@@ -8,7 +9,7 @@ import { parseCliArgs } from "./cli/args.js";
 import { renderCliHelp, renderCliVersion } from "./cli/help.js";
 import { createNodeTextInput } from "./cli/text-input.js";
 import { createNodeTextOutput } from "./cli/text-output.js";
-import { createNodeRealtimeTypingInput } from "./realtime/input.js";
+import { createNodeRealtimeTypingInput, type RealtimeInputStream } from "./realtime/input.js";
 import { resolveTerminalRuntime } from "./terminal/runtime.js";
 
 try {
@@ -21,12 +22,15 @@ try {
     process.exitCode = 0;
   } else {
     const forceTty = options.forceTty || process.env["npm_config_force_tty"] === "true";
+    const realtimeStream = createRealtimeInputStream({ forceTty });
     const textInput = createNodeTextInput({
       input: process.stdin,
       output: process.stdout,
     });
     const textOutput = createNodeTextOutput(process.stdout);
-    const realtimeInput = createNodeRealtimeTypingInput(process.stdin, { forceRawMode: forceTty });
+    const realtimeInput = createNodeRealtimeTypingInput(realtimeStream.stream, {
+      forceRawMode: forceTty,
+    });
     const terminalRuntime = resolveTerminalRuntime({
       colorMode: options.colorMode,
       theme: undefined,
@@ -51,6 +55,7 @@ try {
       });
     } finally {
       textInput.close();
+      realtimeStream.close();
     }
   }
 } catch (error) {
@@ -64,4 +69,26 @@ function readPackageVersion(): string {
   const packageJson = JSON.parse(content) as { readonly version?: unknown };
 
   return typeof packageJson.version === "string" ? packageJson.version : "0.0.0";
+}
+
+function createRealtimeInputStream(options: { readonly forceTty: boolean }): {
+  readonly stream: RealtimeInputStream;
+  readonly close: () => void;
+} {
+  if (!options.forceTty) {
+    return {
+      stream: process.stdin,
+      close(): void {},
+    };
+  }
+
+  const fd = openSync("/dev/tty", "r");
+  const stream = new TtyReadStream(fd) as RealtimeInputStream;
+
+  return {
+    stream,
+    close(): void {
+      stream.destroy();
+    },
+  };
 }
