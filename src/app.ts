@@ -315,6 +315,7 @@ async function readPracticeInput(options: {
           input: options.realtimeInput,
           screen: options.screen,
           translator: options.translator,
+          runtime: options.terminalRuntime,
         }),
       };
     } catch (error) {

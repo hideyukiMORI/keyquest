@@ -28,7 +28,7 @@
 
 - [x] Redesign the title screen with a compact quest summary, saved progress,
       menu, and keyboard hints.
-- [ ] Redesign the practice screen with stable regions for quest status, prompt,
+- [x] Redesign the practice screen with stable regions for quest status, prompt,
       typed input, progress, mistakes, and controls.
 - [ ] Redesign segment and final result screens so score, weak keys, rewards,
       achievements, titles, and next-day messaging read as panels instead of log

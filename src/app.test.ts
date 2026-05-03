@@ -496,7 +496,7 @@ describe("runApp", () => {
     });
 
     expect(output.text()).toContain("Real-time Practice");
-    expect(output.text()).toContain("Input:  f j");
+    expect(output.text()).toContain("Input\n  f j");
     expect(output.text()).toContain("Session Result");
     expect(output.text()).toContain("Unlocked: Flawless Focus");
   });
