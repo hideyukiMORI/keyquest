@@ -25,6 +25,7 @@ import { getQuestModifierForDay } from "../quest/modifiers.js";
 import { createInitialQuestResources } from "../save/model.js";
 import { styleText } from "../terminal/ansi.js";
 import { renderFixedScreenLayout } from "../terminal/layout.js";
+import { renderAsciiMeter, renderPercentMeter } from "../terminal/meter.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
 
 export const titleScene: Scene = {
@@ -174,6 +175,12 @@ export function renderPracticeSegmentResult(
                 kind: result.timePressure.kind,
               }),
         ];
+  const scoreLines = renderScoreMeterLines({
+    accuracy: result.score.accuracy,
+    wpm: result.score.wordsPerMinute,
+    xp: result.xpGained,
+    runtime,
+  });
 
   return renderFixedScreenLayout({
     runtime,
@@ -181,6 +188,7 @@ export function renderPracticeSegmentResult(
     status: [`XP +${result.xpGained}`],
     body: [
       "Score",
+      ...scoreLines,
       `  ${t("result.accuracy", { accuracy })}`,
       `  ${t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) })}`,
       `  ${t("result.elapsed", { seconds: formatElapsedSeconds(result.score.elapsedSeconds) })}`,
@@ -200,6 +208,12 @@ export function renderPracticeRunResult(
   const accuracy = Math.round(result.score.accuracy * 100);
   const { t } = translator;
   const devLine = result.mode === "development" ? [t("result.devClear")] : [];
+  const scoreLines = renderScoreMeterLines({
+    accuracy: result.score.accuracy,
+    wpm: result.score.wordsPerMinute,
+    xp: result.xpGained,
+    runtime,
+  });
 
   return renderFixedScreenLayout({
     runtime,
@@ -207,6 +221,7 @@ export function renderPracticeRunResult(
     status: [`XP +${result.xpGained}`],
     body: [
       "Score",
+      ...scoreLines,
       `  ${t("session.promptCount", { count: result.promptCount })}`,
       `  ${t("result.accuracy", { accuracy })}`,
       `  ${t("result.wpm", { wpm: result.score.wordsPerMinute.toFixed(1) })}`,
@@ -272,6 +287,37 @@ export function renderPracticeRewards(
   });
 
   return [t("reward.heading"), ...rewardLines, ...equipmentLines];
+}
+
+function renderScoreMeterLines(options: {
+  readonly accuracy: number;
+  readonly wpm: number;
+  readonly xp: number;
+  readonly runtime: TerminalRuntime | undefined;
+}): readonly string[] {
+  return [
+    `  ACC ${renderPercentMeter({
+      ratio: options.accuracy,
+      width: 16,
+      fillToken:
+        options.accuracy >= 0.95 ? "success" : options.accuracy >= 0.8 ? "warning" : "danger",
+      runtime: options.runtime,
+    })}`,
+    `  WPM ${renderAsciiMeter({
+      current: Math.min(options.wpm, 60),
+      max: 60,
+      width: 16,
+      fillToken: "mp",
+      runtime: options.runtime,
+    })}`,
+    `  XP  ${renderAsciiMeter({
+      current: Math.min(options.xp, 100),
+      max: 100,
+      width: 16,
+      fillToken: "xp",
+      runtime: options.runtime,
+    })}`,
+  ];
 }
 
 export function renderPracticeReviewResult(

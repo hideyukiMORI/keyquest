@@ -3,6 +3,7 @@ import type { PracticePrompt } from "../practice/session.js";
 import type { TimePressure, TimePressureResult } from "../practice/time-pressure.js";
 import { styleText } from "../terminal/ansi.js";
 import { renderFixedScreenLayout, resolveLayoutSize } from "../terminal/layout.js";
+import { renderAsciiMeter, renderThresholdMeter } from "../terminal/meter.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
 import type { ScreenRenderer } from "../terminal/screen.js";
 import type { RealtimeTypingInput } from "./input.js";
@@ -141,6 +142,7 @@ export function renderRealtimeTypingScreen(
       `  ${formatTypedText(state, viewport, runtime)}`,
       "",
       "Progress",
+      `  ${formatTypingMeter(state, prompt, runtime)}`,
       `  ${formatCharacterProgress(views, viewport, runtime)}`,
     ],
     hints: [translator.t("realtime.controls")],
@@ -176,7 +178,13 @@ function formatTimeStatus(
   timing: RealtimeTypingTiming,
   runtime: TerminalRuntime | undefined,
 ): string {
-  const label = timing.expired ? "Overtime" : `Time ${timing.remainingSeconds}s`;
+  const meter = renderThresholdMeter({
+    current: timing.remainingSeconds,
+    max: timing.limitSeconds,
+    width: 8,
+    runtime,
+  });
+  const label = timing.expired ? `Overtime ${meter}` : `Time ${meter} ${timing.remainingSeconds}s`;
   if (timing.expired) {
     return styleText(label, "danger", runtime);
   }
@@ -185,6 +193,20 @@ function formatTimeStatus(
   }
 
   return label;
+}
+
+function formatTypingMeter(
+  state: TypingState,
+  prompt: PracticePrompt,
+  runtime: TerminalRuntime | undefined,
+): string {
+  return `${renderAsciiMeter({
+    current: Math.min(state.actual.length, prompt.text.length),
+    max: prompt.text.length,
+    width: 18,
+    fillToken: "xp",
+    runtime,
+  })} ${state.actual.length}/${prompt.text.length}`;
 }
 
 function formatTargetText(

@@ -171,6 +171,8 @@ Prefer:
 - Single-line dividers, short frames, and compact progress bars.
 - Repeated glyphs with semantic meaning, such as `#` for progress and `!` for
   danger.
+- ASCII meters in stable rows, such as `[######------]`, for journey progress,
+  HP, MP, XP, countdown pressure, accuracy, WPM, and prompt completion.
 - Small quest motifs that fit one line, such as `Gatekeeper Trial` or
   `Lantern Keep`.
 - Reward flashes that last briefly or collapse into static text in
@@ -182,6 +184,7 @@ Avoid:
 - Dense borders around every section.
 - Unicode-only symbols as the sole state indicator.
 - Animation that changes line height or moves the typing prompt.
+- Bars whose length changes between renders on the same screen.
 
 Unicode box drawing can be a future enhancement, but ASCII must remain the base
 style so the UI is portable and easy to test.

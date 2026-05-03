@@ -25,6 +25,7 @@ describe("realtime typing screen", () => {
       "  _",
       "",
       "Progress",
+      "  [------------------] 0/3",
       "  ...",
       "--------------------------------------------------------------------------------",
       "Enter to submit. Backspace edits. Ctrl+O opens options. Ctrl+C cancels.",
@@ -42,7 +43,7 @@ describe("realtime typing screen", () => {
 
     expect(lines).toHaveLength(9);
     expect(lines.every((line) => line.length <= 40)).toBe(true);
-    expect(lines.at(-1)).toBe("... 5 more lines");
+    expect(lines.at(-1)).toBe("... 6 more lines");
   });
 
   it("keeps long typing prompts focused around the cursor instead of ellipsizing text", () => {
@@ -123,7 +124,7 @@ describe("realtime typing screen", () => {
       expired: true,
       completedWithinLimit: false,
     });
-    expect(screen.renders.at(0)).toContain("Time 1s");
+    expect(screen.renders.at(0)).toContain("Time [########] 1s");
   });
 
   it("requests options from the realtime prompt", async () => {

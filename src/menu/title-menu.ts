@@ -17,6 +17,7 @@ import {
   type SaveMode,
 } from "../save/model.js";
 import { renderFixedScreenLayout } from "../terminal/layout.js";
+import { renderAsciiMeter } from "../terminal/meter.js";
 import type { TerminalRuntime } from "../terminal/runtime.js";
 import type { InteractiveMenuItem } from "./interactive-menu.js";
 
@@ -78,6 +79,7 @@ export function renderTitleMenu(
     ...(options.mode === "development" ? [translator.t("dev.banner")] : []),
     ...(options.notice === undefined ? [] : [options.notice]),
   ];
+  const resources = save.progress.resources ?? createInitialQuestResources();
 
   return renderFixedScreenLayout({
     runtime: options.runtime,
@@ -90,12 +92,37 @@ export function renderTitleMenu(
     ],
     body: [
       "Quest",
-      `  ${arc.title}`,
-      `  ${arc.theme}`,
+      `  ${arc.title} - ${arc.theme}`,
+      `  Journey ${renderAsciiMeter({
+        current: save.journey.day,
+        max: JOURNEY_ENDING_DAY,
+        width: 12,
+        fillToken: "accent",
+        runtime: options.runtime,
+      })} Day ${save.journey.day}/${JOURNEY_ENDING_DAY}  XP ${renderAsciiMeter({
+        current: save.progress.totalXp % 100,
+        max: 100,
+        width: 12,
+        fillToken: "xp",
+        runtime: options.runtime,
+      })} ${save.progress.totalXp}`,
+      `  HP ${renderAsciiMeter({
+        current: resources.hp,
+        max: resources.maxHp,
+        width: 8,
+        fillToken: "hp",
+        runtime: options.runtime,
+      })}  MP ${renderAsciiMeter({
+        current: resources.mp,
+        max: resources.maxMp,
+        width: 8,
+        fillToken: "mp",
+        runtime: options.runtime,
+      })}`,
+      ...extraLines,
       "",
       translator.t("title.menu.heading"),
       ...menuLines,
-      ...extraLines,
     ],
     hints:
       options.selectedIndex === undefined
@@ -211,6 +238,13 @@ export function renderJourneyProgress(
     title: translator.t("journeyProgress.heading"),
     status: [`Day ${save.journey.day}/${JOURNEY_ENDING_DAY}`],
     body: [
+      `Journey ${renderAsciiMeter({
+        current: save.journey.day,
+        max: JOURNEY_ENDING_DAY,
+        width: 24,
+        fillToken: "accent",
+        runtime,
+      })}`,
       translator.t("journeyProgress.day", {
         day: save.journey.day,
         total: JOURNEY_ENDING_DAY,
@@ -245,6 +279,20 @@ export function renderResourceRecords(
     runtime,
     title: translator.t("records.resources.heading"),
     body: [
+      `HP ${renderAsciiMeter({
+        current: resources.hp,
+        max: resources.maxHp,
+        width: 16,
+        fillToken: "hp",
+        runtime,
+      })} ${resources.hp}/${resources.maxHp}`,
+      `MP ${renderAsciiMeter({
+        current: resources.mp,
+        max: resources.maxMp,
+        width: 16,
+        fillToken: "mp",
+        runtime,
+      })} ${resources.mp}/${resources.maxMp}`,
       translator.t("status.resources", {
         hp: resources.hp,
         maxHp: resources.maxHp,
