@@ -1,4 +1,5 @@
 import type { TextOutput } from "../cli/text-output.js";
+import { fitScreenLines } from "./layout.js";
 import type { TerminalRuntime } from "./runtime.js";
 
 export type ScreenRenderer = {
@@ -6,8 +7,6 @@ export type ScreenRenderer = {
 };
 
 const CLEAR_SCREEN_AND_HOME = "\u001b[2J\u001b[H";
-const DEFAULT_SCREEN_ROWS = 24;
-const RESERVED_PROMPT_ROWS = 1;
 
 export function createScreenRenderer(options: {
   readonly textOutput: TextOutput;
@@ -35,15 +34,7 @@ export function formatRedrawBody(
   lines: readonly string[],
   runtime: TerminalRuntime | undefined,
 ): string {
-  const maxRows = Math.max(1, (runtime?.size.rows ?? DEFAULT_SCREEN_ROWS) - RESERVED_PROMPT_ROWS);
-
-  if (lines.length <= maxRows) {
-    return lines.join("\n");
-  }
-
-  return [...lines.slice(0, maxRows - 1), `... ${lines.length - maxRows + 1} more lines`].join(
-    "\n",
-  );
+  return fitScreenLines(lines, { runtime }).join("\n");
 }
 
 function normalizeLines(lines: readonly string[] | string): readonly string[] {
