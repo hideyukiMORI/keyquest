@@ -243,6 +243,33 @@ Current policy:
 - Keep the real-time typing state pure and testable; raw terminal input should
   be an adapter around that state machine.
 
+## Input Model
+
+Fixed-screen TUI behavior requires key events, not conversational line prompts.
+
+In TTY mode:
+
+- Screens should run on raw key events and redraw in place after state changes.
+- Menus should use `j`/`k`, arrow keys, Enter, Space, and number shortcuts.
+- Informational screens should return on Enter, Space, Escape, `q`, or the
+  documented back key without printing a new prompt line.
+- Confirmations should be modal screen states with explicit keys such as `y`,
+  `n`, Enter, or Escape, not free-form text prompts.
+- Practice should remain in one screen loop for typing, pause, options,
+  confirmation, segment results, and final results where practical.
+- Ctrl+C and Escape paths must restore terminal state before exiting or falling
+  back.
+
+In non-TTY mode:
+
+- Keep append-only text and `readLine` prompts so tests, logs, redirected output,
+  and unsupported terminals remain readable.
+- The fallback should be intentional and visible in code. Avoid adding new
+  `readLine` interactions to the TTY path.
+
+The implementation direction is to make `readLine` a fallback boundary, not the
+normal interaction model for supported terminals.
+
 ## Terminal Size
 
 Recommended minimum terminal size:

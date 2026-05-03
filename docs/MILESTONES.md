@@ -144,6 +144,40 @@ Exit criteria:
 - The public preview makes the game feel like a crafted terminal product, not
   only a working prototype.
 
+### ST-7: Raw-Key Fixed-Screen TUI Completion
+
+Goal: finish the move from conversation-style terminal input to a real TTY app
+loop where screens own their state, key events drive transitions, and `readLine`
+is only a non-TTY fallback.
+
+- Shared raw-key screen loop for press-any-key, confirm/cancel, menu navigation,
+  pause, and modal-style prompts
+- TTY key handling for Help, Journey, Resources, Achievements, Titles, Options,
+  Load Game, New Game confirmation, segment result, final result, and return-to-
+  title flows
+- Practice flow state that can move between typing, pause, options, confirmation,
+  segment result, and final result without dropping back into conversation input
+- Non-TTY fallback that preserves readable append-only output and line input for
+  logs, tests, redirected runs, and unsupported terminals
+- Escape-safe raw-mode cleanup for every screen loop, including Ctrl+C, Escape,
+  cancelled confirmations, and raw-mode unavailable fallback
+- Deterministic state-machine tests for TTY screen transitions without requiring
+  a real terminal
+- Manual TTY smoke pass proving that normal play no longer appends prompts like a
+  chat transcript in supported terminals
+
+Exit criteria:
+
+- In a supported TTY, a player can navigate the title area, records, options,
+  confirmations, practice, segment results, and final results using key events
+  without `readLine` prompts.
+- `readLine` remains available only as a deliberate fallback for non-TTY or raw-
+  mode-unavailable environments.
+- Ctrl+C, Escape, and option changes never leave the terminal in raw mode or on a
+  corrupted screen.
+- The app feels like a fixed-screen terminal game rather than a sequence of
+  command-line questions.
+
 ## Short Term: Lesson Design System
 
 Goal: make lessons easy to write, review, and improve.
